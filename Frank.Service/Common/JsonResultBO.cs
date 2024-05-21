@@ -11,6 +11,7 @@ namespace Frank.Service.Common
         public bool Status { get; set; }
         public string Message { get; set; }
         public object Param { get; set; }
+        public long Id { get; set; }
         public JsonResultBO(bool st)
         {
             Status = st;

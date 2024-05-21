@@ -19,5 +19,6 @@ namespace Frank.Web.Controllers
             var myModel = new UserCreateVM();
             return View("Create", myModel);
         }
+
     }
 }

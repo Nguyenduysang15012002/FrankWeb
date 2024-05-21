@@ -32,7 +32,7 @@
 	<script src="~/Scripts/bootstrap.bundle.min.js"></script>
 	<!-- Template Main CSS File -->
 	<link href="~/assets/css/main.css" rel="stylesheet">
-	
+
 	<!-- =======================================================
 	* Template Name: Yummy
 	* Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
@@ -80,7 +80,7 @@
 			</form>
 			<!-- Thêm liên kết đăng nhập/đăng ký -->
 			<div class="login-links">
-				@{ if (Session["ok"] == null)
+				@{ if (ViewBag.Name == null)
 					{<a>|</a>
 
 						@Html.ActionLink("Đăng nhập", "Login", "DangNhap_DangKy")
@@ -88,15 +88,18 @@
 						<a>|</a>
 						@Html.ActionLink("Đăng ký", "Signin", "DangNhap_DangKy")
 
-						<a>|</a> }
+						 }
 					else
-					{ <label>Chào mừng &nbsp;<b>@Session["ok"]</b></label>
-					<a href="" id="" style="padding:10px;">Đăng xuất</a>
-				}
-				}
+					{
+						<a class="bi bi-person-fill text-success" style="font-size:20px;"><span style="font-size:15px">@ViewBag.Name</span></a>
 
+						<a>|</a>
+						<i class="bi bi-box-arrow-in-right" style="font-size:20px;color:red"></i>@Html.ActionLink(" Đăng xuất", "Index", "Home")
+					}
+				}
+			<a>|</a>
 				<a class="icon" style="font-size: 20px;padding:10px;"><span class="bi bi-cart4"></span></a>
-				<a>|</a>
+
 
 			</div>
 			@*</div>*@

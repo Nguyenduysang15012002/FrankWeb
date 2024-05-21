@@ -1,9 +1,14 @@
-﻿
-@{
+﻿@{
 	ViewBag.Title = "Login";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@using Frank.Model.Entities
+@using Frank.Web.Models.UserModels
+
+@model UserCreateVM
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/jquery-3.7.1.min.js"></script>
 <style>
 	.a {
 		width: 500px;
@@ -12,7 +17,6 @@
 		border-color: blue;
 		height: auto;
 		margin-top: 40px;
-		/*border-bottom: none;*/
 	}
 
 	.b {
@@ -26,50 +30,83 @@
 		align-items: center;
 		text-align: center;
 		padding-top: 10px;
-		margin-top:5px;
 	}
 </style>
 
 <div class="a">
 	<div class="b">
-		<h3 style="color:blue;text-align:center;padding-bottom:10px;">Đăng Nhập</h3>
+		<h3 style="color:blue;text-align:center;padding-bottom:10px;">Đăng Ký</h3>
 		<hr />
-		@using (Ajax.BeginForm("Create", "DangNhap_DangKy", new AjaxOptions()
+		@using (Ajax.BeginForm("Login", "DangNhap_DangKy", new AjaxOptions
 		{
 			HttpMethod = "POST",
 			OnFailure = "AjaxFormError",
 			OnSuccess = "AjaxFormSuccessToChuc",
-		}, new { id = "createQLCoSoForm", enctype = "multipart/form-data" }))
-
+		}, new { enctype = "multipart/form-data" }))
 		{
 			@Html.AntiForgeryToken()
 			<table class="table">
 				<tr>
-					<td style="width: 30%; text-align: right;">
-						<label for="loginName">Username:</label>
+					<td>
+						@Html.LabelFor(m => m.UserName, "Username", new { @class = "font-weight-bold form-label" })
 					</td>
 					<td>
-						<input type="email" id="loginName" class="form-control" />
+						@Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @id = "UserName" })
+						@Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 30%; text-align: right;">
-						<label for="loginPassword">Password:</label>
+					<td>
+						@Html.LabelFor(m => m.Password, "Password", new { @class = "font-weight-bold form-label" })
 					</td>
 					<td>
-						<input type="password" id="loginPassword" class="form-control" />
+						@Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "Password" })
+						@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
 					</td>
 				</tr>
 			</table>
 			<div class="c">
-				@Html.ActionLink("Bạn quên mật khẩu?", "ForgotPassword", "Account", null, new { @class = "text-danger" })
-
-			</div>
-			<div class="c">
-				<button type="button" class="btn btn-primary">Xác nhận</button>
+				<button type="submit" class="btn btn-primary">Xác nhận</button>
 			</div>
 		}
 	</div>
 </div>
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
+
+<script src="~/Scripts/jqueryval"></script>
+<script src="~/Scripts/toastr.min.js"></script>
+<script>
+
+
+	function AjaxFormError() {
+		toastr.error("Có lỗi xảy ra trong quá trình gửi yêu cầu", "Lỗi");
+	}
+</script>
+<script>
+        // Định nghĩa hàm AjaxCall
+        function AjaxCall(url, type, data, successCallback, errorCallback) {
+            $.ajax({
+                url: url,
+                type: type,
+                data: data,
+                success: successCallback,
+                error: errorCallback || function() {
+                    toastr.error('Có lỗi xảy ra trong quá trình xử lý yêu cầu', 'Lỗi');
+                }
+            });
+        }
+
+        // Sử dụng hàm AjaxCall trong AjaxFormSuccessToChuc
+        function AjaxFormSuccessToChuc(rs) {
+            if (rs.Status) {
+                toastr.success(rs.Message, "Thành công");
+
+                // Sử dụng hàm AjaxCall để gửi rs.Id đến hành động Index
+                AjaxCall('@Url.Action("Index", "Home")', 'GET', { Id: rs.Id }, function(response) {
+                    // Chuyển hướng đến hành động Index với Id sau khi nhận được phản hồi thành công
+                    window.location.href = '@Url.Action("Index", "Home")' + '?Id=' + rs.Id;
+                });
+            } else {
+                toastr.error(rs.Message, "Thông báo");
+            }
+        }
+</script>

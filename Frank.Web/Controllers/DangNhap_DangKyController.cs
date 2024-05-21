@@ -46,22 +46,54 @@ namespace Frank.Web.Controllers
         }
         public ActionResult Login()
         {
-            return View();
-        }
-        public ActionResult Signin()
-        {
-            var model =new UserCreateVM();
+            var model = new UserCreateVM();
             return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Create(UserCreateVM model, FormCollection form)
+        public JsonResult Login(UserCreateVM model)
+        {
+            var result = new JsonResultBO(true, "Đăng nhập thành công");
+            try
+            {
+                var user = new User();
+                user.UserName = model.UserName;
+                user.Password = model.Password;
+                var checklogin = _userService.FindBy(x => x.UserName == model.UserName && x.Password == model.Password).FirstOrDefault();
+                if (checklogin == null)
+                {
+                    result.Status = false;
+                    result.Message = "Thông tin tài khoản hoặc mật khẩu không chính xác!";
+                }
+                else
+                {
+                    result.Status = true;
+                    result.Message = "Chào mừng " + checklogin.FullName;
+                    result.Id = checklogin.Id;
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                result.MessageFail(ex.Message);
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Signin()
+        {
+            var model = new UserCreateVM();
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult Create(UserCreateVM model)
         {
             var result = new JsonResultBO(true, "Đăng ký thành công");
             try
             {
                 if (ModelState.IsValid)
-                {                 
+                {
                     var user = new User();
                     user.UserName = model.UserName;
                     user.Password = model.Password;
@@ -70,7 +102,7 @@ namespace Frank.Web.Controllers
                     user.Address = model.Address;
                     user.PhoneNumber = model.PhoneNumber;
                     user.CreatedDate = DateTime.Now;
-                    var checkusername = _userService.FindBy(x=>x.UserName == model.UserName).FirstOrDefault();
+                    var checkusername = _userService.FindBy(x => x.UserName == model.UserName).FirstOrDefault();
                     var checkemail = _userService.FindBy(x => x.Email == model.Email).FirstOrDefault();
                     if (checkusername != null)
                     {
@@ -88,7 +120,7 @@ namespace Frank.Web.Controllers
                         {
                             _userService.Create(user);
                         }
-                    }                 
+                    }
                 }
                 else
                 {
@@ -101,5 +133,6 @@ namespace Frank.Web.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        
     }
 }
