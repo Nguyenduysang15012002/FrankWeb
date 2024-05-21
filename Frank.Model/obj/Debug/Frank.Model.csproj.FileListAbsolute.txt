@@ -47,8 +47,6 @@ D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.dll
 D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.pdb
 D:\Đồ án\FRANK\Frank.Model\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
 D:\Đồ án\FRANK\Frank.Model\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
-D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.Migrations.CreateTablexxx.resources
-D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.csproj.GenerateResource.cache
 D:\Đồ án\FRANK\Frank.Model\bin\Debug\Microsoft.Web.Infrastructure.dll
 D:\Đồ án\FRANK\Frank.Model\bin\Debug\PagedList.dll
 D:\Đồ án\FRANK\Frank.Model\bin\Debug\PagedList.Mvc.dll
@@ -80,4 +78,5 @@ D:\Đồ án\FRANK\Frank.Model\bin\Debug\Autofac.dll
 D:\Đồ án\FRANK\Frank.Model\bin\Debug\StackExchange.Redis.dll
 D:\Đồ án\FRANK\Frank.Model\bin\Debug\Autofac.xml
 D:\Đồ án\FRANK\Frank.Model\bin\Debug\StackExchange.Redis.xml
-D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.Migrations.msg.resources
+D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.Migrations.a.resources
+D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.csproj.GenerateResource.cache

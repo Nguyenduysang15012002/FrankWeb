@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Frank.Repository.PermissionRepository
+namespace Frank.Service.UserService.Dto
 {
-    public interface IPermissionRepository : IGenericRepository<Permission>
+    public class UserDto : User
     {
-        Permission GetById(long id);
     }
 }

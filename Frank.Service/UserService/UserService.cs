@@ -13,6 +13,7 @@ using PagedList;
 using log4net;
 using Frank.Service.Common;
 using Frank.Repository.ProductRepository;
+using Frank.Service.UserService.Dto;
 
 
 namespace Frank.Service.UserService
@@ -33,6 +34,15 @@ namespace Frank.Service.UserService
             _unitOfWork = unitOfWork;          
             _loger = loger;
             _mapper = mapper;
+        }
+        public UserDto GetByUserName(string username)
+        {
+            var query = from Usertbl in _userRepository.GetAllAsQueryable().ToList().Where(u => u.UserName == username)
+                        select new UserDto
+                        {
+                            UserName = Usertbl.UserName,
+                        };
+            return query.FirstOrDefault();
         }
     }
 }

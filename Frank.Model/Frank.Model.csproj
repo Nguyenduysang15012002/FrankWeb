@@ -173,7 +173,6 @@
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Order_Address.cs" />
     <Compile Include="Entities\Order_Detail.cs" />
-    <Compile Include="Entities\Permission.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\ShopCart.cs" />
     <Compile Include="Entities\TableAttribute.cs" />
@@ -181,13 +180,9 @@
     <Compile Include="FrankContext.cs" />
     <Compile Include="IdentityDbContext.cs" />
     <Compile Include="IdentityEntities\AppUser.cs" />
-    <Compile Include="Migrations\202405110931231_CreateTablexxx.cs" />
-    <Compile Include="Migrations\202405110931231_CreateTablexxx.Designer.cs">
-      <DependentUpon>202405110931231_CreateTablexxx.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202405180038050_msg.cs" />
-    <Compile Include="Migrations\202405180038050_msg.Designer.cs">
-      <DependentUpon>202405180038050_msg.cs</DependentUpon>
+    <Compile Include="Migrations\202405210423455_a.cs" />
+    <Compile Include="Migrations\202405210423455_a.Designer.cs">
+      <DependentUpon>202405210423455_a.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -197,18 +192,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202405110931231_CreateTablexxx.resx">
-      <DependentUpon>202405110931231_CreateTablexxx.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202405180038050_msg.resx">
-      <DependentUpon>202405180038050_msg.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\PagedList.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202405210423455_a.resx">
+      <DependentUpon>202405210423455_a.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

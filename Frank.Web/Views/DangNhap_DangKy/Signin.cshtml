@@ -113,15 +113,13 @@
 <script>
 	function AjaxFormSuccessToChuc(rs) {
 		if (rs.Status) {
-			toastr.success(rs.Message, "Thành công");
+		toastr.success(rs.Message, "Thành công");
+setTimeout(function() {
+    window.location.href = '@Url.Action("Index", "Home")';
+}, 2000); // Chuyển hướng sau 2 giây (2000 milliseconds)
+
 		} else {
 			toastr.error(rs.Message, "Thông báo");
-			if (rs.Param != null && rs.Param.length > 0) {
-				rs.Param.forEach(function (item) {
-					$(`input[name=${item.TenTruong}]`).next().remove();
-					$(`input[name=${item.TenTruong}]`).after(`<div style="color: red"><i>${item.ErrorMessage}</i></div>`);
-				});
-			}
 		}
 	}
 

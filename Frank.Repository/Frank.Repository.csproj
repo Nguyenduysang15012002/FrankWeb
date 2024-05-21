@@ -303,8 +303,6 @@
     <Compile Include="Order_AddressRepository\Order_AddressRepository.cs" />
     <Compile Include="Order_DetailRepository\IOrder_DetailRepository.cs" />
     <Compile Include="Order_DetailRepository\Order_DetailRepository.cs" />
-    <Compile Include="PermissionRepository\IPermissionRepository.cs" />
-    <Compile Include="PermissionRepository\PermissionRepository.cs" />
     <Compile Include="ProductRepository\IProductRepository.cs" />
     <Compile Include="ProductRepository\ProductRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

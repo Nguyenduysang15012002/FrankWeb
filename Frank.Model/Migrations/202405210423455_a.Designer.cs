@@ -7,13 +7,13 @@ namespace Frank.Model.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class msg : IMigrationMetadata
+    public sealed partial class a : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(msg));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(a));
         
         string IMigrationMetadata.Id
         {
-            get { return "202405180038050_msg"; }
+            get { return "202405210423455_a"; }
         }
         
         string IMigrationMetadata.Source

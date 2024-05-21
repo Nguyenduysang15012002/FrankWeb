@@ -13,6 +13,7 @@ using Frank.Service.Common;
 using Frank.Model.Entities;
 using System.Web.UI;
 using Frank.Service.UserService;
+using System.Web.UI.WebControls;
 
 namespace Frank.Web.Controllers
 {
@@ -53,19 +54,41 @@ namespace Frank.Web.Controllers
             return View(model);
         }
         [HttpPost]
-      
+        [ValidateAntiForgeryToken]
         public JsonResult Create(UserCreateVM model, FormCollection form)
         {
             var result = new JsonResultBO(true, "Đăng ký thành công");
             try
             {
                 if (ModelState.IsValid)
-                {
-                    var EntityModel = _mapper.Map<User>(model);
+                {                 
                     var user = new User();
                     user.UserName = model.UserName;
-                    _userService.Create(user);
-
+                    user.Password = model.Password;
+                    user.FullName = model.FullName;
+                    user.Email = model.Email;
+                    user.Address = model.Address;
+                    user.PhoneNumber = model.PhoneNumber;
+                    user.CreatedDate = DateTime.Now;
+                    var checkusername = _userService.FindBy(x=>x.UserName == model.UserName).FirstOrDefault();
+                    var checkemail = _userService.FindBy(x => x.Email == model.Email).FirstOrDefault();
+                    if (checkusername != null)
+                    {
+                        result.Status = false;
+                        result.Message = "Tên tài khoản đã tồn tại!";
+                    }
+                    else
+                    {
+                        if (checkemail != null)
+                        {
+                            result.Status = false;
+                            result.Message = "Email đăng ký đã tồn tại!";
+                        }
+                        else
+                        {
+                            _userService.Create(user);
+                        }
+                    }                 
                 }
                 else
                 {
