@@ -1,0 +1,75 @@
+﻿
+@{
+	ViewBag.Title = "Login";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+	.a {
+		width: 500px;
+		margin: auto;
+		border: 2px solid;
+		border-color: blue;
+		height: auto;
+		margin-top: 40px;
+		/*border-bottom: none;*/
+	}
+
+	.b {
+		width: 70%;
+		margin: 30px auto;
+	}
+
+	.c {
+		margin: auto;
+		width: 100%;
+		align-items: center;
+		text-align: center;
+		padding-top: 10px;
+		margin-top:5px;
+	}
+</style>
+
+<div class="a">
+	<div class="b">
+		<h3 style="color:blue;text-align:center;padding-bottom:10px;">Đăng Nhập</h3>
+		<hr />
+		@using (Ajax.BeginForm("Create", "DangNhap_DangKy", new AjaxOptions()
+		{
+			HttpMethod = "POST",
+			OnFailure = "AjaxFormError",
+			OnSuccess = "AjaxFormSuccessToChuc",
+		}, new { id = "createQLCoSoForm", enctype = "multipart/form-data" }))
+
+		{
+			@Html.AntiForgeryToken()
+			<table class="table">
+				<tr>
+					<td style="width: 30%; text-align: right;">
+						<label for="loginName">Username:</label>
+					</td>
+					<td>
+						<input type="email" id="loginName" class="form-control" />
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 30%; text-align: right;">
+						<label for="loginPassword">Password:</label>
+					</td>
+					<td>
+						<input type="password" id="loginPassword" class="form-control" />
+					</td>
+				</tr>
+			</table>
+			<div class="c">
+				@Html.ActionLink("Bạn quên mật khẩu?", "ForgotPassword", "Account", null, new { @class = "text-danger" })
+
+			</div>
+			<div class="c">
+				<button type="button" class="btn btn-primary">Xác nhận</button>
+			</div>
+		}
+	</div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")

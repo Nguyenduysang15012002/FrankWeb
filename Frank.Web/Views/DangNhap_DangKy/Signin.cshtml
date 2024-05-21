@@ -1,0 +1,132 @@
+﻿@{
+	ViewBag.Title = "Signin";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Frank.Model.Entities
+@using Frank.Web.Models.UserModels
+
+@model UserCreateVM
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/jquery-3.7.1.min.js"></script>
+<style>
+	.a {
+		width: 500px;
+		margin: auto;
+		border: 2px solid;
+		border-color: blue;
+		height: auto;
+		margin-top: 40px;
+	}
+
+	.b {
+		width: 70%;
+		margin: 30px auto;
+	}
+
+	.c {
+		margin: auto;
+		width: 100%;
+		align-items: center;
+		text-align: center;
+		padding-top: 10px;
+	}
+</style>
+
+<div class="a">
+	<div class="b">
+		<h3 style="color:blue;text-align:center;padding-bottom:10px;">Đăng Ký</h3>
+		<hr />
+		@using (Ajax.BeginForm("Create", "DangNhap_DangKy", new AjaxOptions
+		{
+			HttpMethod = "POST",
+			OnFailure = "AjaxFormError",
+			OnSuccess = "AjaxFormSuccessToChuc",
+		}, new { enctype = "multipart/form-data" }))
+		{
+			@Html.AntiForgeryToken()
+			<table class="table">
+				<tr>
+					<td>
+						@Html.LabelFor(m => m.UserName, "Username", new { @class = "font-weight-bold form-label" })
+					</td>
+					<td>
+						@Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @id = "UserName" })
+						@Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.LabelFor(m => m.Password, "Password", new { @class = "font-weight-bold form-label" })
+					</td>
+					<td>
+						@Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "Password" })
+						@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.LabelFor(m => m.FullName, "Họ và tên", new { @class = "font-weight-bold form-label" })
+					</td>
+					<td>
+						@Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @id = "FullName" })
+						@Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.LabelFor(m => m.Address, "Địa chỉ", new { @class = "font-weight-bold form-label" })
+					</td>
+					<td>
+						@Html.TextBoxFor(m => m.Address, new { @class = "form-control", @id = "Address" })
+						@Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.LabelFor(m => m.PhoneNumber, "Số điện thoại", new { @class = "font-weight-bold form-label" })
+					</td>
+					<td>
+						@Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @id = "PhoneNumber" })
+						@Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.LabelFor(m => m.Email, "Email", new { @class = "font-weight-bold form-label" })
+					</td>
+					<td>
+						@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @id = "Email", type = "email" })
+						@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+					</td>
+				</tr>
+			</table>
+			<div class="c">
+				<button type="submit" class="btn btn-primary">Xác nhận</button>
+			</div>
+		}
+	</div>
+</div>
+
+
+
+<script>
+	function AjaxFormSuccessToChuc(rs) {
+		if (rs.Status) {
+			toastr.success(rs.Message, "Thành công");
+		} else {
+			toastr.error(rs.Message, "Thông báo");
+			if (rs.Param != null && rs.Param.length > 0) {
+				rs.Param.forEach(function (item) {
+					$(`input[name=${item.TenTruong}]`).next().remove();
+					$(`input[name=${item.TenTruong}]`).after(`<div style="color: red"><i>${item.ErrorMessage}</i></div>`);
+				});
+			}
+		}
+	}
+
+	function AjaxFormError() {
+		toastr.error("Có lỗi xảy ra trong quá trình gửi yêu cầu", "Lỗi");
+	}
+</script>
+@Scripts.Render("~/bundles/jqueryval")
