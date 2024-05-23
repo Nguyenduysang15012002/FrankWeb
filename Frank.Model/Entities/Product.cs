@@ -9,7 +9,7 @@ namespace Frank.Model.Entities
     [Table("Product")]
     public class Product : AuditableEntity<long>
     {
-        public string Title { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public string Brand { get; set; }
         public int ProductionYear { get; set; }

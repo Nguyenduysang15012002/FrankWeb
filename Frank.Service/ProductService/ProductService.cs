@@ -42,8 +42,7 @@ namespace Frank.Service.ProductService
                         {
                            Id = Producttbl.Id,
                            Brand = Producttbl.Brand,
-                           Description = Producttbl.Description,
-                           Title = Producttbl.Title,
+                           Description = Producttbl.Description,                       
                            ProductionYear = Producttbl.ProductionYear,
                            ExpiredYear = Producttbl.ExpiredYear,
                            Quantity = Producttbl.Quantity,

@@ -37,8 +37,19 @@ namespace Frank.Web.Controllers
             //_dM_DulieuDanhmucService = dM_DulieuDanhmucService;
         }
 
-        public ActionResult Index()
+        public ActionResult Trangchu(long? Id)
         {
+
+            if (Id != null)
+            {
+                ViewBag.Id = Id;
+                var user = _userService.FindBy(x => x.Id == Id).FirstOrDefault();
+                ViewBag.Name = user?.FullName;
+            }
+            else
+            {
+                ViewBag.Name = null;
+            }
             var listData = _productService.GetDaTaByPage(null);
             return View(listData);
         }

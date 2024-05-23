@@ -180,9 +180,9 @@
     <Compile Include="FrankContext.cs" />
     <Compile Include="IdentityDbContext.cs" />
     <Compile Include="IdentityEntities\AppUser.cs" />
-    <Compile Include="Migrations\202405210423455_a.cs" />
-    <Compile Include="Migrations\202405210423455_a.Designer.cs">
-      <DependentUpon>202405210423455_a.cs</DependentUpon>
+    <Compile Include="Migrations\202405230313435_aad.cs" />
+    <Compile Include="Migrations\202405230313435_aad.Designer.cs">
+      <DependentUpon>202405230313435_aad.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -198,8 +198,8 @@
     <Content Include="Content\PagedList.css" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202405210423455_a.resx">
-      <DependentUpon>202405210423455_a.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202405230313435_aad.resx">
+      <DependentUpon>202405230313435_aad.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

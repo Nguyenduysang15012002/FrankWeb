@@ -102,6 +102,9 @@ namespace Frank.Web.Controllers
                     user.Address = model.Address;
                     user.PhoneNumber = model.PhoneNumber;
                     user.CreatedDate = DateTime.Now;
+                    user.IsCustomer = true;
+                    user.IsAdmin = false;
+                    user.Istaff = false;
                     var checkusername = _userService.FindBy(x => x.UserName == model.UserName).FirstOrDefault();
                     var checkemail = _userService.FindBy(x => x.Email == model.Email).FirstOrDefault();
                     if (checkusername != null)

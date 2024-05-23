@@ -78,5 +78,5 @@ D:\Đồ án\FRANK\Frank.Model\bin\Debug\Autofac.dll
 D:\Đồ án\FRANK\Frank.Model\bin\Debug\StackExchange.Redis.dll
 D:\Đồ án\FRANK\Frank.Model\bin\Debug\Autofac.xml
 D:\Đồ án\FRANK\Frank.Model\bin\Debug\StackExchange.Redis.xml
-D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.Migrations.a.resources
 D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.csproj.GenerateResource.cache
+D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.Migrations.aad.resources

@@ -35,7 +35,7 @@
 
 <div class="a">
 	<div class="b">
-		<h3 style="color:blue;text-align:center;padding-bottom:10px;">Đăng Ký</h3>
+		<h3 style="color:blue;text-align:center;padding-bottom:10px;">Đăng Nhập</h3>
 		<hr />
 		@using (Ajax.BeginForm("Login", "DangNhap_DangKy", new AjaxOptions
 		{
@@ -103,7 +103,7 @@
                 // Sử dụng hàm AjaxCall để gửi rs.Id đến hành động Index
                 AjaxCall('@Url.Action("Index", "Home")', 'GET', { Id: rs.Id }, function(response) {
                     // Chuyển hướng đến hành động Index với Id sau khi nhận được phản hồi thành công
-                    window.location.href = '@Url.Action("Index", "Home")' + '?Id=' + rs.Id;
+                    window.location.href = '@Url.Action("Trangchu", "Home")' + '?Id=' + rs.Id;
                 });
             } else {
                 toastr.error(rs.Message, "Thông báo");

@@ -55,6 +55,7 @@
 	</style>
 </head>
 
+
 <body data-aos-easing="ease-in-out" data-aos-duration="1000" data-aos-delay="0">
 
 	<!-- ======= Header ======= -->
@@ -88,16 +89,16 @@
 						<a>|</a>
 						@Html.ActionLink("Đăng ký", "Signin", "DangNhap_DangKy")
 
-						 }
+					}
 					else
 					{
 						<a class="bi bi-person-fill text-success" style="font-size:20px;"><span style="font-size:15px">@ViewBag.Name</span></a>
 
 						<a>|</a>
-						<i class="bi bi-box-arrow-in-right" style="font-size:20px;color:red"></i>@Html.ActionLink(" Đăng xuất", "Index", "Home")
+						<i class="bi bi-box-arrow-in-right" style="font-size:20px;color:red"></i>@Html.ActionLink(" Đăng xuất", "Trangchu", "Home", null, null)
 					}
 				}
-			<a>|</a>
+				<a>|</a>
 				<a class="icon" style="font-size: 20px;padding:10px;"><span class="bi bi-cart4"></span></a>
 
 
@@ -107,7 +108,8 @@
 		<div class="top-section d-flex align-items-center justify-content-around">
 			<nav id="navbar" class="navbar d-flex justify-content-end">
 				<ul class="ml-auto">
-					<li>@Html.ActionLink("Home", "Index", "Home")</li>
+					<li>
+					<li><a href='@Url.Action("Trangchu", "Home")?Id=@ViewBag.Id'>Trang chủ</a></li>
 					<li><a href="#menu">Menu</a></li>
 					<li><a href="#events">Events</a></li>
 					<li><a href="#chefs">Chefs</a></li>
@@ -220,5 +222,7 @@
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
 	@RenderSection("scripts", required: false)
+
 </body>
 </html>
+
