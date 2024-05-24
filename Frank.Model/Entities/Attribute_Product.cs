@@ -12,7 +12,6 @@ namespace Frank.Model.Entities
         public long Size { get; set; }
         public long Price { get; set; }
         public long Sale_Price { get; set; }
-        public long Amount { get; set; }
         public long? Product_Id { get; set; }
 
     }

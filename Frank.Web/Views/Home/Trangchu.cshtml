@@ -11,7 +11,10 @@
 @model PageListResultBO<Frank.Service.ProductService.Dto.ProductDto>
 @{
 	var lstData = Html.Raw(JsonConvert.SerializeObject(Model.ListItem));
+	//var ViewBagId = ViewBag.Id;
+
 }
+
 <style>
 	#card-container {
 		display: flex;
@@ -80,10 +83,18 @@
 @section scripts {
 
 	<script>
-	var lstData = @Html.Raw(lstData);
+		var lstData = @Html.Raw(lstData);
+		var check = "@ViewBag.Id";
 
+		debugger
 	$.each(lstData, function(index, item) {
-	var card = $('<div class="card" style="width:300px">');
+		var card = $('<div class="card" style="width:300px">').click(function () {
+			if (check != null) {
+				window.location.href = '@Url.Action("Detail", "Product")' + '?Id=' + item.Id + '&User_Id=' + check;
+			} else {
+				window.location.href = '@Url.Action("Detail", "Product")' + '?Id=' + item.Id;
+			}
+		});
 		var cardBody = $('<div class="card-body">');
 		card.append('<img class="card-img-top" src="https://d3design.vn/uploads/Summer%20drink%20menu%20promotion%20banner%20template.jpg" alt="Card image">');
 		cardBody.append('<h4 class="card-title">' + item.Description + '</h4>');

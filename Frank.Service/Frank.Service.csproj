@@ -480,6 +480,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attribute_ProductService\Attribute_ProductService.cs" />
+    <Compile Include="Attribute_ProductService\Dto\Attribute_ProductDto.cs" />
     <Compile Include="Attribute_ProductService\IAttribute_ProductService.cs" />
     <Compile Include="CategoryService\CategoryService.cs" />
     <Compile Include="CategoryService\ICategoryService.cs" />
@@ -495,6 +496,7 @@
     <Compile Include="Common\SearchBase.cs" />
     <Compile Include="Common\SearchWebsiteAppDislayDto.cs" />
     <Compile Include="Common\ShowStatusDto.cs" />
+    <Compile Include="ImageService\Dto\ImageDto.cs" />
     <Compile Include="ImageService\IImageService.cs" />
     <Compile Include="ImageService\ImageService.cs" />
     <Compile Include="OrderService\IOrderService.cs" />
@@ -535,9 +537,7 @@
     <Content Include="Content\PagedList.css" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Attribute_ProductService\Dto\" />
     <Folder Include="CategoryService\Dto\" />
-    <Folder Include="ImageService\Dto\" />
     <Folder Include="OrderService\Dto\" />
     <Folder Include="Order_AddressService\Dto\" />
     <Folder Include="Order_DetailService\Dto\" />

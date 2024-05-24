@@ -101,10 +101,10 @@
                 toastr.success(rs.Message, "Thành công");
 
                 // Sử dụng hàm AjaxCall để gửi rs.Id đến hành động Index
-                AjaxCall('@Url.Action("Index", "Home")', 'GET', { Id: rs.Id }, function(response) {
+                @*AjaxCall('@Url.Action("Index", "Home")', 'GET', { Id: rs.Id }, function(response) {*@
                     // Chuyển hướng đến hành động Index với Id sau khi nhận được phản hồi thành công
                     window.location.href = '@Url.Action("Trangchu", "Home")' + '?Id=' + rs.Id;
-                });
+              /*  });*/
             } else {
                 toastr.error(rs.Message, "Thông báo");
             }

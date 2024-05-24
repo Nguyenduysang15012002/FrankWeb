@@ -184,6 +184,10 @@
     <Compile Include="Migrations\202405230313435_aad.Designer.cs">
       <DependentUpon>202405230313435_aad.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202405231414495_aas.cs" />
+    <Compile Include="Migrations\202405231414495_aas.Designer.cs">
+      <DependentUpon>202405231414495_aas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -200,6 +204,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202405230313435_aad.resx">
       <DependentUpon>202405230313435_aad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405231414495_aas.resx">
+      <DependentUpon>202405231414495_aas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

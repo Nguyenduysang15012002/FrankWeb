@@ -48,26 +48,11 @@ namespace Frank.Web.Controllers
             }
             else
             {
+                ViewBag.Id = null;
                 ViewBag.Name = null;
             }
             var listData = _productService.GetDaTaByPage(null);
             return View(listData);
-        }
-        [HttpGet]
-        public ActionResult Index(long? Id)
-        {
-            if (Id != null)
-            {
-                ViewBag.Id = Id;
-                var user = _userService.FindBy(x => x.Id == Id).FirstOrDefault();
-                ViewBag.Name = user?.FullName;
-            }
-            else
-            {
-                ViewBag.Name = null;
-            }
-            var listData = _productService.GetDaTaByPage(null);
-            return View(listData);
-        }
+        }     
     }
 }

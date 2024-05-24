@@ -27,12 +27,7 @@ namespace Frank.Web
            name: "Default",
            url: "{controller}/{action}/{id}",
            defaults: new {controller = "Home", action = "Trangchu", id = UrlParameter.Optional }
-       );
-            routes.MapRoute(
-                         name: "DefaultArea",
-                         url: "{area}/{controller}/{action}/{id}",
-                         defaults: new { action = "Index", id = UrlParameter.Optional }
-                     );
-        }
+       );        
+       }
     }
 }

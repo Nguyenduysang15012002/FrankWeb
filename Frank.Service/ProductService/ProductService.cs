@@ -84,6 +84,11 @@ namespace Frank.Service.ProductService
 
             return resultmodel;
         }
+        public ProductDto GetById(long Id)
+        {
+            var query = new ProductDto();
+            return query;
+        }
 
     }
 }

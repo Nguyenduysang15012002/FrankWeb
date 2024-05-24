@@ -206,6 +206,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DangNhap_DangKyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Core\DecimalModelBinder.cs" />
     <Compile Include="Core\DoubleModelBinder.cs" />
@@ -214,6 +215,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductModels\ProductCreateVM.cs" />
+    <Compile Include="Models\ProductModels\ProductDetailVM.cs" />
+    <Compile Include="Models\ProductModels\ProductEditVM.cs" />
     <Compile Include="Models\UserModels\UserCreateVM.cs" />
     <Compile Include="Modules\AutoMapperModule.cs" />
     <Compile Include="Modules\EFModule.cs" />
@@ -411,12 +415,12 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\DangNhap_DangKy\Login.cshtml" />
     <Content Include="Views\DangNhap_DangKy\Signin.cshtml" />
     <Content Include="Views\Home\Trangchu.cshtml" />
+    <Content Include="Views\Product\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
