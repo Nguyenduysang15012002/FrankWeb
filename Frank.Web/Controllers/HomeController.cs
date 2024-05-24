@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Frank.Service.UserService;
+using Frank.Service.Attribute_ProductService;
 
 namespace Frank.Web.Controllers
 {
@@ -22,9 +23,10 @@ namespace Frank.Web.Controllers
         private readonly IMapper _mapper;
         private readonly IProductService _productService;
         private readonly IUserService _userService;
+        private readonly IAttribute_ProductService _attribute_ProductService;
         public HomeController(
             IProductService ProductService, ILog Ilog,
-
+            IAttribute_ProductService AttributeService,
               //  //IDM_DulieuDanhmucService dM_DulieuDanhmucService,
               IUserService UserService,
               IMapper mapper
@@ -34,7 +36,7 @@ namespace Frank.Web.Controllers
             _ilog = Ilog;
             _mapper = mapper;
             _userService = UserService;
-            //_dM_DulieuDanhmucService = dM_DulieuDanhmucService;
+            _attribute_ProductService = AttributeService;
         }
 
         public ActionResult Trangchu(long? Id)

@@ -97,9 +97,9 @@
 		});
 		var cardBody = $('<div class="card-body">');
 		card.append('<img class="card-img-top" src="https://d3design.vn/uploads/Summer%20drink%20menu%20promotion%20banner%20template.jpg" alt="Card image">');
-		cardBody.append('<h4 class="card-title">' + item.Description + '</h4>');
+		cardBody.append('<h4 class="card-title">' + item.Name + '</h4>');
 		cardBody.append('<p class="card-text">' + item.Brand + '</p>');
-		cardBody.append('<p class="card-text">' + item.ExpiredYear + '</p>');
+		cardBody.append('<p class="card-text">' + item.Price + ' <span style="color: red;">VND</span></p>');
 			card.append(cardBody);
 			$('#card-container').append(card);
 	});

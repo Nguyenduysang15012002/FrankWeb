@@ -12,7 +12,7 @@ namespace Frank.Web.Models.ProductModels
     public class ProductDetailVM 
     {
         public Product Product { get; set; }
-        public List<Attribute_ProductDto> AttributeProducts { get; set; }
+        public Attribute_ProductDto AttributeProducts { get; set; }
         public List<ImageDto> Images { get; set; }
         public long Id { get; set; }
     }

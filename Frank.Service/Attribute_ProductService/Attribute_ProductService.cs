@@ -27,7 +27,7 @@ namespace Frank.Service.Attribute_ProductService
             _unitOfWork = unitOfWork;
             _productRepository = productRepository;
         }
-        public List<Attribute_ProductDto> GetAttribute_ProductByProductId(long Id)
+        public Attribute_ProductDto GetAttribute_ProductByProductId(long Id)
         {
             var query = (from producttbl in _productRepository.GetAllAsQueryable().Where(x => x.Id == Id)
                          join attribute_Producttbl in _attribute_ProductRepository.GetAllAsQueryable()
@@ -37,7 +37,7 @@ namespace Frank.Service.Attribute_ProductService
                              Size = attribute_Producttbl.Size,
                              Price = attribute_Producttbl.Price,
                              Sale_Price = attribute_Producttbl.Sale_Price,
-                         }).ToList();
+                         }).FirstOrDefault();
             return query;
         }
     }

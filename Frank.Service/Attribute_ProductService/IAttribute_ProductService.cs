@@ -10,6 +10,6 @@ namespace Frank.Service.Attribute_ProductService
 {
     public interface IAttribute_ProductService : IEntityService<Attribute_Product>
     {
-        List<Attribute_ProductDto> GetAttribute_ProductByProductId(long Id);
+        Attribute_ProductDto GetAttribute_ProductByProductId(long Id);
     }
 }

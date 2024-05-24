@@ -1,0 +1,139 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B8863780-4C08-49CC-BB12-16BCF11A4E12}|Frank.Web\\Frank.Web.csproj|d:\\\u0111\u1ED3 \u00E1n\\frank\\frank.web\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B8863780-4C08-49CC-BB12-16BCF11A4E12}|Frank.Web\\Frank.Web.csproj|solutionrelative:frank.web\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B8863780-4C08-49CC-BB12-16BCF11A4E12}|Frank.Web\\Frank.Web.csproj|d:\\\u0111\u1ED3 \u00E1n\\frank\\frank.web\\views\\home\\trangchu.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B8863780-4C08-49CC-BB12-16BCF11A4E12}|Frank.Web\\Frank.Web.csproj|solutionrelative:frank.web\\views\\home\\trangchu.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A72BAB7-B8A3-4588-B0E4-1508E89AD52B}|Frank.Service\\Frank.Service.csproj|d:\\\u0111\u1ED3 \u00E1n\\frank\\frank.service\\productservice\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A72BAB7-B8A3-4588-B0E4-1508E89AD52B}|Frank.Service\\Frank.Service.csproj|solutionrelative:frank.service\\productservice\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B8863780-4C08-49CC-BB12-16BCF11A4E12}|Frank.Web\\Frank.Web.csproj|d:\\\u0111\u1ED3 \u00E1n\\frank\\frank.web\\models\\productmodels\\productdetailvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B8863780-4C08-49CC-BB12-16BCF11A4E12}|Frank.Web\\Frank.Web.csproj|solutionrelative:frank.web\\models\\productmodels\\productdetailvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B8863780-4C08-49CC-BB12-16BCF11A4E12}|Frank.Web\\Frank.Web.csproj|d:\\\u0111\u1ED3 \u00E1n\\frank\\frank.web\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B8863780-4C08-49CC-BB12-16BCF11A4E12}|Frank.Web\\Frank.Web.csproj|solutionrelative:frank.web\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B8863780-4C08-49CC-BB12-16BCF11A4E12}|Frank.Web\\Frank.Web.csproj|d:\\\u0111\u1ED3 \u00E1n\\frank\\frank.web\\views\\product\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B8863780-4C08-49CC-BB12-16BCF11A4E12}|Frank.Web\\Frank.Web.csproj|solutionrelative:frank.web\\views\\product\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B8863780-4C08-49CC-BB12-16BCF11A4E12}|Frank.Web\\Frank.Web.csproj|d:\\\u0111\u1ED3 \u00E1n\\frank\\frank.web\\views\\dangnhap_dangky\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B8863780-4C08-49CC-BB12-16BCF11A4E12}|Frank.Web\\Frank.Web.csproj|solutionrelative:frank.web\\views\\dangnhap_dangky\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Service\\ProductService\\ProductService.cs",
+              "RelativeDocumentMoniker": "Frank.Service\\ProductService\\ProductService.cs",
+              "ToolTip": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Service\\ProductService\\ProductService.cs",
+              "RelativeToolTip": "Frank.Service\\ProductService\\ProductService.cs",
+              "ViewState": "AQIAABcAAAAAAAAAAAAkwDYAAAAzAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T14:55:05.764Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Trangchu.cshtml",
+              "DocumentMoniker": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Web\\Views\\Home\\Trangchu.cshtml",
+              "RelativeDocumentMoniker": "Frank.Web\\Views\\Home\\Trangchu.cshtml",
+              "ToolTip": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Web\\Views\\Home\\Trangchu.cshtml",
+              "RelativeToolTip": "Frank.Web\\Views\\Home\\Trangchu.cshtml",
+              "ViewState": "AQIAAFAAAAAAAAAAAAAAAGkAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-05-24T14:54:28.546Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Web\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Frank.Web\\Controllers\\HomeController.cs",
+              "ToolTip": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Web\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Frank.Web\\Controllers\\HomeController.cs",
+              "ViewState": "AQIAABcAAAAAAAAAAAAAwCkAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T14:54:24.847Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProductDetailVM.cs",
+              "DocumentMoniker": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Web\\Models\\ProductModels\\ProductDetailVM.cs",
+              "RelativeDocumentMoniker": "Frank.Web\\Models\\ProductModels\\ProductDetailVM.cs",
+              "ToolTip": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Web\\Models\\ProductModels\\ProductDetailVM.cs",
+              "RelativeToolTip": "Frank.Web\\Models\\ProductModels\\ProductDetailVM.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwA4AAABDAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T14:49:10.792Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Signin.cshtml",
+              "DocumentMoniker": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Web\\Views\\DangNhap_DangKy\\Signin.cshtml",
+              "RelativeDocumentMoniker": "Frank.Web\\Views\\DangNhap_DangKy\\Signin.cshtml",
+              "ToolTip": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Web\\Views\\DangNhap_DangKy\\Signin.cshtml",
+              "RelativeToolTip": "Frank.Web\\Views\\DangNhap_DangKy\\Signin.cshtml",
+              "ViewState": "AQIAADYAAAAAAAAAAAAAADIAAABFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-05-24T14:02:48.947Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Detail.cshtml",
+              "DocumentMoniker": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Web\\Views\\Product\\Detail.cshtml",
+              "RelativeDocumentMoniker": "Frank.Web\\Views\\Product\\Detail.cshtml",
+              "ToolTip": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Web\\Views\\Product\\Detail.cshtml",
+              "RelativeToolTip": "Frank.Web\\Views\\Product\\Detail.cshtml",
+              "ViewState": "AQIAADgAAAAAAAAAAAAYwEkAAAA0AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-05-24T14:02:07.582Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Web\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "Frank.Web\\Controllers\\ProductController.cs",
+              "ToolTip": "D:\\\u0110\u1ED3 \u00E1n\\FRANK\\Frank.Web\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "Frank.Web\\Controllers\\ProductController.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAgwBkAAABNAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T14:01:59.581Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 ﻿using Frank.Model.Entities;
+using Frank.Service.Attribute_ProductService.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Frank.Service.ProductService.Dto
 {
     public class ProductDto : Product
     {
-
+      public long Price { get; set; }
     }
 }

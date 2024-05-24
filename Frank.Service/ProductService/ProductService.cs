@@ -13,6 +13,9 @@ using PagedList;
 using log4net;
 using Frank.Service.Common;
 using Frank.Service.ProductService.Dto;
+using Frank.Service.Attribute_ProductService;
+using Frank.Repository.Attribute_ProductRepository;
+using Frank.Service.Attribute_ProductService.Dto;
 
 namespace Frank.Service.ProductService
 {
@@ -22,10 +25,12 @@ namespace Frank.Service.ProductService
         IProductRepository _productRepository;
         ILog _loger;
         IMapper _mapper;
+        IAttribute_ProductRepository _attribute_ProductRepository;
         public ProductService(IUnitOfWork unitOfWork,
          IProductRepository ProductRepository,
          ILog loger,
-         IMapper mapper
+         IMapper mapper,
+         IAttribute_ProductRepository attribute_ProductRepository
         )
         : base(unitOfWork, ProductRepository)
         {
@@ -33,19 +38,21 @@ namespace Frank.Service.ProductService
             _productRepository = ProductRepository;
             _loger = loger;
             _mapper = mapper;
+            _attribute_ProductRepository = attribute_ProductRepository;
         }
        public PageListResultBO<ProductDto> GetDaTaByPage(ProductDto searchModel, int pageIndex = 1, int pageSize = 20)
         {           
             var query = from Producttbl in _productRepository.GetAllAsQueryable()
+                        join attribute in _attribute_ProductRepository.GetAllAsQueryable()
+                        on Producttbl.Id equals attribute.Product_Id
 
                         select new ProductDto
                         {
-                           Id = Producttbl.Id,
-                           Brand = Producttbl.Brand,
-                           Description = Producttbl.Description,                       
-                           ProductionYear = Producttbl.ProductionYear,
-                           ExpiredYear = Producttbl.ExpiredYear,
+                           Id = Producttbl.Id,                          
+                           Name = Producttbl.Name,                      
+                           ProductionYear = Producttbl.ProductionYear,                         
                            Quantity = Producttbl.Quantity,
+                           Price = attribute.Price,
                         };
 
             if (searchModel != null)
