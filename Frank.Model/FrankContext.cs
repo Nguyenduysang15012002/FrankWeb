@@ -21,7 +21,7 @@ namespace Frank.Model
         {
             //sử dụng cho việc unit test
             Database.SetInitializer<FrankContext>(null);
-            this.Database.CommandTimeout = 120;
+            this.Database.CommandTimeout = 60;
         }
         public DbSet<Attribute_Product> Attribute_Product { get; set; }
         public DbSet<Category> Category { get; set; }

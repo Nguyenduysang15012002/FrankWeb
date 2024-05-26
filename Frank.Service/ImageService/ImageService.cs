@@ -27,7 +27,7 @@ namespace Frank.Service.ImageService
             _unitOfWork = unitOfWork;
             _productRepository = productRepository;
         }
-        public List<ImageDto> GetImageByProductId(long Id)
+        public ImageDto GetImageByProductId(long Id)
         {
             var query = (from producttbl in _productRepository.GetAllAsQueryable().Where(x => x.Id == Id)
                         join imagetbl in _imageRepository.GetAllAsQueryable()
@@ -36,7 +36,7 @@ namespace Frank.Service.ImageService
                         {                          
                             Url_Image = imagetbl.Url_Image,
                             Title =   imagetbl.Title,
-                        }).ToList();
+                        }).FirstOrDefault();
             return query;
         }
     }

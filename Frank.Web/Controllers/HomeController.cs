@@ -10,7 +10,12 @@ using System.Web;
 using System.Web.Mvc;
 using Frank.Service.UserService;
 using Frank.Service.Attribute_ProductService;
-
+using System.Threading.Tasks;
+using Frank.Model.Entities;
+using Frank.Service.ShopCartService;
+using Frank.Service.ShopCartService.Dto;
+using PagedList;
+using PagedList.Mvc;
 namespace Frank.Web.Controllers
 {
     public class HomeController : Controller
@@ -24,12 +29,14 @@ namespace Frank.Web.Controllers
         private readonly IProductService _productService;
         private readonly IUserService _userService;
         private readonly IAttribute_ProductService _attribute_ProductService;
+        private readonly IShopCartService _shopCartService;
         public HomeController(
             IProductService ProductService, ILog Ilog,
             IAttribute_ProductService AttributeService,
               //  //IDM_DulieuDanhmucService dM_DulieuDanhmucService,
               IUserService UserService,
-              IMapper mapper
+              IMapper mapper,
+              IShopCartService shopCartService
               )
         {
             _productService = ProductService;
@@ -37,24 +44,49 @@ namespace Frank.Web.Controllers
             _mapper = mapper;
             _userService = UserService;
             _attribute_ProductService = AttributeService;
+            _shopCartService = shopCartService;
         }
 
         public ActionResult Trangchu(long? Id)
         {
-
             if (Id != null)
             {
                 ViewBag.Id = Id;
                 var user = _userService.FindBy(x => x.Id == Id).FirstOrDefault();
                 ViewBag.Name = user?.FullName;
+                var listShopcart = _shopCartService.GetListByIdUser((long)Id);
+                if (listShopcart != null)
+                {
+                    ViewBag.ThongBao = listShopcart.Count();
+                }
+                else
+                {
+                    ViewBag.ThongBao = 0;
+                }
             }
             else
             {
                 ViewBag.Id = null;
                 ViewBag.Name = null;
             }
+           
             var listData = _productService.GetDaTaByPage(null);
             return View(listData);
-        }     
+        }
+        public ActionResult GioHang(long Id, int? page, int? pageSize)
+        {
+            ViewBag.Id = Id;
+            var user = _userService.FindBy(x => x.Id == Id).FirstOrDefault();
+            ViewBag.Name = user?.FullName;
+
+            int pageNumber = page ?? 1;
+            int pageSizeValue = pageSize ?? 5;
+            var listShopcart = _shopCartService.GetListByIdUser(Id);
+            // Lấy danh sách giỏ hàng dưới dạng List<ShopCartDto>
+
+            var shopCartDtoPagedList = listShopcart.ToPagedList(pageNumber, pageSizeValue);
+            ViewBag.PageSize = pageSize;
+            return View(shopCartDtoPagedList);
+        }
     }
 }

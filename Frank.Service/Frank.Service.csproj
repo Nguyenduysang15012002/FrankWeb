@@ -509,6 +509,7 @@
     <Compile Include="ProductService\IProductService.cs" />
     <Compile Include="ProductService\ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShopCartService\Dto\ShopCartDto.cs" />
     <Compile Include="ShopCartService\IShopCartService.cs" />
     <Compile Include="ShopCartService\ShopCartService.cs" />
     <Compile Include="UserService\Dto\UserDto.cs" />
@@ -541,7 +542,6 @@
     <Folder Include="OrderService\Dto\" />
     <Folder Include="Order_AddressService\Dto\" />
     <Folder Include="Order_DetailService\Dto\" />
-    <Folder Include="ShopCartService\Dto\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

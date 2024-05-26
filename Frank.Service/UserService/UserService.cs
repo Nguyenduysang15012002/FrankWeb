@@ -35,14 +35,14 @@ namespace Frank.Service.UserService
             _loger = loger;
             _mapper = mapper;
         }
-        public UserDto GetByUserName(string username)
+        public Task<UserDto> GetByUserName(string username)
         {
             var query = from Usertbl in _userRepository.GetAllAsQueryable().ToList().Where(u => u.UserName == username)
                         select new UserDto
                         {
                             UserName = Usertbl.UserName,
                         };
-            return query.FirstOrDefault();
+            return Task.FromResult(query.FirstOrDefault());
         }
     }
 }

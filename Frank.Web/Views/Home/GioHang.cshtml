@@ -1,0 +1,125 @@
+﻿@using Frank.Service.ShopCartService.Dto;
+@using PagedList;
+@using PagedList.Mvc;
+@model  IPagedList<Frank.Service.ShopCartService.Dto.ShopCartDto>
+@{
+	ViewBag.Title = "GioHang";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+	.product-main-image {
+		max-width: 100px; /* Điều chỉnh kích thước ảnh */
+		max-height: 100px;
+	}
+
+	/* Thêm các style cần thiết khác tại đây */
+</style>
+<style>
+	.a {
+		margin: auto;
+		height: auto;
+		margin-top: 40px;
+	}
+
+
+
+	.product-main-image {
+		width: 80%; /* Adjust the main image size */
+		height: auto;
+	}
+
+	.product-thumb-image {
+		width: 50px; /* Adjust the thumbnail image size */
+		height: 50px;
+	}
+
+	th {
+		font-weight: bold;
+		text-align: center;
+	}
+	td {
+		text-align: center;
+	}
+</style>
+<div class="a">
+	<div class="container">
+		<div class="row mt-4">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title">Danh sách sản phẩm trong giỏ hàng</h4>
+
+						<div class="table-responsive">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>STT</th>
+										<th>Hình ảnh</th>
+										<th>Tên sản phẩm</th>
+										<th>Giá</th>
+										<th>Số lượng</th>
+										<th>Tổng tiền</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									@if (Model != null && Model.Any())
+									{
+										var i = 1;
+
+										foreach (var item in Model)
+										{
+											<tr>
+												<td>@i</td>
+												<td><img class="rounded-4 fit product-main-image" src="@item.Image_Product" alt="Không có ảnh" /></td>
+												<td>@item.NameProduct</td>
+												<td>@item.Price</td>
+												<td>@item.Quantity</td>
+												<td>@item.TotalPrice</td>
+												<td>Đặt hàng</td>
+											</tr>
+											i++;
+										}
+									}
+									else
+									{
+										<tr>
+											<td colspan="7" style="color:red;font-weight:bold;text-align:center">Không có sản phẩm nào trong giỏ hàng.</td>
+										</tr>
+										<tr>
+											<td colspan="7" style="color:red;font-weight:bold;text-align:center"></td>
+										</tr>
+										<tr>
+											<td colspan="7" style="color:red;font-weight:bold;text-align:center"></td>
+										</tr>
+										<tr>
+											<td colspan="7" style="color:red;font-weight:bold;text-align:center"></td>
+										</tr>
+									}
+
+								</tbody>
+							</table>
+						</div>
+						<hr />
+						<div class="d-flex justify-content-center">
+							@{
+								var options = new PagedListRenderOptions
+								{
+									DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+									DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+									DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+									DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+									DisplayLinkToIndividualPages = true
+								};
+
+								Func<int, string> pageUrlGenerator = page => Url.Action("GioHang", new { Id = ViewBag.Id, page, pageSize = ViewBag.PageSize });
+
+								@Html.PagedListPager(Model, pageUrlGenerator, options)
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

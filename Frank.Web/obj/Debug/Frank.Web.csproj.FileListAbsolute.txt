@@ -222,3 +222,4 @@ D:\Đồ án\FRANK\Frank.Web\bin\Microsoft.AspNet.Identity.Core.dll
 D:\Đồ án\FRANK\Frank.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 D:\Đồ án\FRANK\Frank.Web\bin\Microsoft.AspNet.Identity.Core.xml
 D:\Đồ án\FRANK\Frank.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Đồ án\FRANK\Frank.Web\bin\X.PagedList.dll

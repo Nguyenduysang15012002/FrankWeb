@@ -23,6 +23,7 @@ namespace Frank.Service
         void InsertRange(IEnumerable<T> entities);
 
         IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate);
+        
         IEnumerable<T> GetAll();
         void Update(T entity);
         T GetById(object id);

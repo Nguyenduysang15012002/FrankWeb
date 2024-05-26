@@ -10,6 +10,7 @@ namespace Frank.Service.ProductService.Dto
 {
     public class ProductDto : Product
     {
-      public long Price { get; set; }
+        public long Price { get; set; }
+        public string Url_Image { get; set; }
     }
 }

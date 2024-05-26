@@ -11,6 +11,6 @@ namespace Frank.Service.UserService
 {
     public interface IUserService:IEntityService<User>
     {
-        UserDto GetByUserName(string username);
+        Task<UserDto> GetByUserName(string username);
     }
 }

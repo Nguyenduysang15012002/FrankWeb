@@ -12,6 +12,8 @@ using System.Web.Mvc;
 using Frank.Web.Models.ProductModels;
 using Frank.Service.ImageService;
 using Frank.Service.Attribute_ProductService;
+using Frank.Model.Entities;
+using Frank.Service.ShopCartService;
 namespace Frank.Web.Controllers
 {
     public class ProductController : Controller
@@ -24,15 +26,16 @@ namespace Frank.Web.Controllers
         private readonly IUserService _userService;
         private readonly IImageService _imageService;
         private readonly IAttribute_ProductService _attribute_ProductService;
+        private readonly IShopCartService _shopCartService;
         public ProductController(
             IProductService ProductService,
             ILog Ilog,
             IMapper mapper,
             IUserService userService,
             IImageService imageService,
-            IAttribute_ProductService attribute_ProductService
-           
-        
+            IAttribute_ProductService attribute_ProductService,
+            IShopCartService shopCartService
+
               )
         {
             _userService = userService;
@@ -40,7 +43,8 @@ namespace Frank.Web.Controllers
             _ilog = Ilog;
             _mapper = mapper;
             _imageService = imageService;
-            _attribute_ProductService = attribute_ProductService;      
+            _attribute_ProductService = attribute_ProductService;
+            _shopCartService = shopCartService;
         }
         // GET: Product
         public ActionResult Index()
@@ -48,7 +52,7 @@ namespace Frank.Web.Controllers
             return View();
         }
 
-        public ActionResult Detail(long Id,long? User_Id)
+        public ActionResult Detail(long Id, long? User_Id)
         {
             if (User_Id != null)
             {
@@ -63,11 +67,47 @@ namespace Frank.Web.Controllers
             }
             var model = new ProductDetailVM();
             model.Id = Id;
-            var Product =  _productService.FindBy(x=>x.Id == Id).FirstOrDefault();
             model.Product = _productService.FindBy(x => x.Id == Id).FirstOrDefault();
             model.Images = _imageService.GetImageByProductId(Id);
             model.AttributeProducts = _attribute_ProductService.GetAttribute_ProductByProductId(Id);
             return View(model);
+        }
+        [HttpPost]
+        public JsonResult Create(long User_Id, long Product_Id, long Soluong)
+        {
+            try
+            {
+                if (User_Id != -1 && Product_Id != -1 && Soluong != -1)
+                {
+                    var checkuser = _shopCartService.FindBy(x => x.User_Id == User_Id && x.Product_Id == Product_Id).FirstOrDefault();
+                    if (checkuser != null)
+                    {
+                        checkuser.User_Id = User_Id;
+                        checkuser.Product_Id = Product_Id;
+                        checkuser.Quantity = checkuser.Quantity + Soluong;
+                        _shopCartService.Update(checkuser);
+                        return Json(new { success = true, message = "Thêm vào giỏ hàng thành công." });
+                    }
+
+                    else
+                    {
+                        var shopcart = new ShopCart();
+                        shopcart.User_Id = User_Id;
+                        shopcart.Product_Id = Product_Id;
+                        shopcart.Quantity = Soluong;
+                        _shopCartService.Create(shopcart);
+                        return Json(new { success = true, message = "Thêm vào giỏ hàng thành công." });
+                    }
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Thêm vào giỏ hàng thất bại." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
     }
 }

@@ -72,7 +72,6 @@
 	</div>
 </div>
 
-<script src="~/Scripts/jqueryval"></script>
 <script src="~/Scripts/toastr.min.js"></script>
 <script>
 
@@ -96,17 +95,17 @@
         }
 
         // Sử dụng hàm AjaxCall trong AjaxFormSuccessToChuc
-        function AjaxFormSuccessToChuc(rs) {
-            if (rs.Status) {
-                toastr.success(rs.Message, "Thành công");
+       function AjaxFormSuccessToChuc(rs) {
+    if (rs.Status) {
+        toastr.success(rs.Message, "Thông báo");
 
-                // Sử dụng hàm AjaxCall để gửi rs.Id đến hành động Index
-                @*AjaxCall('@Url.Action("Index", "Home")', 'GET', { Id: rs.Id }, function(response) {*@
-                    // Chuyển hướng đến hành động Index với Id sau khi nhận được phản hồi thành công
-                    window.location.href = '@Url.Action("Trangchu", "Home")' + '?Id=' + rs.Id;
-              /*  });*/
-            } else {
-                toastr.error(rs.Message, "Thông báo");
-            }
-        }
+        // Sử dụng setTimeout để chờ 2 giây trước khi chuyển hướng
+        setTimeout(function() {
+            // Chuyển hướng đến hành động Trangchu với Id sau khi nhận được phản hồi thành công
+            window.location.href = '@Url.Action("Trangchu", "Home")' + '?Id=' + rs.Id;
+        }, 1000); // 2000 milliseconds = 2 giây
+    } else {
+        toastr.error(rs.Message, "Thông báo");
+    }
+}
 </script>

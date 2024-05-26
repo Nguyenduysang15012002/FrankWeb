@@ -10,6 +10,6 @@ namespace Frank.Service.ImageService
 {
     public interface IImageService:IEntityService<Image>
     {
-        List<ImageDto> GetImageByProductId(long Id);
+        ImageDto GetImageByProductId(long Id);
     }
 }

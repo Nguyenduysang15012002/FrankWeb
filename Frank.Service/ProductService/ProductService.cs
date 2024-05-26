@@ -16,6 +16,7 @@ using Frank.Service.ProductService.Dto;
 using Frank.Service.Attribute_ProductService;
 using Frank.Repository.Attribute_ProductRepository;
 using Frank.Service.Attribute_ProductService.Dto;
+using Frank.Repository.ImageRepository;
 
 namespace Frank.Service.ProductService
 {
@@ -26,11 +27,13 @@ namespace Frank.Service.ProductService
         ILog _loger;
         IMapper _mapper;
         IAttribute_ProductRepository _attribute_ProductRepository;
+        IImageRepository _imageRepository;
         public ProductService(IUnitOfWork unitOfWork,
          IProductRepository ProductRepository,
          ILog loger,
          IMapper mapper,
-         IAttribute_ProductRepository attribute_ProductRepository
+         IAttribute_ProductRepository attribute_ProductRepository,
+         IImageRepository imageRepository
         )
         : base(unitOfWork, ProductRepository)
         {
@@ -39,12 +42,15 @@ namespace Frank.Service.ProductService
             _loger = loger;
             _mapper = mapper;
             _attribute_ProductRepository = attribute_ProductRepository;
+            _imageRepository = imageRepository;
         }
-       public PageListResultBO<ProductDto> GetDaTaByPage(ProductDto searchModel, int pageIndex = 1, int pageSize = 20)
+       public  PageListResultBO<ProductDto> GetDaTaByPage(ProductDto searchModel, int pageIndex = 1, int pageSize = 20)
         {           
             var query = from Producttbl in _productRepository.GetAllAsQueryable()
                         join attribute in _attribute_ProductRepository.GetAllAsQueryable()
                         on Producttbl.Id equals attribute.Product_Id
+                        join imagetbl in _imageRepository.GetAllAsQueryable()
+                        on Producttbl.Id equals imagetbl.Product_Id
 
                         select new ProductDto
                         {
@@ -53,6 +59,7 @@ namespace Frank.Service.ProductService
                            ProductionYear = Producttbl.ProductionYear,                         
                            Quantity = Producttbl.Quantity,
                            Price = attribute.Price,
+                           Url_Image = imagetbl.Url_Image,
                         };
 
             if (searchModel != null)
@@ -83,12 +90,11 @@ namespace Frank.Service.ProductService
             }
             else
             {
-                var dataPageList = query.ToPagedList(pageIndex, pageSize);
+                var dataPageList =  query.ToPagedList(pageIndex, pageSize);
                 resultmodel.Count = dataPageList.TotalItemCount;
                 resultmodel.TotalPage = dataPageList.PageCount;
                 resultmodel.ListItem = dataPageList.ToList();
             }
-
             return resultmodel;
         }
         public ProductDto GetById(long Id)
@@ -96,6 +102,8 @@ namespace Frank.Service.ProductService
             var query = new ProductDto();
             return query;
         }
+
+
 
     }
 }

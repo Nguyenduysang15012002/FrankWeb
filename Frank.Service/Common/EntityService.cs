@@ -87,7 +87,7 @@ namespace Frank.Service
         {
             return _repository.GetAllAsQueryable().Where(predicate);
         }
-
+        
         public List<SelectListItem> GetDropdown(string displayMember, string valueMember, object selected = null)
         {
             return _repository.GetDropdown(displayMember, valueMember, selected);
