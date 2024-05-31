@@ -97,13 +97,15 @@ namespace Frank.Service.ProductService
             }
             return resultmodel;
         }
-        public ProductDto GetById(long Id)
+        public ProductDto GetById(long? Id)
         {
-            var query = new ProductDto();
-            return query;
+            var query = from producttbl in _productRepository.GetAllAsQueryable()
+                        where producttbl.Id == Id
+                        select new ProductDto
+                        {
+                            Quantity = producttbl.Quantity,
+                        };
+            return query.SingleOrDefault();
         }
-
-
-
     }
 }

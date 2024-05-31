@@ -211,7 +211,6 @@
     <Compile Include="Controllers\GioHang.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Core\DecimalModelBinder.cs" />
     <Compile Include="Core\DoubleModelBinder.cs" />
     <Compile Include="Core\InArrayModelBinder.cs" />
@@ -360,6 +359,9 @@
     <Content Include="assets\vendor\bootstrap\js\bootstrap.min.js.map" />
     <Content Include="assets\vendor\purecounter\purecounter_vanilla.js.map" />
     <Content Include="assets\vendor\swiper\swiper-bundle.min.js.map" />
+    <Content Include="Images\ImagesBanner\anh1.jpg" />
+    <Content Include="Images\ImagesBanner\anh2.jpg" />
+    <Content Include="Images\ImagesBanner\anh3.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -428,6 +430,8 @@
     <Content Include="Views\Product\Detail.cshtml" />
     <Content Include="Views\GioHang\Index.cshtml" />
     <Content Include="Views\Home\GioHang.cshtml" />
+    <Content Include="Views\Home\Order.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

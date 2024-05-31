@@ -18,7 +18,7 @@
 	.a {
 		margin: auto;
 		height: auto;
-		margin-top: 40px;
+		margin-top: 60px;
 	}
 
 
@@ -37,8 +37,13 @@
 		font-weight: bold;
 		text-align: center;
 	}
+
 	td {
 		text-align: center;
+	}
+
+	.no-uppercase {
+		text-transform: none;
 	}
 </style>
 <div class="a">
@@ -76,7 +81,9 @@
 												<td>@item.Price</td>
 												<td>@item.Quantity</td>
 												<td>@item.TotalPrice</td>
-												<td>Đặt hàng</td>
+												<td>
+													<a class="btn btn-primary shadow-0 no-uppercase" href='@Url.Action("Order", "Home")?User_Id=@item.User_Id&Product_Id=@item.Product_Id'>Đặt hàng</a>
+												</td>	
 											</tr>
 											i++;
 										}
@@ -123,3 +130,20 @@
 		</div>
 	</div>
 </div>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.7.1.slim.min.js"></script>
+<script src="~/Scripts/toastr.min.js"></script>
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/jquery-3.7.1.min.js"></script>
+<script>
+        $(document).ready(function() {
+			$("#submit").click(function () {            
+
+                // Xây dựng URL động với Razor syntax và tham số JavaScript
+				var url = '@Url.Action("Order", "Home")' + '?User_Id=' + itemId + '&Product_Id=' + userId;
+
+                // Chuyển hướng đến URL được tạo
+                window.location.href = url;
+            });
+        });
+</script>

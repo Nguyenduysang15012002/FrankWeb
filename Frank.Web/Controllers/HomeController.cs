@@ -16,6 +16,11 @@ using Frank.Service.ShopCartService;
 using Frank.Service.ShopCartService.Dto;
 using PagedList;
 using PagedList.Mvc;
+using System.Drawing.Printing;
+using System.Web.UI;
+using Frank.Service.OrderService.Dto;
+using Frank.Service.Common;
+using Frank.Web.Models.UserModels;
 namespace Frank.Web.Controllers
 {
     public class HomeController : Controller
@@ -69,7 +74,7 @@ namespace Frank.Web.Controllers
                 ViewBag.Id = null;
                 ViewBag.Name = null;
             }
-           
+
             var listData = _productService.GetDaTaByPage(null);
             return View(listData);
         }
@@ -78,15 +83,24 @@ namespace Frank.Web.Controllers
             ViewBag.Id = Id;
             var user = _userService.FindBy(x => x.Id == Id).FirstOrDefault();
             ViewBag.Name = user?.FullName;
-
             int pageNumber = page ?? 1;
             int pageSizeValue = pageSize ?? 5;
             var listShopcart = _shopCartService.GetListByIdUser(Id);
             // Lấy danh sách giỏ hàng dưới dạng List<ShopCartDto>
-
             var shopCartDtoPagedList = listShopcart.ToPagedList(pageNumber, pageSizeValue);
             ViewBag.PageSize = pageSize;
             return View(shopCartDtoPagedList);
         }
+        public ActionResult Order(long? User_Id, long? Product_Id)
+        {
+            ViewBag.Id = User_Id;
+            var user = _userService.FindBy(x => x.Id == User_Id).FirstOrDefault();
+            ViewBag.Name = user?.FullName;
+            ViewBag.ProductId = Product_Id;
+            var model = _shopCartService.GetbyUserVsProductId(User_Id, Product_Id);
+            var soluongcon = _productService.GetById(Product_Id);
+            ViewBag.Soluongcon = (int)soluongcon.Quantity;
+            return View(model);
+        }      
     }
 }

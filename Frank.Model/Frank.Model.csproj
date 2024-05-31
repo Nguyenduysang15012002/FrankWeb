@@ -172,7 +172,6 @@
     <Compile Include="Entities\Image.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Order_Address.cs" />
-    <Compile Include="Entities\Order_Detail.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\ShopCart.cs" />
     <Compile Include="Entities\TableAttribute.cs" />
@@ -187,6 +186,22 @@
     <Compile Include="Migrations\202405231414495_aas.cs" />
     <Compile Include="Migrations\202405231414495_aas.Designer.cs">
       <DependentUpon>202405231414495_aas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405300310309_aaaaab.cs" />
+    <Compile Include="Migrations\202405300310309_aaaaab.Designer.cs">
+      <DependentUpon>202405300310309_aaaaab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405300414283_aaaaac.cs" />
+    <Compile Include="Migrations\202405300414283_aaaaac.Designer.cs">
+      <DependentUpon>202405300414283_aaaaac.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405310752443_amk.cs" />
+    <Compile Include="Migrations\202405310752443_amk.Designer.cs">
+      <DependentUpon>202405310752443_amk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405310858480_22222.cs" />
+    <Compile Include="Migrations\202405310858480_22222.Designer.cs">
+      <DependentUpon>202405310858480_22222.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -207,6 +222,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202405231414495_aas.resx">
       <DependentUpon>202405231414495_aas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405300310309_aaaaab.resx">
+      <DependentUpon>202405300310309_aaaaab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405300414283_aaaaac.resx">
+      <DependentUpon>202405300414283_aaaaac.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405310752443_amk.resx">
+      <DependentUpon>202405310752443_amk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405310858480_22222.resx">
+      <DependentUpon>202405310858480_22222.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

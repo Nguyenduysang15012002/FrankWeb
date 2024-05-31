@@ -12,6 +12,8 @@ using Frank.Repository.ShopCartRepository;
 using Frank.Service.ShopCartService.Dto;
 using Frank.Repository.Attribute_ProductRepository;
 using Frank.Repository.ImageRepository;
+using Frank.Service.OrderService.Dto;
+using Frank.Service.ProductService.Dto;
 
 namespace Frank.Service.ShopCartService
 {
@@ -63,9 +65,33 @@ namespace Frank.Service.ShopCartService
                             Price = attribute.Price,
                             Quantity = shopcarttbl.Quantity,
                             TotalPrice = shopcarttbl.Quantity * attribute.Price,
+                            User_Id = UserId,
+                            Product_Id = producttbl.Id
                         };
             return query.ToList();
         }
+        public ShopCartDto GetbyUserVsProductId(long? User_Id, long? Product_Id)
+        {
+            var query = from producttbl in _productRepository.GetAllAsQueryable()
+                        join shopcarttbl in _shopcartRepository.GetAllAsQueryable()
+                        on producttbl.Id equals shopcarttbl.Product_Id
+                        join attribute in _attributeProductRepository.GetAllAsQueryable()
+                        on producttbl.Id equals attribute.Product_Id
+                        join imagetbl in _imageRepository.GetAllAsQueryable()
+                        on producttbl.Id equals imagetbl.Product_Id
+                        where shopcarttbl.User_Id == User_Id && shopcarttbl.Product_Id == Product_Id
+                        select new ShopCartDto
+                        {
+                            Image_Product = imagetbl.Url_Image,
+                            NameProduct = producttbl.Name,
+                            Price = attribute.Price,
+                            Quantity = shopcarttbl.Quantity,
+                            TotalPrice = shopcarttbl.Quantity * attribute.Price,
+                            Product_Id = producttbl.Id,
+                            Soluongcon = producttbl.Quantity
+                        };
+            return query.FirstOrDefault();
+        }      
     }
 }
 

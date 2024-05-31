@@ -81,3 +81,7 @@ D:\Đồ án\FRANK\Frank.Model\bin\Debug\StackExchange.Redis.xml
 D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.csproj.GenerateResource.cache
 D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.Migrations.aad.resources
 D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.Migrations.aas.resources
+D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.Migrations.aaaaab.resources
+D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.Migrations.aaaaac.resources
+D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.Migrations.amk.resources
+D:\Đồ án\FRANK\Frank.Model\obj\Debug\Frank.Model.Migrations._22222.resources

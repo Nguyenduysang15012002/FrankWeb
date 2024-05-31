@@ -69,7 +69,7 @@ namespace Frank.Web.Controllers
             model.Id = Id;
             model.Product = _productService.FindBy(x => x.Id == Id).FirstOrDefault();
             model.Images = _imageService.GetImageByProductId(Id);
-            model.AttributeProducts = _attribute_ProductService.GetAttribute_ProductByProductId(Id);
+            model.AttributeProducts = _attribute_ProductService.GetAttribute_ProductByProductId(Id);         
             return View(model);
         }
         [HttpPost]

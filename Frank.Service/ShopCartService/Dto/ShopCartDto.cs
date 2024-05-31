@@ -8,11 +8,15 @@ using System.Threading.Tasks;
 
 namespace Frank.Service.ShopCartService.Dto
 {
-    public class ShopCartDto:ShopCart
+    public class ShopCartDto
     {
         public long Price { get; set; }
         public string NameProduct {  get; set; }
         public string Image_Product { get; set; }    
         public long TotalPrice { get; set; }
+        public long Product_Id { get; set; }
+        public long User_Id { get; set; }
+        public long Quantity { get; set; }
+        public long Soluongcon { get; set; }
     }
 }

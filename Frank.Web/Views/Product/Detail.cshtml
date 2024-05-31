@@ -49,7 +49,7 @@
 	}
 
 		.number-box input {
-			width: 60px;
+			width: 100px;
 			height: 100%;
 			border: none; /* Remove border */
 			text-align: center;
@@ -118,11 +118,16 @@
 								<p>Số lượng còn: @Model.Product.Quantity</p>
 							</div>
 						</div>
-						<div class="number-box">
-							<div id="decrement" class="next-icon next-icon-medium next-icon-add">-</div>
-							<input type="text" id="Soluong" value="1" readonly />
-							<div id="increment" class="next-icon next-icon-medium next-icon-add">+</div>
-						</div>
+						<div>
+							<div class="number-box">
+								Số lượng
+							</div>
+							<div class="number-box">
+								<div id="decrement" class="next-icon next-icon-medium next-icon-add">-</div>
+								<input type="number" id="Soluong" value="1" />
+								<div id="increment" class="next-icon next-icon-medium next-icon-add">+</div>
+							</div>
+						</div>						
 						<div class="row">
 							<button id="submit" class="btn btn-primary shadow-0" style="width:100%;"> <i class="me-1 fa fa-shopping-basket"></i> Thêm vào giỏ hàng </button>
 						</div>
@@ -138,9 +143,13 @@
 <link rel="stylesheet" href="~/Content/toastr.min.css" />
 <script src="~/Scripts/jquery-3.7.1.min.js"></script>
 <script>
-    $(document).ready(function () {
+	$(document).ready(function () {
+		var $soluongcon = '@Model.Product.Quantity';
+		var $soluongmua = '@ViewBag.checksoluong';
     var $numberInput = $('#Soluong');
-
+		$('#Soluong').on('input', function () {
+			this.value = this.value.replace(/[^0-9]/g, ''); // Chỉ cho phép nhập số
+		});
     $('#increment').click(function () {
         var currentValue = parseInt($numberInput.val());
         $numberInput.val(currentValue + 1);

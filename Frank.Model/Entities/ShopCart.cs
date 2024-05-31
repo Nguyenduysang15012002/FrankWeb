@@ -12,5 +12,6 @@ namespace Frank.Model.Entities
         public long Product_Id { get; set; }
         public long User_Id { get; set;}
         public long Quantity { get; set; }
+        public long Total { get; set; }
     }
 }

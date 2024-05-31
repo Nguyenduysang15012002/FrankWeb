@@ -1,5 +1,6 @@
 ﻿using Frank.Model.Entities;
 using Frank.Service.Common;
+using Frank.Service.OrderService.Dto;
 using Frank.Service.ProductService.Dto;
 using Frank.Service.ShopCartService.Dto;
 using System;
@@ -15,5 +16,6 @@ namespace Frank.Service.ShopCartService
     {
         ShopCart GetById(long Id);
         List<ShopCartDto> GetListByIdUser(long UserId);
+        ShopCartDto GetbyUserVsProductId(long? User_Id, long? Product_Id);       
     }
 }

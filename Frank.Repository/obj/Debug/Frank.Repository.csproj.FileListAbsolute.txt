@@ -67,7 +67,6 @@ D:\Đồ án\FRANK\Frank.Repository\bin\Debug\System.Security.Permissions.dll
 D:\Đồ án\FRANK\Frank.Repository\bin\Debug\System.Security.Principal.Windows.dll
 D:\Đồ án\FRANK\Frank.Repository\bin\Debug\System.Text.Encodings.Web.dll
 D:\Đồ án\FRANK\Frank.Repository\bin\Debug\System.Threading.Tasks.Extensions.dll
-D:\Đồ án\FRANK\Frank.Repository\bin\Debug\Frank.Model.pdb
 D:\Đồ án\FRANK\Frank.Repository\bin\Debug\Frank.Model.dll.config
 D:\Đồ án\FRANK\Frank.Repository\bin\Debug\Microsoft.AspNetCore.Antiforgery.xml
 D:\Đồ án\FRANK\Frank.Repository\bin\Debug\Microsoft.AspNetCore.Authentication.Abstractions.xml
@@ -154,3 +153,4 @@ D:\Đồ án\FRANK\Frank.Repository\bin\Debug\Microsoft.AspNet.Identity.Core.dll
 D:\Đồ án\FRANK\Frank.Repository\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
 D:\Đồ án\FRANK\Frank.Repository\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 D:\Đồ án\FRANK\Frank.Repository\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Đồ án\FRANK\Frank.Repository\bin\Debug\Frank.Model.pdb

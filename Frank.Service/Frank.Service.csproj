@@ -499,12 +499,11 @@
     <Compile Include="ImageService\Dto\ImageDto.cs" />
     <Compile Include="ImageService\IImageService.cs" />
     <Compile Include="ImageService\ImageService.cs" />
+    <Compile Include="OrderService\Dto\OrderDto.cs" />
     <Compile Include="OrderService\IOrderService.cs" />
     <Compile Include="OrderService\OrderService.cs" />
     <Compile Include="Order_AddressService\IOrder_AddressService.cs" />
     <Compile Include="Order_AddressService\Order_AddressService.cs" />
-    <Compile Include="Order_DetailService\IOrder_DetailService.cs" />
-    <Compile Include="Order_DetailService\Order_DetailService.cs" />
     <Compile Include="ProductService\Dto\ProductDto.cs" />
     <Compile Include="ProductService\IProductService.cs" />
     <Compile Include="ProductService\ProductService.cs" />
@@ -539,9 +538,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CategoryService\Dto\" />
-    <Folder Include="OrderService\Dto\" />
     <Folder Include="Order_AddressService\Dto\" />
-    <Folder Include="Order_DetailService\Dto\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

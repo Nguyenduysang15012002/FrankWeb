@@ -1,0 +1,259 @@
+﻿@{
+	ViewBag.Title = "Order";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Frank.Service.ShopCartService.Dto;
+@model ShopCartDto
+<style>
+	.a {
+		margin: auto;
+		height: auto;
+		margin-top: 65px;
+	}
+
+	.b {
+		margin: 30px auto;
+	}
+
+	.c {
+		margin: auto;
+		width: 100%;
+		align-items: center;
+		text-align: center;
+		padding-top: 10px;
+	}
+
+	.product-main-image {
+		width: 80%; /* Điều chỉnh kích thước ảnh chính */
+		height: auto;
+	}
+
+	.product-thumb-image {
+		width: 50px; /* Điều chỉnh kích thước ảnh nhỏ */
+		height: 50px;
+	}
+
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+
+		.form-group label {
+			font-weight: bold;
+			margin-bottom: 0.5rem;
+			display: block; /* Đảm bảo label hiển thị thành một khối trên input */
+		}
+
+		.form-group input {
+			width: 100%;
+			padding: 0.5rem;
+			border: 1px solid #ced4da;
+			border-radius: 4px;
+			box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+		}
+
+	.number-box {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 20px auto;
+		width: 150px;
+		height: 40px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		overflow: hidden;
+	}
+
+		.number-box input {
+			width: 60px;
+			height: 100%;
+			border: none; /* Xóa đường viền */
+			text-align: center;
+			outline: none;
+			background-color: transparent; /* Làm nền trong suốt */
+			box-shadow: none; /* Xóa đổ bóng */
+			-webkit-appearance: none; /* Xóa kiểu mặc định trong Safari */
+			-moz-appearance: none; /* Xóa kiểu mặc định trong Firefox */
+			appearance: none; /* Xóa kiểu mặc định */
+		}
+
+		.number-box .next-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 30px;
+			height: 100%;
+			background-color: #f0f0f0;
+			cursor: pointer;
+			transition: background-color 0.3s; /* Thêm hiệu ứng chuyển tiếp */
+		}
+
+			.number-box .next-icon:hover {
+				background-color: #ddd; /* Thay đổi màu nền khi hover */
+			}
+
+			.number-box .next-icon:disabled {
+				background-color: #e0e0e0;
+				cursor: not-allowed;
+			}
+
+	.custom-input {
+		border: none; /* Bỏ border */
+		border-right: none; /* Bỏ border bên phải */
+
+		padding-right: 0; /* Bỏ padding bên phải */
+		outline: none; /* Bỏ đường viền khi focus */
+	}
+</style>
+@using (Ajax.BeginForm("Order", "Home", new AjaxOptions
+{
+	HttpMethod = "POST",
+	OnFailure = "AjaxFormError",
+	OnSuccess = "AjaxFormSuccessToChuc",
+}, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	<div class="a">
+		<div class="b">
+			<div class="container">
+				<div class="row gx-5">
+					<aside class="col-lg-6">
+						<div class="border rounded-4 mb-3 p-4 d-flex flex-column justify-content-center">
+							<div>
+								<div class="form-group row">
+									<label for="NameCustomer" class="col-sm-5 col-form-label">Họ và tên người nhận hàng</label>
+									<div class="col-sm-7">
+										<input type="text" class="form-control" id="NameCustomer" placeholder="Họ và tên">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="Phone" class="col-sm-5 col-form-label">Số điện thoại người nhận</label>
+									<div class="col-sm-7">
+										<input type="tel" class="form-control" id="Phone" placeholder="Điện thoại" pattern="[0-9]*" inputmode="numeric">
+
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="Address" class="col-sm-5 col-form-label">Địa chỉ nhận hàng</label>
+									<div class="col-sm-7">
+										<input type="text" class="form-control" id="Address" placeholder="Địa chỉ">
+									</div>
+								</div>
+								<fieldset class="form-group">
+									<div class="row">
+										<label class="col-form-label col-sm-5 pt-0">Phương thức thanh toán</label>
+										<div class="col-sm-7">
+											<div class="form-check">
+												<input class="form-check-input" type="radio" id="PhuongThucTT" value="1" checked>
+												<label class="form-check-label" for="gridRadios1">
+													Thanh toán khi nhận hàng
+												</label>
+											</div>
+
+										</div>
+									</div>
+								</fieldset>
+							</div>
+							@*<img style="margin: auto;" class="rounded-4 fit product-main-image" src="https://tse4.mm.bing.net/th?id=OIP.1kz3bYdpQsj9sjT8FGldggHaHa&pid=Api&P=0&h=220" alt="Không có ảnh" />*@
+						</div>
+					</aside>
+					<main class="col-lg-6">
+						<div class="container">
+							<div class="row">
+								<img class="col-sm-6" src="@Model.Image_Product" class="img-fluid" alt="Không có ảnh">
+								<h2 class="col-sm-6">
+									@Model.NameProduct
+								</h2>
+							</div>
+						</div>
+						<div class="container">
+							<div class="row">
+								<hr class="col-sm-12" />
+							</div>
+						</div>
+						<div class="container">
+							<div class="row">
+								<label class="col-sm-6">Giá</label>
+								<input id="Gia" class="col-sm-5 custom-input" value="@Model.Price" readonly /><span class="col-sm-1">VND</span>
+							</div>
+						</div>
+						<div class="container">
+							<div class="row">
+								<label class="col-sm-6">Số lượng còn</label>
+								<input id="Soluongcon" class="col-sm-3 custom-input" value="@Model.Soluongcon" readonly /><span class="col-sm-3" style="text-align:end;">Cốc</span>
+							</div>
+						</div>
+						<div class="container">
+							<div class="row">
+								<label class="col-sm-6">Số lượng</label>
+								<input id="Soluong" class="col-sm-3 custom-input" type="number" value="@Model.Quantity" /><span class="col-sm-3" style="text-align:end;">Cốc</span>
+							</div>
+						</div>
+						<div class="container">
+							<div class="row" style="color:red">
+								<label class="col-sm-6" style="color: red; font-weight: bold;">Tổng tiền</label>
+								<input id="Tongtien"  type ="number" class="col-sm-5 custom-input" style="color:red" readonly /><span class="col-sm-1">VND</span>
+							</div>
+						</div>
+						<div class="row mt-3">
+							<button id="submit" class="btn btn-primary shadow-0" style="width:100%;"> <i class="me-1 fa fa-shopping-basket"></i> Xác nhận </button>
+						</div>
+
+					</main>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.7.1.slim.min.js"></script>
+<script src="~/Scripts/toastr.min.js"></script>
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/jquery-3.7.1.min.js"></script>
+<script>
+	$(document).ready(function () {
+		var Soluong = parseInt($("#Soluong").val());
+		var Soluongcon = parseInt($("#Soluongcon").val());
+		var Gia = parseInt($("#Gia").val());
+		var Tongtien = Soluong * Gia;
+		$("#Tongtien").val(Tongtien);
+		$('#Soluong').change(function () {
+			var Soluong = parseInt($("#Soluong").val());
+			var Gia = parseInt($("#Gia").val());
+			var Tongtien = Soluong * Gia;
+			if (Soluongcon < Soluong) {
+				toastr.error("Số lượng hàng tồn không đủ!", "Thông báo");
+			}
+			$("#Tongtien").val(Tongtien);
+		});
+		$('#submit').click(function (event) {
+			event.preventDefault();
+			var Phone = $('#Phone').val();
+
+			if (!(/^\d+$/.test(Phone) && Phone.length <= 10)) {
+				toastr.error("Vui lòng nhập số điện thoại đúng định dạng!", "Thông báo");
+			}
+			else {
+				var Soluong = parseInt($("#Soluong").val());
+				var Soluongcon = parseInt($("#Soluongcon").val());
+				if (Soluongcon < Soluong) {
+					toastr.error("Số lượng hàng tồn không đủ!", "Thông báo");
+				}
+				else {
+					toastr.success("Đặt hàng thành công.", "Thông báo");
+				}
+			}
+		});
+	});
+
+	function AjaxCall(url, type, data, successCallback, errorCallback) {
+		$.ajax({
+			url: url,
+			type: type,
+			data: data,
+			success: successCallback,
+			error: errorCallback || function () {
+				toastr.error('Có lỗi xảy ra trong quá trình xử lý yêu cầu', 'Lỗi');
+			}
+		});
+	}
+</script>

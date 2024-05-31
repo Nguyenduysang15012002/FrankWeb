@@ -14,7 +14,7 @@ namespace Frank.Model.Entities
         public string Brand { get; set; }
         public int ProductionYear { get; set; }
         public int ExpiredYear { get; set; }
-        public string Quantity { get; set; }
+        public long Quantity { get; set; }
         public long? Category_Id { get; set; }
     }
 }
