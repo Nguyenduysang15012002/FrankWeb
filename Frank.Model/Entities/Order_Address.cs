@@ -11,6 +11,6 @@ namespace Frank.Model.Entities
         public string NameCustomer { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
-        public long User_Id { get; set; }
+        public long? Order_Id { get; set; }
     }
 }

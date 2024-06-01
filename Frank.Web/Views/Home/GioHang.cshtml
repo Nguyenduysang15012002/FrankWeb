@@ -39,7 +39,7 @@
 	}
 
 	td {
-		text-align: center;
+		text-align: center;		
 	}
 
 	.no-uppercase {
@@ -76,7 +76,7 @@
 										{
 											<tr>
 												<td>@i</td>
-												<td><img class="rounded-4 fit product-main-image" src="@item.Image_Product" alt="Không có ảnh" /></td>
+												<td><img class="rounded-4 fit product-main-image" style="height:40px;width:70px" src="@item.Image_Product" alt="Không có ảnh" /></td>
 												<td>@item.NameProduct</td>
 												<td>@item.Price</td>
 												<td>@item.Quantity</td>
@@ -108,7 +108,7 @@
 							</table>
 						</div>
 						<hr />
-						<div class="d-flex justify-content-center">
+						<div class="d-flex justify-content-center" style="background-color:darkkhaki;height:30px">
 							@{
 								var options = new PagedListRenderOptions
 								{

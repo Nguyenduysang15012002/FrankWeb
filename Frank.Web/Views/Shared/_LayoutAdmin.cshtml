@@ -1,14 +1,24 @@
 ﻿<!DOCTYPE html>
 
 <html>
-<head>	
+<head>
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<title>@ViewBag.Title</title>
+	<script src="~/Scripts/jquery-3.7.1.min.js"></script>
+	<script src="~/Scripts/bootstrap.bundle.min.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
 </head>
 <body>
-    <div>
-        @RenderBody()
-    </div>
+	<div>
+		@RenderBody()
+	</div>
+	<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+	<script src="~/Scripts/toastr.min.js"></script>
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/bootstrap")
+	@RenderSection("scripts", required: false)
 </body>
 </html>

@@ -60,6 +60,8 @@ namespace Frank.Service.ProductService
                            Quantity = Producttbl.Quantity,
                            Price = attribute.Price,
                            Url_Image = imagetbl.Url_Image,
+                           Brand = Producttbl.Brand,
+
                         };
 
             if (searchModel != null)

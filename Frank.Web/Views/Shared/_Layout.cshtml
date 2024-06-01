@@ -70,12 +70,11 @@
 				<h1>FRANK<span>.</span></h1>
 			</a>
 
-			<!-- Thêm biểu mẫu tìm kiếm -->
-
+			<!-- Thêm biểu mẫu tìm kiếm -->	
 			<form action="#" method="get" class="search-form">
 				<div class="input-group">
-					<input type="text" name="search" id="search" class="form-control" placeholder="Tìm kiếm..." style="width:700px;">
-					<button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+					<input type="text" name="Name_Category" id="search" class="form-control" placeholder="Tìm kiếm..." style="width:700px;">
+					<button type="submit" id="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
 				</div>
 			</form>
 			<!-- Thêm liên kết đăng nhập/đăng ký -->
@@ -101,12 +100,13 @@
 				@if (ViewBag.Id != null)
 				{
 					<a href='@Url.Action("GioHang", "Home")?Id=@ViewBag.Id' class="icon" style="font-size: 20px;padding:10px;"><span class="bi bi-cart4"></span><i class="bi bi-@ViewBag.ThongBao-circle-fill"></i></a>
+					<a>|</a>
+					<a href='@Url.Action("DonHang", "Home")?Id=@ViewBag.Id' class="icon" style="font-size: 20px;padding:10px;"><span class="bi bi-bell-fill"></span><i class="bi bi-@ViewBag.Order-circle-fill"></i></a>
 				}
 				else
 				{
 					<a class="icon" style="font-size: 20px;padding:10px;"><span class="bi bi-cart4"></span></a>
 				}
-
 			</div>
 			@*</div>*@
 		</div>
@@ -124,27 +124,27 @@
 							<a href='@Url.Action("Trangchu", "Home")'>Trang chủ</a>
 						}
 					</li>
-					<li><a href="#menu">Giới thiệu</a></li>					
-					@*<li class="dropdown">
-						<a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-						<ul>
-							<li><a href="#">Drop Down 1</a></li>
-							<li class="dropdown">
-								<a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-								<ul>
-									<li><a href="#">Deep Drop Down 1</a></li>
-									<li><a href="#">Deep Drop Down 2</a></li>
-									<li><a href="#">Deep Drop Down 3</a></li>
-									<li><a href="#">Deep Drop Down 4</a></li>
-									<li><a href="#">Deep Drop Down 5</a></li>
-								</ul>
-							</li>
-							<li><a href="#">Drop Down 2</a></li>
-							<li><a href="#">Drop Down 3</a></li>
-							<li><a href="#">Drop Down 4</a></li>
-						</ul>
-					</li>*@
-					<li><a href="#contact">Liên hệ</a></li>
+					<li>
+						@if (ViewBag.Id != null)
+						{
+							<a href='@Url.Action("Gioithieu", "Home")?Id=@ViewBag.Id'>Giới thiệu</a>
+						}
+						else
+						{
+							<a href='@Url.Action("Gioithieu", "Home")'>Giới thiệu</a>
+						}
+					</li>					
+					
+					<li>
+						@if (ViewBag.Id != null)
+						{
+							<a href='@Url.Action("Lienhe", "Home")?Id=@ViewBag.Id'>Liên hệ</a>
+						}
+						else
+						{
+							<a href='@Url.Action("Lienhe", "Home")'>Liên hệ</a>
+						}
+					</li>
 					<li><a href="#contact">                      </a></li>
 					<li><a href="#contact">                      </a></li>
 					<li><a href="#contact">                      </a></li>
@@ -233,7 +233,9 @@
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
 	@RenderSection("scripts", required: false)
-
+	<script>
+		
+	</script>
 </body>
 </html>
 

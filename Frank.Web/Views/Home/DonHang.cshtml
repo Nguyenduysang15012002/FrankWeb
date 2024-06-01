@@ -1,0 +1,223 @@
+﻿@using Frank.Service.OrderService.Dto;
+@using PagedList;
+@using PagedList.Mvc;
+@model  IPagedList<Frank.Service.OrderService.Dto.OrderDto>
+@{
+	ViewBag.Title = "DonHang";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@*@model OrderDto*@
+@{
+	// Tạo một Dictionary ánh xạ giữa giá trị Processing_Status và chuỗi tương ứng
+	Dictionary<int, string> statusMappings = new Dictionary<int, string>
+{
+		{ 1, "Chờ xác nhận" },
+		{ 2, "Đang giao hàng" },
+		{ 3, "Giao hàng thành công" },
+		};
+}
+<style>
+	.a {
+		margin: auto;
+		height: auto;
+		margin-top: 65px;
+	}
+
+	.b {
+		margin: 30px auto;
+		border: solid;
+		border-color: black;
+	}
+
+	.c {
+		margin: auto;
+		width: 100%;
+		align-items: center;
+		text-align: center;
+		padding-top: 10px;
+	}
+
+	.product-main-image {
+		width: 80%; /* Điều chỉnh kích thước ảnh chính */
+		height: auto;
+	}
+
+	.product-thumb-image {
+		width: 50px; /* Điều chỉnh kích thước ảnh nhỏ */
+		height: 50px;
+	}
+
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+
+		.form-group label {
+			font-weight: bold;
+			margin-bottom: 0.5rem;
+			display: block; /* Đảm bảo label hiển thị thành một khối trên input */
+		}
+
+		.form-group input {
+			width: 100%;
+			padding: 0.5rem;
+			border: 1px solid #ced4da;
+			border-radius: 4px;
+			box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+		}
+
+	.number-box {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 20px auto;
+		width: 150px;
+		height: 40px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		overflow: hidden;
+	}
+
+		.number-box input {
+			width: 60px;
+			height: 100%;
+			border: none; /* Xóa đường viền */
+			text-align: center;
+			outline: none;
+			background-color: transparent; /* Làm nền trong suốt */
+			box-shadow: none; /* Xóa đổ bóng */
+			-webkit-appearance: none; /* Xóa kiểu mặc định trong Safari */
+			-moz-appearance: none; /* Xóa kiểu mặc định trong Firefox */
+			appearance: none; /* Xóa kiểu mặc định */
+		}
+
+		.number-box .next-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 30px;
+			height: 100%;
+			background-color: #f0f0f0;
+			cursor: pointer;
+			transition: background-color 0.3s; /* Thêm hiệu ứng chuyển tiếp */
+		}
+
+			.number-box .next-icon:hover {
+				background-color: #ddd; /* Thay đổi màu nền khi hover */
+			}
+
+			.number-box .next-icon:disabled {
+				background-color: #e0e0e0;
+				cursor: not-allowed;
+			}
+
+	.custom-input {
+		border: none; /* Bỏ border */
+		border-right: none; /* Bỏ border bên phải */
+
+		padding-right: 0; /* Bỏ padding bên phải */
+		outline: none; /* Bỏ đường viền khi focus */
+	}
+</style>
+<div class="a">
+	<h3 style="color:black">Danh sách đơn hàng</h3>
+	<hr />
+	@if (Model != null && Model.Any())
+	{
+		foreach (var item in Model)
+		{
+			<div class="b">
+				<h4 style="color:blue;text-align:center;padding:5px 1px;">
+					Trạng thái đơn hàng:  @(statusMappings.ContainsKey(item.Processing_Status) ? statusMappings[item.Processing_Status] : "Trạng thái không xác định")</h4>
+					<div class="container">
+						<div class="row gx-5">
+							<main class="col-lg-6">
+								<div class="border rounded-4 mb-3 p-4 d-flex flex-column justify-content-center h-100">
+									<div class="container">
+										<div class="row">
+											<img style="width:250px;height:200px" class="col-sm-6" src="@item.Url_Image" class="img-fluid" alt="Không có ảnh">
+											<h2 class="col-sm-6">
+												@item.Name_Product
+											</h2>
+										</div>
+									</div>
+									<div class="container">
+										<div class="row">
+											<hr class="col-sm-12" />
+										</div>
+									</div>
+									<div class="container">
+										<div class="row">
+											<input id="User_Id" class="col-sm-5 custom-input" value="" readonly hidden />
+											<input id="Product_Id" class="col-sm-5 custom-input" value="" readonly hidden />
+										</div>
+									</div>				
+									<div class="container">
+										<div class="row">
+											<label class="col-sm-6">Số lượng</label>
+											<input id="Soluong" class="col-sm-3 custom-input" type="number" value="@item.Quantity" /><span class="col-sm-3" style="text-align:end;">Cốc</span>
+										</div>
+									</div>
+									<div class="container">
+										<div class="row" style="color:red">
+											<label class="col-sm-6" style="color: red; font-weight: bold;">Tổng tiền</label>
+											<input id="Tongtien" value="@item.TotalPrice" class="col-sm-5 custom-input" style="color:red" readonly /><span class="col-sm-1">VND</span>
+										</div>
+									</div>
+								</div>
+							</main>
+							<aside class="col-lg-6">
+								<div class="border rounded-4 mb-3 p-4 d-flex flex-column justify-content-center h-100">
+									<div>
+										<div class="form-group row">
+											<label class="col-sm-12 col-form-label">Họ và tên người nhận hàng:    @item.NameCustomer</label>
+
+										</div>
+										<div class="form-group row">
+											<label class="col-sm-12 col-form-label">Số điện thoại người nhận:    @item.Phone</label>
+
+										</div>
+										<div class="form-group row">
+											<label class="col-sm-12 col-form-label">Địa chỉ nhận hàng:    @item.Address</label>
+
+										</div>
+										<fieldset class="form-group">
+											<div class="row">
+												<label class="col-form-label col-sm-12 pt-0" style="color:blue">Thanh toán khi nhận hàng</label>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</aside>
+						</div>
+					</div>
+			</div>
+		}
+	}
+	else
+	{
+		<h2 style="color:black;text-align:center">Không có đơn hàng nào</h2>
+	}
+</div>
+<div class="d-flex justify-content-center" style="background-color:darkkhaki;height:30px" >
+	@{
+		var options = new PagedListRenderOptions
+		{
+			DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+			DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+			DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+			DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+			DisplayLinkToIndividualPages = true
+		};
+
+		Func<int, string> pageUrlGenerator = page => Url.Action("DonHang", new { Id = ViewBag.Id, page, pageSize = ViewBag.PageSize });
+
+		@Html.PagedListPager(Model, pageUrlGenerator, options)
+	}
+</div>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.7.1.slim.min.js"></script>
+<script src="~/Scripts/toastr.min.js"></script>
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/jquery-3.7.1.min.js"></script>

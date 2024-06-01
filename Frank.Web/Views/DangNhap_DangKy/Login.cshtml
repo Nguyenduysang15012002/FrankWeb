@@ -100,9 +100,13 @@
         toastr.success(rs.Message, "Thông báo");
 
         // Sử dụng setTimeout để chờ 2 giây trước khi chuyển hướng
-        setTimeout(function() {
-            // Chuyển hướng đến hành động Trangchu với Id sau khi nhận được phản hồi thành công
-            window.location.href = '@Url.Action("Trangchu", "Home")' + '?Id=' + rs.Id;
+		setTimeout(function () {
+			if (rs.IsAdmin) {
+				window.location.href = '@Url.Action("Index", "Admin")' + '?Id=' + rs.Id;
+			} else {
+				// Chuyển hướng đến hành động Trangchu với Id sau khi nhận được phản hồi thành công
+				window.location.href = '@Url.Action("Trangchu", "Home")' + '?Id=' + rs.Id;
+			}
         }, 1000); // 2000 milliseconds = 2 giây
     } else {
         toastr.error(rs.Message, "Thông báo");

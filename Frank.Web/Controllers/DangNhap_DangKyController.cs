@@ -70,7 +70,7 @@ namespace Frank.Web.Controllers
                     result.Status = true;
                     result.Message = "Chào mừng " + checklogin.FullName;
                     result.Id = checklogin.Id;
-                    
+                    result.IsAdmin = checklogin.IsAdmin;
                 }
             }
             catch (Exception ex)

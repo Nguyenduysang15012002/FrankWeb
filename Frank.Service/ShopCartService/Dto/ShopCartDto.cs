@@ -15,7 +15,7 @@ namespace Frank.Service.ShopCartService.Dto
         public string Image_Product { get; set; }    
         public long TotalPrice { get; set; }
         public long Product_Id { get; set; }
-        public long User_Id { get; set; }
+        public long? User_Id { get; set; }
         public long Quantity { get; set; }
         public long Soluongcon { get; set; }
     }

@@ -203,6 +203,18 @@
     <Compile Include="Migrations\202405310858480_22222.Designer.cs">
       <DependentUpon>202405310858480_22222.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202405311036591_mmmm.cs" />
+    <Compile Include="Migrations\202405311036591_mmmm.Designer.cs">
+      <DependentUpon>202405311036591_mmmm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406010906333_cccccc.cs" />
+    <Compile Include="Migrations\202406010906333_cccccc.Designer.cs">
+      <DependentUpon>202406010906333_cccccc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406010919096_cccccca.cs" />
+    <Compile Include="Migrations\202406010919096_cccccca.Designer.cs">
+      <DependentUpon>202406010919096_cccccca.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -234,6 +246,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202405310858480_22222.resx">
       <DependentUpon>202405310858480_22222.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405311036591_mmmm.resx">
+      <DependentUpon>202405311036591_mmmm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406010906333_cccccc.resx">
+      <DependentUpon>202406010906333_cccccc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406010919096_cccccca.resx">
+      <DependentUpon>202406010919096_cccccca.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,6 +13,6 @@ namespace Frank.Model.Entities
         public int Processing_Status { get; set; }
         public long Quantity { get; set; }
         public long? User_Id { get; set; }
-        public long? Product_Id { get; set; }
+        public long? Product_Id { get; set; }       
     }
 }

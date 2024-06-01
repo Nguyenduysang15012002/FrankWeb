@@ -88,7 +88,8 @@ namespace Frank.Service.ShopCartService
                             Quantity = shopcarttbl.Quantity,
                             TotalPrice = shopcarttbl.Quantity * attribute.Price,
                             Product_Id = producttbl.Id,
-                            Soluongcon = producttbl.Quantity
+                            Soluongcon = producttbl.Quantity, 
+                            User_Id = User_Id,
                         };
             return query.FirstOrDefault();
         }      

@@ -104,106 +104,104 @@
 		outline: none; /* Bỏ đường viền khi focus */
 	}
 </style>
-@using (Ajax.BeginForm("Order", "Home", new AjaxOptions
-{
-	HttpMethod = "POST",
-	OnFailure = "AjaxFormError",
-	OnSuccess = "AjaxFormSuccessToChuc",
-}, new { enctype = "multipart/form-data" }))
-{
-	@Html.AntiForgeryToken()
-	<div class="a">
-		<div class="b">
-			<div class="container">
-				<div class="row gx-5">
-					<aside class="col-lg-6">
-						<div class="border rounded-4 mb-3 p-4 d-flex flex-column justify-content-center">
-							<div>
-								<div class="form-group row">
-									<label for="NameCustomer" class="col-sm-5 col-form-label">Họ và tên người nhận hàng</label>
-									<div class="col-sm-7">
-										<input type="text" class="form-control" id="NameCustomer" placeholder="Họ và tên">
-									</div>
+<div class="a">
+	<div class="b">
+		<div class="container">
+			<div class="row gx-5">
+				<aside class="col-lg-6">
+					<div class="border rounded-4 mb-3 p-4 d-flex flex-column justify-content-center">
+						<div>
+							<div class="form-group row">
+								<label for="NameCustomer" class="col-sm-5 col-form-label">Họ và tên người nhận hàng</label>
+								<div class="col-sm-7">
+									<input type="text" class="form-control" id="NameCustomer" placeholder="Họ và tên">
 								</div>
-								<div class="form-group row">
-									<label for="Phone" class="col-sm-5 col-form-label">Số điện thoại người nhận</label>
-									<div class="col-sm-7">
-										<input type="tel" class="form-control" id="Phone" placeholder="Điện thoại" pattern="[0-9]*" inputmode="numeric">
+							</div>
+							<div class="form-group row">
+								<label for="Phone" class="col-sm-5 col-form-label">Số điện thoại người nhận</label>
+								<div class="col-sm-7">
+									<input type="tel" class="form-control" id="Phone" placeholder="Điện thoại" pattern="[0-9]*" inputmode="numeric">
 
-									</div>
 								</div>
-								<div class="form-group row">
-									<label for="Address" class="col-sm-5 col-form-label">Địa chỉ nhận hàng</label>
+							</div>
+							<div class="form-group row">
+								<label for="Address" class="col-sm-5 col-form-label">Địa chỉ nhận hàng</label>
+								<div class="col-sm-7">
+									<input type="text" class="form-control" id="Address" placeholder="Địa chỉ">
+								</div>
+							</div>
+							<fieldset class="form-group">
+								<div class="row">
+									<label class="col-form-label col-sm-5 pt-0">Phương thức thanh toán</label>
 									<div class="col-sm-7">
-										<input type="text" class="form-control" id="Address" placeholder="Địa chỉ">
-									</div>
-								</div>
-								<fieldset class="form-group">
-									<div class="row">
-										<label class="col-form-label col-sm-5 pt-0">Phương thức thanh toán</label>
-										<div class="col-sm-7">
-											<div class="form-check">
-												<input class="form-check-input" type="radio" id="PhuongThucTT" value="1" checked>
-												<label class="form-check-label" for="gridRadios1">
-													Thanh toán khi nhận hàng
-												</label>
-											</div>
-
+										<div class="form-check">
+											<input class="form-check-input" type="radio" id="PhuongThucTT" value="1" checked>
+											<label class="form-check-label" for="gridRadios1">
+												Thanh toán khi nhận hàng
+											</label>
 										</div>
-									</div>
-								</fieldset>
-							</div>
-							@*<img style="margin: auto;" class="rounded-4 fit product-main-image" src="https://tse4.mm.bing.net/th?id=OIP.1kz3bYdpQsj9sjT8FGldggHaHa&pid=Api&P=0&h=220" alt="Không có ảnh" />*@
-						</div>
-					</aside>
-					<main class="col-lg-6">
-						<div class="container">
-							<div class="row">
-								<img class="col-sm-6" src="@Model.Image_Product" class="img-fluid" alt="Không có ảnh">
-								<h2 class="col-sm-6">
-									@Model.NameProduct
-								</h2>
-							</div>
-						</div>
-						<div class="container">
-							<div class="row">
-								<hr class="col-sm-12" />
-							</div>
-						</div>
-						<div class="container">
-							<div class="row">
-								<label class="col-sm-6">Giá</label>
-								<input id="Gia" class="col-sm-5 custom-input" value="@Model.Price" readonly /><span class="col-sm-1">VND</span>
-							</div>
-						</div>
-						<div class="container">
-							<div class="row">
-								<label class="col-sm-6">Số lượng còn</label>
-								<input id="Soluongcon" class="col-sm-3 custom-input" value="@Model.Soluongcon" readonly /><span class="col-sm-3" style="text-align:end;">Cốc</span>
-							</div>
-						</div>
-						<div class="container">
-							<div class="row">
-								<label class="col-sm-6">Số lượng</label>
-								<input id="Soluong" class="col-sm-3 custom-input" type="number" value="@Model.Quantity" /><span class="col-sm-3" style="text-align:end;">Cốc</span>
-							</div>
-						</div>
-						<div class="container">
-							<div class="row" style="color:red">
-								<label class="col-sm-6" style="color: red; font-weight: bold;">Tổng tiền</label>
-								<input id="Tongtien"  type ="number" class="col-sm-5 custom-input" style="color:red" readonly /><span class="col-sm-1">VND</span>
-							</div>
-						</div>
-						<div class="row mt-3">
-							<button id="submit" class="btn btn-primary shadow-0" style="width:100%;"> <i class="me-1 fa fa-shopping-basket"></i> Xác nhận </button>
-						</div>
 
-					</main>
-				</div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+						@*<img style="margin: auto;" class="rounded-4 fit product-main-image" src="https://tse4.mm.bing.net/th?id=OIP.1kz3bYdpQsj9sjT8FGldggHaHa&pid=Api&P=0&h=220" alt="Không có ảnh" />*@
+					</div>
+				</aside>
+				<main class="col-lg-6">
+					<div class="container">
+						<div class="row">
+							<img class="col-sm-6" src="@Model.Image_Product" class="img-fluid" alt="Không có ảnh">
+							<h2 class="col-sm-6">
+								@Model.NameProduct
+							</h2>
+						</div>
+					</div>
+					<div class="container">
+						<div class="row">
+							<hr class="col-sm-12" />
+						</div>
+					</div>
+					<div class="container">
+						<div class="row">
+							<input id="User_Id" class="col-sm-5 custom-input" value="@Model.User_Id" readonly hidden />
+							<input id="Product_Id" class="col-sm-5 custom-input" value="@Model.Product_Id" readonly hidden />
+						</div>
+					</div>
+					<div class="container">
+						<div class="row">
+							<label class="col-sm-6">Giá</label>
+							<input id="Gia" class="col-sm-5 custom-input" value="@Model.Price" readonly /><span class="col-sm-1">VND</span>
+						</div>
+					</div>
+					<div class="container">
+						<div class="row">
+							<label class="col-sm-6">Số lượng còn</label>
+							<input id="Soluongcon" class="col-sm-3 custom-input" value="@Model.Soluongcon" readonly /><span class="col-sm-3" style="text-align:end;">Cốc</span>
+						</div>
+					</div>
+					<div class="container">
+						<div class="row">
+							<label class="col-sm-6">Số lượng</label>
+							<input id="Soluong" class="col-sm-3 custom-input" type="number" value="@Model.Quantity" /><span class="col-sm-3" style="text-align:end;">Cốc</span>
+						</div>
+					</div>
+					<div class="container">
+						<div class="row" style="color:red">
+							<label class="col-sm-6" style="color: red; font-weight: bold;">Tổng tiền</label>
+							<input id="Tongtien" type="number" class="col-sm-5 custom-input" style="color:red" readonly /><span class="col-sm-1">VND</span>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<button id="submit" type="submit" class="btn btn-primary shadow-0" style="width:100%;"> <i class="me-1 fa fa-shopping-basket"></i> Xác nhận </button>
+					</div>
+
+				</main>
 			</div>
 		</div>
 	</div>
-}
+</div>
+
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/jquery-3.7.1.slim.min.js"></script>
 <script src="~/Scripts/toastr.min.js"></script>
@@ -226,22 +224,49 @@
 			$("#Tongtien").val(Tongtien);
 		});
 		$('#submit').click(function (event) {
-			event.preventDefault();
 			var Phone = $('#Phone').val();
-
-			if (!(/^\d+$/.test(Phone) && Phone.length <= 10)) {
-				toastr.error("Vui lòng nhập số điện thoại đúng định dạng!", "Thông báo");
-			}
-			else {
-				var Soluong = parseInt($("#Soluong").val());
-				var Soluongcon = parseInt($("#Soluongcon").val());
-				if (Soluongcon < Soluong) {
-					toastr.error("Số lượng hàng tồn không đủ!", "Thông báo");
+			var NameCustomer = $('#NameCustomer').val();
+			var Address = $('#Address').val();
+			if (Phone.trim() === '' || NameCustomer.trim() === '' || Address.trim() === '') {
+				toastr.error("Các trường thông tin không được để trống", "Thông báo");
+			} else {
+				if (!(/^\d+$/.test(Phone) && Phone.length <= 10)) {
+					toastr.error("Vui lòng nhập số điện thoại đúng định dạng!", "Thông báo");
 				}
 				else {
-					toastr.success("Đặt hàng thành công.", "Thông báo");
+					var Soluong = parseInt($("#Soluong").val());
+					var Soluongcon = parseInt($("#Soluongcon").val());
+					if (Soluongcon < Soluong) {
+						toastr.error("Số lượng hàng tồn không đủ!", "Thông báo");
+					}
+					else {
+						var Namecustomer = $('#NameCustomer').val();
+						var Phone = $('#Phone').val();
+						var Address = $('#Address').val();
+						var Soluong = $("#Soluong").val();
+						var Tongtien = $("#Tongtien").val();
+						var User_Id = $("#User_Id").val();
+						var Product_Id = $("#Product_Id").val();
+						var requestData = {
+							Namecustomer: Namecustomer,
+							Phone: Phone,
+							Address: Address,
+							Soluong: parseInt(Soluong),
+							Tongtien: parseFloat(Tongtien),
+							User_Id: parseInt(User_Id),
+							Product_Id: parseInt(Product_Id)
+						};
+						AjaxCall('@Url.Action("Order", "Home")', 'POST', requestData, function (response) {
+								  if (response.success) {
+									  toastr.success(response.message, "Thông báo");
+									} else {
+									  toastr.error(response.message, "Lỗi");
+									}
+						});
+					}
 				}
 			}
+			event.preventDefault();
 		});
 	});
 
