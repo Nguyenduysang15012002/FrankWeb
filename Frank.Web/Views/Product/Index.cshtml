@@ -1,0 +1,187 @@
+﻿@using Frank.Service.ProductService.Dto;
+@using PagedList;
+@using PagedList.Mvc;
+@model  IPagedList<Frank.Service.ProductService.Dto.ProductDto>
+@{
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+	var dropListCategory = ViewBag.dropListCategory as List<SelectListItem>;
+}
+
+<div class="col-lg-12">
+
+	<div class="card">
+		<div class="card-body">
+			<h1 style="text-align:center">Quản lý sản phẩm</h1>
+
+
+			<!-- Table with stripped rows -->
+			<div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+				<div class="datatable-top">
+					@*<div class="datatable-dropdown">
+							<label>
+								<select class="datatable-selector" name="per-page"><option value="5">5</option><option value="10" selected="">10</option><option value="15">15</option><option value="-1">All</option></select> Số trang
+							</label>
+						</div>*@
+					<div class="datatable-search">
+						<input class="datatable-input" placeholder="Tìm kiếm sản phẩm....." type="search" name="search" title="Search within table">
+					</div>
+					<div class="datatable-container">
+						<button id="Create" style="background-color: #007bff; color: white; border: none; border-radius: 20px; padding: 8px 16px; cursor: pointer;">Thêm mới</button>
+					</div>
+				</div>
+				<div class="datatable-container">
+					<table class="table datatable datatable-table" id="table">
+						<thead>
+							<tr>
+								<th style="text-align:center">STT</th>
+								<th data-sortable="true" style="text-align:center"><button class="datatable-sorter">Hình ảnh</button></th>
+								<th data-sortable="true" style="text-align:center"><button class="datatable-sorter">Tên sản phẩm</button></th>
+								<th data-sortable="true" style="text-align:center"><button class="datatable-sorter">Số lượng</button></th>
+								<th><button class="datatable-sorter" style="text-align:center">Giá</button></th>
+								<th colspan="2" data-sortable="true" style="text-align:center">Thao tác</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<div class="datatable-bottom">
+					<nav class="datatable-pagination">
+						@{
+							var options = new PagedListRenderOptions
+							{
+								DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToIndividualPages = true
+							};
+
+							Func<int, string> pageUrlGenerator = page => Url.Action("Index", new { Id = ViewBag.Id, page, pageSize = ViewBag.PageSize });
+
+							@Html.PagedListPager(Model, pageUrlGenerator, options)
+						}
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="text-center" style="text-align:center; padding-left:250px;" id="addProductModalLabel">THÊM MỚI SẢN PHẨM</h3>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				@using (Html.BeginForm("AddProduct", "Product", FormMethod.Post, new { @id = "addProductForm" }))
+				{
+					<div class="row">
+						<div class="col-sm-6">
+							<label for="ProductName" class="form-label">Tên sản phẩm</label>
+							<input type="text" class="form-control" id="ProductName" name="ProductName" required>
+						</div>
+						<div class="col-sm-6">
+							<label for="productQuantity" class="form-label">Số lượng</label>
+							<input type="number" class="form-control" id="ProductQuantity" name="ProductQuantity" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<label for="productPrice" class="form-label">Giá</label>
+							<input type="number" class="form-control" id="ProductPrice" name="ProductPrice" required>
+						</div>
+						<div class="col-sm-6">
+							<label for="ProductBrand" class="form-label">Thương hiệu</label>
+							<input type="text" class="form-control" id="ProductBrand" name="ProductBrand" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<label for="ProductionYear" class="form-label">Năm sản xuất</label>
+							<input type="number" class="form-control" id="ProductionYear" name="ProductionYear" required>
+						</div>
+						<div class="col-sm-6">
+							<label for="ExpiredYear" class="form-label">Hạn sử dụng</label>
+							<input type="number" class="form-control" id="ExpiredYear" name="ExpiredYear" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<label for="Description" class="form-label">Mô tả sản phẩm</label>
+							<input type="text" class="form-control" id="Description" name="Description" required>
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<label for="productImage" class="form-label">Hình ảnh</label>
+							<input type="file" class="form-control" id="ProductImage" name="ProductImage" required onchange="previewImage(event)">
+						</div>
+						<div class="col-sm-6">
+							<label for="Danhmuc" class="form-label">Chọn danh mục</label>
+							@Html.DropDownList("Danhmuc", dropListCategory as List<SelectListItem>, "--Chọn thông tin--", new { @class = "form-control" })
+						</div>
+					</div>
+					<div class="row">
+						<img id="imagePreview" src="#" alt="Image Preview" style="display:none; width:150px; height:100px; margin-top:10px; margin-bottom:10px;">
+					</div>
+					<button type="submit" class="btn btn-success">Thêm sản phẩm</button>
+				}
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Kết nối Bootstrap CSS -->
+
+<script>
+    $(document).ready(function(){
+        // Tạo một biến JavaScript từ dữ liệu Razor
+        var products = @Html.Raw(Json.Encode(Model));
+		$('#productImage').change(function () {
+			readURL(this);
+		});
+
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+
+				reader.onload = function (e) {
+					$('#imagePreview').attr('src', e.target.result);
+					$('#imagePreview').show();
+				}
+
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+        // Kiểm tra xem mảng products có dữ liệu không
+        if (products && products.length > 0) {
+            // Lặp qua từng phần tử trong mảng dữ liệu
+            products.forEach(function(product, index) {
+                // Tạo một hàng mới cho bảng
+                var newRow = $("<tr>");
+
+                // Thêm dữ liệu vào từng ô trong hàng
+                newRow.append("<td style='text-align:center'>" + (index + 1) + "</td>");
+                newRow.append("<td style='text-align:center'><img class='rounded-4 fit product-main-image' style='height:40px;width:70px' src='" + product.Url_Image + "' alt='Không tìn thấy ảnh'></td>");
+                newRow.append("<td>" + product.Name + "</td>");
+                newRow.append("<td style='text-align:center'>" + product.Quantity + "</td>");
+                newRow.append("<td style='text-align:center'>" + product.Price + "</td>");
+				newRow.append("<td style='text-align:end'><a style='color:black;' href=''><i class='bi-pencil-square'></i></a></td>");
+				newRow.append("<td><a style='color:red' href=''><i class='bi-trash3'></i></a></td>");
+                // Thêm hàng vào tbody của bảng
+                $("#table").append(newRow);
+            });
+        } else {
+            // Nếu không có sản phẩm, hiển thị một hàng không có sản phẩm
+            var noProductRow = $("<tr>").append("<td colspan='6' style='text-align:center;color:red;'>Không có sản phẩm nào!</td>");
+            $("#table").append(noProductRow);
+		}
+		$("#Create").click(function () {
+			// Mở modal thêm mới sản phẩm
+			$("#addProductModal").modal("show");
+		});
+    });
+</script>

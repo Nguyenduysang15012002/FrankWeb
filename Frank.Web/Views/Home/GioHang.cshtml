@@ -39,12 +39,66 @@
 	}
 
 	td {
-		text-align: center;		
+		text-align: center;
 	}
 
 	.no-uppercase {
 		text-transform: none;
 	}
+	/* CSS cho phân trang */
+.datatable-bottom {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.datatable-pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+.datatable-pagination ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.datatable-pagination ul li {
+    display: inline;
+    margin: 0 5px;
+}
+
+.datatable-pagination ul li a {
+    color: #007bff;
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.datatable-pagination ul li a:hover {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.datatable-pagination ul li.active a {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.datatable-pagination ul li.disabled a {
+    color: #ddd;
+    pointer-events: none;
+    border-color: #ddd;
+}
+
+
+
 </style>
 <div class="a">
 	<div class="container">
@@ -83,7 +137,7 @@
 												<td>@item.TotalPrice</td>
 												<td>
 													<a class="btn btn-primary shadow-0 no-uppercase" href='@Url.Action("Order", "Home")?User_Id=@item.User_Id&Product_Id=@item.Product_Id'>Đặt hàng</a>
-												</td>	
+												</td>
 											</tr>
 											i++;
 										}
@@ -108,21 +162,23 @@
 							</table>
 						</div>
 						<hr />
-						<div class="d-flex justify-content-center" style="background-color:darkkhaki;height:30px">
-							@{
-								var options = new PagedListRenderOptions
-								{
-									DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
-									DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
-									DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
-									DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
-									DisplayLinkToIndividualPages = true
-								};
+						<div class="datatable-bottom">
+							<nav class="datatable-pagination">
+								@{
+									var options = new PagedListRenderOptions
+									{
+										DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+										DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+										DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+										DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+										DisplayLinkToIndividualPages = true
+									};
 
-								Func<int, string> pageUrlGenerator = page => Url.Action("GioHang", new { Id = ViewBag.Id, page, pageSize = ViewBag.PageSize });
+									Func<int, string> pageUrlGenerator = page => Url.Action("GioHang", new { Id = ViewBag.Id, page, pageSize = ViewBag.PageSize });
 
-								@Html.PagedListPager(Model, pageUrlGenerator, options)
-							}
+									@Html.PagedListPager(Model, pageUrlGenerator, options)
+								}
+							</nav>
 						</div>
 					</div>
 				</div>
@@ -130,14 +186,10 @@
 		</div>
 	</div>
 </div>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/jquery-3.7.1.slim.min.js"></script>
-<script src="~/Scripts/toastr.min.js"></script>
-<link rel="stylesheet" href="~/Content/toastr.min.css" />
-<script src="~/Scripts/jquery-3.7.1.min.js"></script>
+
 <script>
         $(document).ready(function() {
-			$("#submit").click(function () {            
+			$("#submit").click(function () {
 
                 // Xây dựng URL động với Razor syntax và tham số JavaScript
 				var url = '@Url.Action("Order", "Home")' + '?User_Id=' + itemId + '&Product_Id=' + userId;

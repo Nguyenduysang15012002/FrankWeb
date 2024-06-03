@@ -52,6 +52,37 @@ namespace Frank.Web.Controllers
         // GET: Admin
         public ActionResult Index(long? Id)
         {
+            if (Id != null)
+            {
+                ViewBag.Id = Id;
+                var user = _userService.FindBy(x => x.Id == Id).FirstOrDefault();
+                ViewBag.Name = user?.FullName;
+                var listShopcart = _shopCartService.GetListByIdUser((long)Id);
+                if (listShopcart != null)
+                {
+                    ViewBag.ThongBao = listShopcart.Count();
+                }
+                else
+                {
+                    ViewBag.ThongBao = 0;
+                }
+                var listOrder = _orderService.GetListByIdUser((long)Id);
+                if (listOrder != null)
+                {
+                    ViewBag.Order = listOrder.Count();
+                }
+                else
+                {
+                    ViewBag.Order = 0;
+                }
+            }
+            else
+            {
+                ViewBag.Id = null;
+                ViewBag.Name = null;
+            }
+
+            var listData = _productService.GetDaTaByPage();
             return View();
         }
     }

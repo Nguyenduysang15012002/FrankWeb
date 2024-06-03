@@ -44,7 +44,7 @@ namespace Frank.Service.ProductService
             _attribute_ProductRepository = attribute_ProductRepository;
             _imageRepository = imageRepository;
         }
-       public  PageListResultBO<ProductDto> GetDaTaByPage(ProductDto searchModel, int pageIndex = 1, int pageSize = 20)
+       public  List<ProductDto> GetDaTaByPage()
         {           
             var query = from Producttbl in _productRepository.GetAllAsQueryable()
                         join attribute in _attribute_ProductRepository.GetAllAsQueryable()
@@ -62,42 +62,8 @@ namespace Frank.Service.ProductService
                            Url_Image = imagetbl.Url_Image,
                            Brand = Producttbl.Brand,
 
-                        };
-
-            if (searchModel != null)
-            {
-
-
-                if (!string.IsNullOrEmpty(searchModel.Description))
-                {
-                    query = query.OrderBy(searchModel.Description);
-                }
-                else
-                {
-                    query = query.OrderByDescending(x => x.Id);
-                }
-            }
-            else
-            {
-                query = query.OrderByDescending(x => x.Id);
-            }
-            var resultmodel = new PageListResultBO<ProductDto>();
-            pageSize = query.Count();
-            if (pageSize == -1)
-            {
-                var dataPageList = query.ToList();
-                resultmodel.Count = dataPageList.Count;
-                resultmodel.TotalPage = 1;
-                resultmodel.ListItem = dataPageList;
-            }
-            else
-            {
-                var dataPageList =  query.ToPagedList(pageIndex, pageSize);
-                resultmodel.Count = dataPageList.TotalItemCount;
-                resultmodel.TotalPage = dataPageList.PageCount;
-                resultmodel.ListItem = dataPageList.ToList();
-            }
-            return resultmodel;
+                        };          
+            return query.ToList();
         }
         public ProductDto GetById(long? Id)
         {
@@ -108,6 +74,27 @@ namespace Frank.Service.ProductService
                             Quantity = producttbl.Quantity,
                         };
             return query.SingleOrDefault();
+        }
+        public List<ProductDto> GetListProduct()
+        {
+            var query = from producttbl in _productRepository.GetAllAsQueryable()
+                        join imagetbl in _imageRepository.GetAllAsQueryable()
+                        on producttbl.Id equals imagetbl.Product_Id
+                        join attributeproducttbl in _attribute_ProductRepository.GetAllAsQueryable()
+                        on producttbl.Id equals attributeproducttbl.Product_Id                     
+                        select new ProductDto
+                        {
+                            Id = producttbl.Id,
+                            Name = producttbl.Name,
+                            Description = producttbl.Description,
+                            Brand = producttbl.Brand,
+                            ProductionYear = producttbl.ProductionYear,
+                            ExpiredYear = producttbl.ExpiredYear,
+                            Quantity = producttbl.Quantity,
+                            Price = attributeproducttbl.Price,
+                            Url_Image = imagetbl.Url_Image,
+                        };
+            return query.ToList();
         }
     }
 }

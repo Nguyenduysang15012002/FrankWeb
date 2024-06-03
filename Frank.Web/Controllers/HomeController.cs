@@ -62,7 +62,7 @@ namespace Frank.Web.Controllers
             _order_addressService = order_AddressService;
         }
 
-        public ActionResult Trangchu(long? Id, string Name_Category)
+        public ActionResult Trangchu(long? Id, int? page, int? pageSize)
         {
             if (Id != null)
             {
@@ -93,9 +93,11 @@ namespace Frank.Web.Controllers
                 ViewBag.Id = null;
                 ViewBag.Name = null;
             }
-
-            var listData = _productService.GetDaTaByPage(null);
-            return View(listData);
+            int pageNumber = page ?? 1;
+            int pageSizeValue = pageSize ?? 9;
+            var listData = _productService.GetDaTaByPage();
+            var productDtoPagedList = listData.ToPagedList(pageNumber, pageSizeValue);
+            return View(productDtoPagedList);
         }
 
         [HttpGet]
@@ -132,7 +134,7 @@ namespace Frank.Web.Controllers
                 ViewBag.Name = null;
             }
 
-            var listData = _productService.GetDaTaByPage(null);
+            var listData = _productService.GetDaTaByPage();
             return View(listData);
         }
         public ActionResult GioHang(long Id, int? page, int? pageSize)
@@ -240,20 +242,12 @@ namespace Frank.Web.Controllers
             ViewBag.Soluongcon = (int)soluongcon.Quantity;
             return View(model);
         }
-        [HttpPost]
+        [HttpPost]    
         public JsonResult Order(string Namecustomer, string Phone, string Address, long Soluong, long Tongtien, long User_Id, long Product_Id)
         {
             try
             {
-                var shopcart = _shopCartService.FindBy(x => x.User_Id == User_Id && x.Product_Id == Product_Id).FirstOrDefault();
-                if (shopcart != null)
-                {
-                    _shopCartService.Delete(shopcart);
-                }
-                else
-                {
-                    return Json(new { success = false, message = "Lỗi giỏ hàng!" });
-                }
+                
                 var product = _productService.FindBy(x => x.Id == Product_Id).FirstOrDefault();
                 if (product != null)
                 {
@@ -298,6 +292,15 @@ namespace Frank.Web.Controllers
                 else
                 {
                     return Json(new { success = false, message = "Lỗi thêm địa chỉ!" });
+                }
+                var shopcart = _shopCartService.FindBy(x => x.User_Id == User_Id && x.Product_Id == Product_Id).FirstOrDefault();
+                if (shopcart != null)
+                {
+                    _shopCartService.Delete(shopcart);
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Lỗi giỏ hàng!" });
                 }
                 return Json(new { success = true, message = "Đặt hàng thành công." });
             }

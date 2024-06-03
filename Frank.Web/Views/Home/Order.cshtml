@@ -203,10 +203,10 @@
 </div>
 
 <script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/jquery-3.7.1.slim.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.slim.min.js"></script>
 <script src="~/Scripts/toastr.min.js"></script>
 <link rel="stylesheet" href="~/Content/toastr.min.css" />
-<script src="~/Scripts/jquery-3.7.1.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
 <script>
 	$(document).ready(function () {
 		var Soluong = parseInt($("#Soluong").val());
@@ -281,4 +281,53 @@
 			}
 		});
 	}
+</script>
+<script>
+	$(document).ready(function () {
+	$('#submit').click(function (event) {
+	var Phone = $('#Phone').val();
+	var NameCustomer = $('#NameCustomer').val();
+	var Address = $('#Address').val();
+	if (Phone.trim() === '' || NameCustomer.trim() === '' || Address.trim() === '') {
+		toastr.error("Các trường thông tin không được để trống", "Thông báo");
+	} else {
+		if (!(/^\d+$/.test(Phone) && Phone.length <= 10)) {
+			toastr.error("Vui lòng nhập số điện thoại đúng định dạng!", "Thông báo");
+		}
+		else {
+			var Soluong = parseInt($("#Soluong").val());
+			var Soluongcon = parseInt($("#Soluongcon").val());
+			if (Soluongcon < Soluong) {
+				toastr.error("Số lượng hàng tồn không đủ!", "Thông báo");
+			}
+			else {
+				var Namecustomer = $('#NameCustomer').val();
+				var Phone = $('#Phone').val();
+				var Address = $('#Address').val();
+				var Soluong = $("#Soluong").val();
+				var Tongtien = $("#Tongtien").val();
+				var User_Id = $("#User_Id").val();
+				var Product_Id = $("#Product_Id").val();
+				var requestData = {
+					Namecustomer: Namecustomer,
+					Phone: Phone,
+					Address: Address,
+					Soluong: parseInt(Soluong),
+					Tongtien: parseFloat(Tongtien),
+					User_Id: parseInt(User_Id),
+					Product_Id: parseInt(Product_Id)
+				};
+				AjaxCall('@Url.Action("Order", "Home")', 'POST', requestData, function (response) {
+						  if (response.success) {
+							  toastr.success(response.message, "Thông báo");
+							} else {
+							  toastr.error(response.message, "Lỗi");
+							}
+				});
+			}
+		}
+	}
+	event.preventDefault();
+});
+	});
 </script>

@@ -14,6 +14,8 @@ using Frank.Service.ImageService;
 using Frank.Service.Attribute_ProductService;
 using Frank.Model.Entities;
 using Frank.Service.ShopCartService;
+using PagedList;
+using Frank.Service.CategoryService;
 namespace Frank.Web.Controllers
 {
     public class ProductController : Controller
@@ -27,6 +29,7 @@ namespace Frank.Web.Controllers
         private readonly IImageService _imageService;
         private readonly IAttribute_ProductService _attribute_ProductService;
         private readonly IShopCartService _shopCartService;
+        private readonly ICategoryService _categoryService;
         public ProductController(
             IProductService ProductService,
             ILog Ilog,
@@ -34,8 +37,8 @@ namespace Frank.Web.Controllers
             IUserService userService,
             IImageService imageService,
             IAttribute_ProductService attribute_ProductService,
-            IShopCartService shopCartService
-
+            IShopCartService shopCartService,
+            ICategoryService categoryService
               )
         {
             _userService = userService;
@@ -45,11 +48,18 @@ namespace Frank.Web.Controllers
             _imageService = imageService;
             _attribute_ProductService = attribute_ProductService;
             _shopCartService = shopCartService;
+            _categoryService = categoryService;
         }
         // GET: Product
-        public ActionResult Index()
+        public ActionResult Index(int? page, int? pageSize)
         {
-            return View();
+            int pageNumber = page ?? 1;
+            int pageSizeValue = pageSize ?? 5;
+            var listSp = _productService.GetListProduct();
+            var productDtoPagedList = listSp.ToPagedList(pageNumber, pageSizeValue);
+            ViewBag.PageSize = pageSize;
+            ViewBag.dropListCategory = _categoryService.GetDropDownList().OrderBy(x => x.Text).ToList();
+            return View(productDtoPagedList);
         }
 
         public ActionResult Detail(long Id, long? User_Id)
@@ -109,5 +119,6 @@ namespace Frank.Web.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
     }
 }

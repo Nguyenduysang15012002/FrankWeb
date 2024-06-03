@@ -4,9 +4,11 @@ using Frank.Repository;
 using Frank.Repository.CategoryRepository;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Frank.Service.CategoryService
 {
@@ -21,6 +23,18 @@ namespace Frank.Service.CategoryService
             _mapper = mapper;
             _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
+
+        }
+        public List<SelectListItem> GetDropDownList()
+        {
+            var listData = _categoryRepository.GetAllAsQueryable().AsNoTracking()
+                .Select(c => new SelectListItem()
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.CategoryName,
+                }).ToList();
+
+            return listData;
         }
     }
 }

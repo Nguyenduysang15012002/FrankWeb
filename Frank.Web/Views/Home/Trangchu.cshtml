@@ -1,16 +1,13 @@
-﻿
+﻿@using Frank.Service.ProductService.Dto;
+@using PagedList;
+@using PagedList.Mvc;
+@model  IPagedList<Frank.Service.ProductService.Dto.ProductDto>
 @{
 	ViewBag.Title = "Trangchu";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@using Frank.Model.Entities;
-@using Newtonsoft.Json;
-@using Frank.Service.Common;
-@using Frank.Service.ProductService.Dto;
-@model PageListResultBO<Frank.Service.ProductService.Dto.ProductDto>
 @{
-	var lstData = Html.Raw(JsonConvert.SerializeObject(Model.ListItem));
+	var lstData = Html.Raw(Json.Encode(Model));
 	//var ViewBagId = ViewBag.Id;
 
 }
@@ -38,6 +35,57 @@
 		border-style: dashed double none;
 		border-color: aqua;
 	}
+
+	.datatable-bottom {
+		text-align: center;
+		margin: 20px 0;
+	}
+
+	.datatable-pagination {
+		display: inline-block;
+		padding: 0;
+		margin: 0;
+	}
+
+		.datatable-pagination ul {
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			justify-content: center;
+		}
+
+			.datatable-pagination ul li {
+				display: inline;
+				margin: 0 5px;
+			}
+
+				.datatable-pagination ul li a {
+					color: #007bff;
+					text-decoration: none;
+					padding: 8px 16px;
+					border: 1px solid #ddd;
+					border-radius: 4px;
+					transition: background-color 0.3s, color 0.3s;
+				}
+
+					.datatable-pagination ul li a:hover {
+						background-color: #007bff;
+						color: white;
+						border-color: #007bff;
+					}
+
+				.datatable-pagination ul li.active a {
+					background-color: #007bff;
+					color: white;
+					border-color: #007bff;
+				}
+
+				.datatable-pagination ul li.disabled a {
+					color: #ddd;
+					pointer-events: none;
+					border-color: #ddd;
+				}
 </style>
 @*<div class="card" style="width:400px">
 		<img class="card-img-top" src="" alt="Card image">
@@ -76,6 +124,25 @@
 </div>
 <div id="card-container">
 	<!-- Các phần tử card sẽ được thêm vào đây -->
+
+</div>
+<div class="datatable-bottom">
+	<nav class="datatable-pagination">
+		@{
+			var options = new PagedListRenderOptions
+			{
+				DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+				DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+				DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+				DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+				DisplayLinkToIndividualPages = true
+			};
+
+			Func<int, string> pageUrlGenerator = page => Url.Action("Trangchu", new { Id = ViewBag.Id, page, pageSize = ViewBag.PageSize });
+
+			@Html.PagedListPager(Model, pageUrlGenerator, options)
+		}
+	</nav>
 </div>
 
 
@@ -88,7 +155,7 @@
 
 		debugger
 	$.each(lstData, function(index, item) {
-		var card = $('<div class="card" style="width:300px">').click(function () {
+		var card = $('<div class="card" style="width:250px">').click(function () {
 			if (check != null) {
 				window.location.href = '@Url.Action("Detail", "Product")' + '?Id=' + item.Id + '&User_Id=' + check;
 			} else {
@@ -96,7 +163,7 @@
 			}
 		});
 		var cardBody = $('<div class="card-body">');
-		card.append('<img class="card-img-top" style="height:170px" src="' + item.Url_Image + '" alt="Không tìm thấy ảnh">');
+		card.append('<img class="card-img-top" style="height:150px;width:250px;" src="' + item.Url_Image + '" alt="Không tìm thấy ảnh">');
 		cardBody.append('<h4 class="card-title">' + item.Name + '</h4>');
 		cardBody.append('<p class="card-text">' + item.Brand + '</p>');
 		cardBody.append('<p class="card-text">' + item.Price + ' <span style="color: red;">VND</span></p>');
