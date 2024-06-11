@@ -1,8 +1,284 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+	var quyen = ViewBag.quyen;
+	var Status = ViewBag.Status;
 }
 
-<h2>Index</h2>
+@using Frank.Model.Entities;
+@using PagedList;
+@using PagedList.Mvc;
+@model  IPagedList<Frank.Model.Entities.User>
 
+<div class="col-lg-12">
+
+	<div class="card">
+		<div class="card-body">
+			<h1 style="text-align:center">Quản lý tài khoản</h1>
+
+
+			<!-- Table with stripped rows -->
+			<div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+				<div class="datatable-top">
+					@*<div class="datatable-dropdown">
+							<label>
+								<select class="datatable-selector" name="per-page"><option value="5">5</option><option value="10" selected="">10</option><option value="15">15</option><option value="-1">All</option></select> Số trang
+							</label>
+						</div>*@
+					<div class="datatable-search">
+						<input class="datatable-input" placeholder="Tìm kiếm tài khoản....." type="search" name="search" title="Search within table">
+					</div>
+					<div class="datatable-container">
+						<button id="Create" style="background-color: #007bff; color: white; border: none; border-radius: 20px; padding: 8px 16px; cursor: pointer;">Thêm mới</button>
+					</div>
+				</div>
+				<div class="datatable-container">
+					<table class="table datatable datatable-table" id="table">
+						<thead>
+							<tr>
+								<th style="text-align:center">STT</th>
+								<th style="text-align:center"><button class="datatable-sorter">Tài khoản</button></th>
+								<th style="text-align:center"><button class="datatable-sorter">Mật khẩu</button></th>
+								<th style="text-align:center"><button class="datatable-sorter">Email</button></th>
+								<th data-sortable="true"><button class="datatable-sorter" style="text-align:center">Số điện thoại</button></th>
+								<th colspan="2" data-sortable="true" style="text-align:center">Thao tác</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<div class="datatable-bottom">
+					<nav class="datatable-pagination">
+						@{
+							var options = new PagedListRenderOptions
+							{
+								DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToIndividualPages = true
+							};
+
+							Func<int, string> pageUrlGenerator = page => Url.Action("Index", new { Id = ViewBag.Id, page, pageSize = ViewBag.PageSize });
+
+							@Html.PagedListPager(Model, pageUrlGenerator, options)
+						}
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModal" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="text-center" style="text-align:center; padding-left:250px;" id="addModal">THÊM MỚI TÀI KHOẢN</h3>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				@using (Ajax.BeginForm("Create", "User", new AjaxOptions
+				{
+					HttpMethod = "POST",
+					OnFailure = "AjaxFormError",
+					OnSuccess = "AjaxFormSuccess",
+				}, new { enctype = "multipart/form-data" }))
+				{
+					@Html.AntiForgeryToken()
+					<div class="row">
+						<div class="col-sm-6">
+							<label for="UserName" class="form-label">Tên tài khoản</label>
+							<input type="text" class="form-control" id="UserName" name="UserName" required>
+						</div>
+						<div class="col-sm-6">
+							<label for="Password" class="form-label">Mật khẩu</label>
+							<input type="password" class="form-control" id="Password" name="Password" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<label for="FullName" class="form-label">Họ và tên chủ tài khoản</label>
+							<input type="text" class="form-control" id="FullName" name="FullName" required>
+						</div>
+						<div class="col-sm-6">
+							<label for="Email" class="form-label">Email</label>
+							<input type="email" class="form-control" id="Email" name="Email" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<label for="Address" class="form-label">Địa chỉ</label>
+							<input type="text" class="form-control" id="Address" name="Address" required>
+						</div>
+						<div class="col-sm-6">
+							<label for="PhoneNumber" class="form-label">Số điện thoại</label>
+							<input type="number" class="form-control" id="PhoneNumber" name="PhoneNumber" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<label for="Status" class="form-label">Trạng thái</label>
+
+							@Html.DropDownList("Status", (IEnumerable<SelectListItem>)ViewBag.Status, "---Chọn thông tin---", new { @class = "form-control" })
+						</div>
+						<div class="col-sm-6">
+							<label for="Status" class="form-label">Quyền của tài khoản</label>
+							@Html.DropDownList("Quyen", (IEnumerable<SelectListItem>)ViewBag.quyen, "---Chọn thông tin---", new { @class = "form-control" })
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<hr />
+						</div>
+					</div>
+					<div class="row">
+						<div style="text-align:center;margin-top:10px">
+							<button type="submit" id="submitcreate" class="tox-button" style="text-align:center;color:white;background-color:blue">Xác nhận</button>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Kết nối Bootstrap CSS -->
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/toastr.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.slim.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // Tạo một biến JavaScript từ dữ liệu Razor
+        var user = @Html.Raw(Json.Encode(Model));
+        debugger;
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imagePreview').attr('src', e.target.result);
+                    $('#imagePreview').show();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Kiểm tra xem user có dữ liệu không và có phải là một mảng không
+        if (user && Array.isArray(user) && user.length > 0) {
+            // Lặp qua từng phần tử trong mảng dữ liệu
+            user.forEach(function (userItem, index) {
+                // Tạo một hàng mới cho bảng
+                var newRow = $("<tr>");
+
+                // Thêm dữ liệu vào từng ô trong hàng
+                newRow.append("<td style='text-align:center'>" + (index + 1) + "</td>");
+                newRow.append("<td class='user-name'>" + userItem.UserName + "</td>");
+                newRow.append("<td class='product-name'>" + userItem.Password + "</td>");
+                newRow.append("<td>" + userItem.Email + "</td>");
+                newRow.append("<td style='text-align:center'>" + userItem.PhoneNumber + "</td>");
+                newRow.append("<td style='text-align:end'><a style='color:black;' href='@Url.Action("Edit", "User")?id=" + userItem.Id + "'><i class='bi-pencil-square'></i></a></td>");
+                newRow.append("<td><a style='color:red;' onclick='confirmDelete(" + userItem.Id + ")'><i class='bi-trash3'></i></a></td>");
+
+                // Thêm hàng vào tbody của bảng
+                $("#table").append(newRow);
+            });
+        } else {
+            // Nếu không có sản phẩm, hiển thị một hàng không có sản phẩm
+            var noProductRow = $("<tr>").append("<td colspan='7' style='text-align:center;color:red;'>Không có sản phẩm nào!</td>");
+            $("#table").append(noProductRow);
+        }
+
+        $("#Create").click(function () {
+            // Mở modal thêm mới sản phẩm
+			$("#addModal").modal("show");
+        });
+
+        //$("#submitsp").click(function (event) {
+        //    debugger;
+        //    var productionYear = $("#ProductYear").val();
+        //    var expiredYear = $("#ExpiredYear").val();
+        //    if (productionYear.length !== 4 || isNaN(productionYear) || expiredYear.length !== 4 || isNaN(expiredYear)) {
+        //        event.preventDefault(); // Ngăn chặn việc submit form nếu input không hợp lệ
+        //        toastr.error("Vui lòng nhập năm đúng định dạng", "Thông báo");
+        //    }
+        //});
+
+        $(".datatable-input").on("input", function () {
+            var searchValue = $(this).val().toLowerCase();
+            $("#table tbody tr").filter(function () {
+				$(this).toggle($(this).find(".user-name").text().toLowerCase().indexOf(searchValue) > -1);
+            });
+		});
+		$("#submitcreate").click(function (event) {
+			var PhoneNumber = $("#PhoneNumber").val();
+			var regex = /^\d{10}$/;
+			if (!regex.test(PhoneNumber)) {
+				event.preventDefault(); // Ngăn chặn việc submit form nếu input không hợp lệ
+				toastr.error("Vui lòng nhập số điện thoại đúng định dạng", "Thông báo");
+			} else {
+				var status = $("#Status").val();
+				if (status === "") {
+					event.preventDefault();
+					toastr.error("Vui lòng chọn trạng thái.");
+				} else {
+					var quyen = $("#Quyen").val();
+					if (quyen === "") {
+						event.preventDefault();
+						toastr.error("Vui lòng chọn quyền của tài khoản.");
+					}
+				}
+			}
+		});
+    });
+</script>
+<script>
+	function AjaxFormError() {
+		toastr.error("Có lỗi xảy ra trong quá trình gửi yêu cầu", "Lỗi");
+	}
+	function AjaxFormSuccess(rs) {
+		if (rs.Status) {
+			toastr.success(rs.Message, "Thông báo");
+			$("#addModal").modal("hide");
+			$("#XoaModal").modal("hide");
+			setTimeout(function() {
+   location.reload();
+}, 500);
+		} else {
+			toastr.error(rs.Message, "Thông báo");
+		}
+	}
+	function confirmDelete(userid) {
+	if (confirm("Bạn chắc chắn muốn xóa không?")) {
+		var Id = parseInt(userid);
+
+		AjaxCall('@Url.Action("Delete", "User")', 'POST', { Id: Id }, function (response) {
+			if (response.success) {
+				toastr.success(response.message, "Thông báo");
+				 	setTimeout(function() {
+    window.location.href = '@Url.Action("Index", "User")';
+}, 500);
+			} else {
+					toastr.error(response.message, "Thông báo");
+			}
+		});
+	}
+	}
+	function AjaxCall(url, type, data, successCallback, errorCallback) {
+		$.ajax({
+			url: url,
+			type: type,
+			data: data,
+			success: successCallback,
+			error: errorCallback || function () {
+				toastr.error('Có lỗi xảy ra trong quá trình xử lý yêu cầu', 'Lỗi');
+			}
+		});
+	}
+</script>

@@ -27,7 +27,7 @@ namespace Frank.Web.Controllers
         private readonly IAttribute_ProductService _attribute_ProductService;
         private readonly IShopCartService _shopCartService;
         private readonly IOrderService _orderService;
-        private readonly IOrder_AddressService _order_addressService;
+      
         public AdminController(
             IProductService ProductService, ILog Ilog,
             IAttribute_ProductService AttributeService,
@@ -35,8 +35,8 @@ namespace Frank.Web.Controllers
               IUserService UserService,
               IMapper mapper,
               IShopCartService shopCartService,
-              IOrderService orderService,
-              IOrder_AddressService order_AddressService
+              IOrderService orderService
+            
 
               )
         {
@@ -47,42 +47,11 @@ namespace Frank.Web.Controllers
             _attribute_ProductService = AttributeService;
             _shopCartService = shopCartService;
             _orderService = orderService;
-            _order_addressService = order_AddressService;
+           
         }
         // GET: Admin
         public ActionResult Index(long? Id)
         {
-            if (Id != null)
-            {
-                ViewBag.Id = Id;
-                var user = _userService.FindBy(x => x.Id == Id).FirstOrDefault();
-                ViewBag.Name = user?.FullName;
-                var listShopcart = _shopCartService.GetListByIdUser((long)Id);
-                if (listShopcart != null)
-                {
-                    ViewBag.ThongBao = listShopcart.Count();
-                }
-                else
-                {
-                    ViewBag.ThongBao = 0;
-                }
-                var listOrder = _orderService.GetListByIdUser((long)Id);
-                if (listOrder != null)
-                {
-                    ViewBag.Order = listOrder.Count();
-                }
-                else
-                {
-                    ViewBag.Order = 0;
-                }
-            }
-            else
-            {
-                ViewBag.Id = null;
-                ViewBag.Name = null;
-            }
-
-            var listData = _productService.GetDaTaByPage();
             return View();
         }
     }

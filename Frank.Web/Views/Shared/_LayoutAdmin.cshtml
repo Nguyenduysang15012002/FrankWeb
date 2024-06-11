@@ -27,7 +27,7 @@
 	<header id="header" class="header fixed-top d-flex align-items-center">
 		<div class="d-flex align-items-center justify-content-between">
 			<a class="logo d-flex align-items-end">
-				<span class="d-none d-lg-block">Admin Frank.</span>
+				<span class="d-none d-lg-block">Frank.</span>
 			</a>
 			<i class="bi bi-list toggle-sidebar-btn"></i>
 		</div><!-- End Logo -->
@@ -45,23 +45,12 @@
 			</li><!-- End Dashboard Nav -->
 			<li class="nav-item">
 				@Html.ActionLink(" Quản lý sản phẩm", "Index", "Product", null, new { @class = "nav-link collapsed" })
-
-				@*<a class="nav-link collapsed">
-
-			<span>Quản lý sản phẩm</span>
-		</a>*@
 			</li><!-- End Register Page Nav -->
 			<li class="nav-item">
-				<a class="nav-link collapsed">
-					
-					<span>Quản lý danh mục sản phẩm</span>
-				</a>
+				@Html.ActionLink(" Quản lý danh mục sản phẩm", "Index", "Category", null, new { @class = "nav-link collapsed" })
 			</li><!-- End Register Page Nav -->
 			<li class="nav-item">
-				<a class="nav-link collapsed">
-					
-					<span>Quản lý tài khoản</span>
-				</a>
+				@Html.ActionLink(" Quản lý tài khoản", "Index", "User", null, new { @class = "nav-link collapsed" })
 			</li><!-- End Register Page Nav -->
 
 			<li class="nav-item">
@@ -85,7 +74,7 @@
 	<!-- ======= Footer ======= -->
 	<footer id="footer" class="footer">
 		<div class="copyright">
-			<strong><span>Frank Admin</span></strong>
+			<strong><span>Frank.</span></strong>
 		</div>
 		<div class="credits">
 			SĐT: 0834902262			

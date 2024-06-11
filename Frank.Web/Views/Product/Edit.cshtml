@@ -1,0 +1,142 @@
+﻿@{
+	ViewBag.Title = "Edit";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+	var dropListCategory = ViewBag.dropListCategory;
+}
+@using Frank.Service.ProductService.Dto;
+@model ProductDto
+<style>
+	.table td {
+		width: 50%;
+	}
+</style>
+
+@using (Ajax.BeginForm("EditSP", "Product", new AjaxOptions
+{
+	HttpMethod = "PUT",
+	OnFailure = "AjaxFormError",
+	OnSuccess = "AjaxFormSuccess",
+}, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	<table class="table" style="width:700px;margin:auto">
+		<tbody>
+			<h2 style="text-align:center">Chỉnh sửa sản phẩm</h2>
+			<hr />
+			<tr>
+				<td colspan="2">
+					<input type="text" class="form-control" style="display:none" id="Id"  name="Id" value="@Model.Id" >
+				</td>
+			</tr>
+			<tr>
+
+				<td>
+					<label for="ProductName" class="form-label">Tên sản phẩm</label>
+					<input type="text" class="form-control" id="ProductName" name="ProductName" value="@Model.Name" required>
+				</td>
+				<td>
+					<label for="ProductQuantity" class="form-label">Số lượng</label>
+					<input type="number" class="form-control" id="ProductQuantity" name="ProductQuantity" value="@Model.Quantity" required>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="ProductPrice" class="form-label">Giá</label>
+					<input type="number" class="form-control" id="ProductPrice" name="ProductPrice" value="@Model.Price" required>
+				</td>
+				<td>
+					<label for="ProductBrand" class="form-label">Thương hiệu</label>
+					<input type="text" class="form-control" id="ProductBrand" name="ProductBrand" value="@Model.Brand" required>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="ProductYear" class="form-label">Năm sản xuất</label>
+					<input type="number" class="form-control" id="ProductYear" name="ProductYear" value="@Model.ProductionYear" required pattern="\d{4}" title="Số năm không đúng định dạng">
+				</td>
+				<td>
+					<label for="ExpiredYear" class="form-label">Năm hết hạn</label>
+					<input type="number" class="form-control" id="ExpiredYear" name="ExpiredYear" value="@Model.ExpiredYear" required pattern="\d{4}" title="Số năm không đúng định dạng">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<label for="Description" class="form-label">Mô tả sản phẩm</label>
+					<input type="text" class="form-control" id="Description" name="Description" value="@Model.Description" required>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="ProductImage" class="form-label">Hình ảnh</label>
+					<input type="file" class="form-control" id="ProductImage" name="ProductImage" required onchange="previewImage(event)">
+				</td>
+				<td>
+					<label for="Danhmuc" class="form-label">Chọn danh mục</label>
+					@Html.DropDownList("Danhmuc", dropListCategory as List<SelectListItem>, new { @class = "form-control" })
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<img id="check" src="@Model.Url_Image" alt="Image Preview" style="width:150px; height:100px; margin-top:10px; margin-bottom:10px;">
+					<img id="imagePreview" alt="Image Preview" style="display:none; width:150px; height:100px; margin-top:10px; margin-bottom:10px;">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align:center; margin-top:10px;">
+					<button type="submit" id="submiteditsp" class="tox-button" style="text-align:center;color:white;background-color:blue">Xác nhận</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+}
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/toastr.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$('#ProductImage').change(function () {
+			readURL(this);
+			$("#check").hide();
+		});
+
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+
+				reader.onload = function (e) {
+					$('#imagePreview').attr('src', e.target.result);
+					$('#imagePreview').show();
+				}
+
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		$("#submiteditsp").click(function (event) {
+			var productionYear = $("#ProductYear").val();
+			var expiredYear = $("#ExpiredYear").val();
+			if (productionYear.length !== 4 || isNaN(productionYear) || expiredYear.length !== 4 || isNaN(expiredYear)) {
+				event.preventDefault(); // Ngăn chặn việc submit form nếu input không hợp lệ
+				toastr.error("Vui lòng nhập năm đúng định dạng", "Thông báo");
+			}
+		});
+	});
+</script>
+<script>
+	function AjaxFormError() {
+		toastr.error("Có lỗi xảy ra trong quá trình gửi yêu cầu", "Lỗi");
+	}
+	function AjaxFormSuccess(rs) {
+		if (rs.Status) {
+			toastr.success(rs.Message, "Thông báo");
+			setTimeout(function() {
+            window.location.href = '@Url.Action("Index", "Product")'; 
+        }, 500);
+		} else {
+			toastr.error(rs.Message, "Thông báo");
+		}
+	}
+</script>

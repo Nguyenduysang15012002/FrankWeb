@@ -208,10 +208,12 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\DangNhap_DangKyController.cs" />
     <Compile Include="Controllers\GioHang.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Core\DecimalModelBinder.cs" />
     <Compile Include="Core\DoubleModelBinder.cs" />
     <Compile Include="Core\InArrayModelBinder.cs" />
@@ -829,8 +831,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\DangNhap_DangKy\Login.cshtml" />
     <Content Include="Views\DangNhap_DangKy\Signin.cshtml" />
     <Content Include="Views\Home\Trangchu.cshtml" />
@@ -844,6 +844,11 @@
     <Content Include="Views\Home\Lienhe.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\Edit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\Edit.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

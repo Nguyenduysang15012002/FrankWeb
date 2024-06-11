@@ -31,7 +31,7 @@ namespace Frank.Model.Entities
         [RegularExpression(@"^\d{1,10}$", ErrorMessage = "Số điện thoại chỉ được nhập số và không quá 10 số.")]
         [StringLength(10, ErrorMessage = "Số điện thoại không được quá 10 số.")]
         public string PhoneNumber { get; set; }     
-        public string Status { get; set; }
+        public bool Status { get; set; }
         public bool IsCustomer { get; set; }
         public bool IsAdmin { get; set; }
         public bool Istaff { get; set; }

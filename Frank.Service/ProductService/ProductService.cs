@@ -68,12 +68,24 @@ namespace Frank.Service.ProductService
         public ProductDto GetById(long? Id)
         {
             var query = from producttbl in _productRepository.GetAllAsQueryable()
+                        join imagetbl in _imageRepository.GetAllAsQueryable()
+                        on producttbl.Id equals imagetbl.Product_Id
+                        join attributeproducttbl in _attribute_ProductRepository.GetAllAsQueryable()
+                        on producttbl.Id equals attributeproducttbl.Product_Id
                         where producttbl.Id == Id
                         select new ProductDto
                         {
+                            Id = producttbl.Id,
+                            Name = producttbl.Name,
+                            Description = producttbl.Description,
+                            Brand = producttbl.Brand,
+                            ProductionYear = producttbl.ProductionYear,
+                            ExpiredYear = producttbl.ExpiredYear,
                             Quantity = producttbl.Quantity,
+                            Price = attributeproducttbl.Price,
+                            Url_Image = imagetbl.Url_Image,
                         };
-            return query.SingleOrDefault();
+            return query.FirstOrDefault();
         }
         public List<ProductDto> GetListProduct()
         {

@@ -15,7 +15,6 @@ namespace Frank.Service.ShopCartService
     public interface IShopCartService : IEntityService<ShopCart>
     {
         ShopCart GetById(long Id);
-        List<ShopCartDto> GetListByIdUser(long UserId);
-        ShopCartDto GetbyUserVsProductId(long? User_Id, long? Product_Id);       
+        List<ShopCartDto> GetListByIdUser(long UserId);      
     }
 }

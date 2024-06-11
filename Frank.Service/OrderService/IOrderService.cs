@@ -11,6 +11,6 @@ namespace Frank.Service.OrderService
 {
     public interface IOrderService : IEntityService<Order>
     {
-        List<OrderDto> GetListByIdUser(long UserId);
+        //List<OrderDto> GetListByIdUser(long UserId);
     }
 }

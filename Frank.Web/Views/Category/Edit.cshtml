@@ -1,0 +1,72 @@
+﻿
+@using Frank.Model.Entities;
+@model Category
+@{
+	ViewBag.Title = "Edit";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+	.table td {
+		width: 50%;
+	}
+</style>
+
+@using (Ajax.BeginForm("Edit", "Product", new AjaxOptions
+{
+	HttpMethod = "PUT",
+	OnFailure = "AjaxFormError",
+	OnSuccess = "AjaxFormSuccess",
+}, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	<table class="table" style="width:700px;margin:auto">
+		<tbody>
+			<h2 style="text-align:center">Chỉnh sửa danh mục</h2>
+			<hr />
+			<tr>
+				<td colspan="2">
+					<input type="text" class="form-control" style="display:none" id="Id" name="Id" value="@Model.Id">
+				</td>
+			</tr>
+			<tr>
+
+				<td>
+					<label for="CategoryName" class="form-label">Tên danh mục</label>
+					<input type="text" class="form-control" id="CategoryName" name="CategoryName" value="@Model.CategoryName" required>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="Description" class="form-label">Mô tả</label>
+					<input type="text" class="form-control" id="Description" name="Description" value="@Model.Description" required>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:center; margin-top:10px;">
+					<button type="submit" id="submiteditsp" class="tox-button" style="text-align:center;color:white;background-color:blue">Xác nhận</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+}
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/toastr.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+	function AjaxFormError() {
+		toastr.error("Có lỗi xảy ra trong quá trình gửi yêu cầu", "Lỗi");
+	}
+	function AjaxFormSuccess(rs) {
+		if (rs.Status) {
+			toastr.success(rs.Message, "Thông báo");
+			setTimeout(function() {
+            window.location.href = '@Url.Action("Index", "Category")';
+        }, 500);
+		} else {
+			toastr.error(rs.Message, "Thông báo");
+		}
+	}
+</script>
+
+

@@ -9,10 +9,11 @@ namespace Frank.Model.Entities
     [Table("Order")]
     public class Order : AuditableEntity<long>
     {
-        public long TotalPrice { get; set; }      
         public int Processing_Status { get; set; }
-        public long Quantity { get; set; }
-        public long? User_Id { get; set; }
-        public long? Product_Id { get; set; }       
+        public long TotalPrice { get; set; }
+        public string RecieveName { get; set; }
+        public string RecieveAddress { get; set; }
+        public string RecievePhone { get; set; }
+        public long? User_Id { get; set; }     
     }
 }

@@ -1,0 +1,211 @@
+﻿
+@using PagedList;
+@using PagedList.Mvc;
+@model  IPagedList<Frank.Model.Entities.Category>
+@{
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="col-lg-12">
+
+	<div class="card">
+		<div class="card-body">
+			<h1 style="text-align:center">Quản lý danh mục</h1>
+
+
+			<!-- Table with stripped rows -->
+			<div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+				<div class="datatable-top">
+					@*<div class="datatable-dropdown">
+							<label>
+								<select class="datatable-selector" name="per-page"><option value="5">5</option><option value="10" selected="">10</option><option value="15">15</option><option value="-1">All</option></select> Số trang
+							</label>
+						</div>*@
+					<div class="datatable-search">
+						<input class="datatable-input" placeholder="Tìm kiếm danh mục....." type="search" name="search" title="Search within table">
+					</div>
+					<div class="datatable-container">
+						<button id="Create" style="background-color: #007bff; color: white; border: none; border-radius: 20px; padding: 8px 16px; cursor: pointer;">Thêm mới</button>
+					</div>
+				</div>
+				<div class="datatable-container">
+					<table class="table datatable datatable-table" id="table">
+						<thead>
+							<tr>
+								<th style="text-align:center">STT</th>
+								<th style="text-align:center"><button class="datatable-sorter">Tên danh mục</button></th>								
+								<th data-sortable="true" style="text-align:center"><button class="datatable-sorter">Mô tả</button></th>
+								<th colspan="2" data-sortable="true" style="text-align:center">Thao tác</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<div class="datatable-bottom">
+					<nav class="datatable-pagination">
+						@{
+							var options = new PagedListRenderOptions
+							{
+								DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToIndividualPages = true
+							};
+
+							Func<int, string> pageUrlGenerator = page => Url.Action("Index", new { Id = ViewBag.Id, page, pageSize = ViewBag.PageSize });
+
+							@Html.PagedListPager(Model, pageUrlGenerator, options)
+						}
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="AddModal" tabindex="-1" aria-labelledby="AddCategory" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="text-center" style="text-align:center; padding-left:250px;" id="AddCategory">THÊM MỚI DANH MỤC</h3>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				@using (Ajax.BeginForm("Create", "Category", new AjaxOptions
+				{
+					HttpMethod = "POST",
+					OnFailure = "AjaxFormError",
+					OnSuccess = "AjaxFormSuccess",
+				}, new { enctype = "multipart/form-data" }))
+				{
+					@Html.AntiForgeryToken()
+					<div class="row">
+						<div class="col-sm-12">
+							<label for="CategoryName" class="form-label">Tên danh mục</label>
+							<input type="text" class="form-control" id="CategoryName" name="CategoryName" required>
+						</div>						
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<label for="CategoryDesciption" class="form-label">Mô tả</label>
+							<input type="text" class="form-control" id="CategoryDesciption" name="CategoryDesciption" required>
+						</div>
+					</div>
+					<div class="row">
+						<div style="text-align:center;margin-top:10px">
+							<button type="submit" id="submitsp" class="tox-button" style="text-align:center;color:white;background-color:blue">Xác nhận</button>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/toastr.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.slim.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function () {
+		// Tạo một biến JavaScript từ dữ liệu Razor
+		var category = @Html.Raw(Json.Encode(Model));
+	
+		$("#Xoa").click(function () {
+			$("#XoaModal").modal("show"); // Thay "modalID" bằng ID của modal bạn muốn gọi ra
+		});
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+
+				reader.onload = function (e) {
+					$('#imagePreview').attr('src', e.target.result);
+					$('#imagePreview').show();
+				}
+
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		// Kiểm tra xem mảng products có dữ liệu không
+		if (category && category.length > 0) {
+			// Lặp qua từng phần tử trong mảng dữ liệu
+			category.forEach(function (category, index) {
+				// Tạo một hàng mới cho bảng
+				var newRow = $("<tr>");
+
+				// Thêm dữ liệu vào từng ô trong hàng
+				newRow.append("<td style='text-align:center'>" + (index + 1) + "</td>");
+				newRow.append("<td class='category-name'>" + category.CategoryName + "</td>");
+				newRow.append("<td>" + category.Description + "</td>");
+				newRow.append("<td style='text-align:end'><a style='color:black;' href='@Url.Action("Edit", "Category")?id=" + category.Id + "'><i class='bi-pencil-square'></i></a></td>");
+				newRow.append("<td><a style='color:red;' onclick='confirmDelete(" + category.Id + ")'><i class='bi-trash3'></i></a></td>");
+
+				// Thêm hàng vào tbody của bảng
+				$("#table").append(newRow);
+			});
+		} else {
+			// Nếu không có sản phẩm, hiển thị một hàng không có sản phẩm
+			var noProductRow = $("<tr>").append("<td colspan='6' style='text-align:center;color:red;'>Không có danh mục nào!</td>");
+			$("#table").append(noProductRow);
+		}
+		$("#Create").click(function () {
+			// Mở modal thêm mới sản phẩm
+			$("#AddModal").modal("show");
+		});
+		$(".datatable-input").on("input", function () {
+			var searchValue = $(this).val().toLowerCase();
+			$("#table tbody tr").filter(function () {
+				$(this).toggle($(this).find(".category-name").text().toLowerCase().indexOf(searchValue) > -1);
+			});
+		});
+	});
+</script>
+<script>
+	function AjaxFormError() {
+		toastr.error("Có lỗi xảy ra trong quá trình gửi yêu cầu", "Lỗi");
+	}
+	function AjaxFormSuccess(rs) {
+		if (rs.Status) {
+			toastr.success(rs.Message, "Thông báo");
+			$("#AddModal").modal("hide");
+			$("#DeleteModal").modal("hide");
+			setTimeout(function() {
+   location.reload();
+}, 500);
+		} else {
+			toastr.error(rs.Message, "Thông báo");
+		}
+	}
+	function confirmDelete(categoryId) {
+	if (confirm("Bạn chắc chắn muốn xóa không?")) {
+		var Id = parseInt(categoryId);
+		debugger
+		AjaxCall('@Url.Action("Detele", "Category")', 'POST', { Id: Id }, function (response) {
+			if (response.success) {
+				toastr.success(response.message, "Thông báo");
+				 	setTimeout(function() {
+    window.location.href = '@Url.Action("Index", "Category")';
+}, 1000);
+			} else {
+					toastr.error(response.message, "Thông báo");
+			}
+		});
+	}
+	}
+	function AjaxCall(url, type, data, successCallback, errorCallback) {
+		$.ajax({
+			url: url,
+			type: type,
+			data: data,
+			success: successCallback,
+			error: errorCallback || function () {
+				toastr.error('Có lỗi xảy ra trong quá trình xử lý yêu cầu', 'Lỗi');
+			}
+		});
+	}
+</script>

@@ -299,8 +299,8 @@
     <Compile Include="ImageRepository\ImageRepository.cs" />
     <Compile Include="OrderRepository\IOrderRepository.cs" />
     <Compile Include="OrderRepository\OrderRepository.cs" />
-    <Compile Include="Order_AddressRepository\IOrder_AddressRepository.cs" />
-    <Compile Include="Order_AddressRepository\Order_AddressRepository.cs" />
+    <Compile Include="Order_DetailRepository\IOrder_DetailRepository.cs" />
+    <Compile Include="Order_DetailRepository\Order_DetailRepository.cs" />
     <Compile Include="ProductRepository\IProductRepository.cs" />
     <Compile Include="ProductRepository\ProductRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

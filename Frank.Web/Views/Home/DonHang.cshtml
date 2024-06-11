@@ -1,14 +1,14 @@
 ﻿@using Frank.Service.OrderService.Dto;
 @using PagedList;
 @using PagedList.Mvc;
-@model  IPagedList<Frank.Service.OrderService.Dto.OrderDto>
+
 @{
 	ViewBag.Title = "DonHang";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-@*@model OrderDto*@
+@model OrderDto
 @{
 	// Tạo một Dictionary ánh xạ giữa giá trị Processing_Status và chuỗi tương ứng
 	Dictionary<int, string> statusMappings = new Dictionary<int, string>
@@ -176,7 +176,7 @@
 <div class="a">
 	<h3 style="color:black">Danh sách đơn hàng</h3>
 	<hr />
-	@if (Model != null && Model.Any())
+	@*@if (Model != null && Model.Any())
 	{
 		foreach (var item in Model)
 		{
@@ -251,9 +251,9 @@
 	else
 	{
 		<h2 style="color:black;text-align:center">Không có đơn hàng nào</h2>
-	}
+	}*@
 </div>
-<div class="datatable-bottom">
+@*<div class="datatable-bottom">
 	<nav class="datatable-pagination">
 		@{
 			var options = new PagedListRenderOptions
@@ -270,7 +270,7 @@
 			@Html.PagedListPager(Model, pageUrlGenerator, options)
 		}
 		</nav>
-</div>
+</div>*@
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/jquery-3.6.0.slim.min.js"></script>
 <script src="~/Scripts/toastr.min.js"></script>

@@ -154,7 +154,7 @@
 		var check = "@ViewBag.Id";
 
 		debugger
-	$.each(lstData, function(index, item) {
+	@*$.each(lstData, function(index, item) {
 		var card = $('<div class="card" style="width:250px">').click(function () {
 			if (check != null) {
 				window.location.href = '@Url.Action("Detail", "Product")' + '?Id=' + item.Id + '&User_Id=' + check;
@@ -168,8 +168,38 @@
 		cardBody.append('<p class="card-text">' + item.Brand + '</p>');
 		cardBody.append('<p class="card-text">' + item.Price + ' <span style="color: red;">VND</span></p>');
 			card.append(cardBody);
-			$('#card-container').append(card);
-	});
+		$('#card-container').append(card);
+
+	});*@
+		function renderCards(data) {
+			$('#card-container').empty();
+			$.each(data, function(index, item) {
+				var card = $('<div class="card" style="width:250px">').click(function () {
+					if (check != null) {
+						window.location.href = '@Url.Action("Detail", "Product")' + '?Id=' + item.Id + '&User_Id=' + check;
+					} else {
+						window.location.href = '@Url.Action("Detail", "Product")' + '?Id=' + item.Id;
+					}
+				});
+				var cardBody = $('<div class="card-body">');
+				card.append('<img class="card-img-top" style="height:150px;width:250px;" src="' + item.Url_Image + '" alt="Không tìm thấy ảnh">');
+				cardBody.append('<h4 class="card-title">' + item.Name + '</h4>');
+				cardBody.append('<p class="card-text">' + item.Brand + '</p>');
+				cardBody.append('<p class="card-text">' + item.Price + ' <span style="color: red;">VND</span></p>');
+				card.append(cardBody);
+				$('#card-container').append(card);
+			});
+		}
+
+		renderCards(lstData); // Initial rendering of cards
+
+		$('#searchaa').on('input', function() {
+			var searchText = $(this).val().toLowerCase();
+			var filteredData = lstData.filter(function(item) {
+				return item.Name.toLowerCase().includes(searchText);
+			});
+			renderCards(filteredData);
+		});
 	</script>
 
 }

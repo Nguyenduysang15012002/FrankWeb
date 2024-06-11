@@ -35,10 +35,10 @@
 						<thead>
 							<tr>
 								<th style="text-align:center">STT</th>
-								<th data-sortable="true" style="text-align:center"><button class="datatable-sorter">Hình ảnh</button></th>
-								<th data-sortable="true" style="text-align:center"><button class="datatable-sorter">Tên sản phẩm</button></th>
+								<th  style="text-align:center"><button class="datatable-sorter">Hình ảnh</button></th>
+								<th  style="text-align:center"><button class="datatable-sorter">Tên sản phẩm</button></th>
 								<th data-sortable="true" style="text-align:center"><button class="datatable-sorter">Số lượng</button></th>
-								<th><button class="datatable-sorter" style="text-align:center">Giá</button></th>
+								<th data-sortable="true"><button class="datatable-sorter" style="text-align:center">Giá</button></th>
 								<th colspan="2" data-sortable="true" style="text-align:center">Thao tác</th>
 							</tr>
 						</thead>
@@ -76,8 +76,14 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				@using (Html.BeginForm("AddProduct", "Product", FormMethod.Post, new { @id = "addProductForm" }))
+				@using (Ajax.BeginForm("CreateSP", "Product", new AjaxOptions
 				{
+					HttpMethod = "POST",
+					OnFailure = "AjaxFormError",
+					OnSuccess = "AjaxFormSuccess",
+				}, new { enctype = "multipart/form-data" }))
+				{
+					@Html.AntiForgeryToken()
 					<div class="row">
 						<div class="col-sm-6">
 							<label for="ProductName" class="form-label">Tên sản phẩm</label>
@@ -100,12 +106,12 @@
 					</div>
 					<div class="row">
 						<div class="col-sm-6">
-							<label for="ProductionYear" class="form-label">Năm sản xuất</label>
-							<input type="number" class="form-control" id="ProductionYear" name="ProductionYear" required>
+							<label for="ProductYear" class="form-label">Năm sản xuất</label>
+							<input type="number" class="form-control" id="ProductYear" name="ProductYear" required pattern="\d{4}" title="Số năm không đúng định dạng">
 						</div>
 						<div class="col-sm-6">
-							<label for="ExpiredYear" class="form-label">Hạn sử dụng</label>
-							<input type="number" class="form-control" id="ExpiredYear" name="ExpiredYear" required>
+							<label for="ExpiredYear" class="form-label">Năm hết hạn</label>
+							<input type="number" class="form-control" id="ExpiredYear" name="ExpiredYear" required pattern="\d{4}" title="Số năm không đúng định dạng">
 						</div>
 					</div>
 					<div class="row">
@@ -128,22 +134,59 @@
 					<div class="row">
 						<img id="imagePreview" src="#" alt="Image Preview" style="display:none; width:150px; height:100px; margin-top:10px; margin-bottom:10px;">
 					</div>
-					<button type="submit" class="btn btn-success">Thêm sản phẩm</button>
+					<div class="row">
+						<div style="text-align:center;margin-top:10px">
+							<button type="submit" id="submitsp" class="tox-button" style="text-align:center;color:white;background-color:blue">Xác nhận</button>
+						</div>
+					</div>
 				}
 			</div>
 		</div>
 	</div>
 </div>
-<!-- Kết nối Bootstrap CSS -->
+<div class="modal fade" id="XoaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			@using (Ajax.BeginForm("Delete", "Product", new AjaxOptions
+			{
+				HttpMethod = "DELETE",
+				OnFailure = "AjaxFormError",
+				OnSuccess = "AjaxFormSuccess",
+			}, new { enctype = "multipart/form-data" }))
+			{
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					Bạn có chắc chắn muốn xóa không?
 
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+					<button type="submit" class="btn btn-danger">Có</button>
+				</div>
+			}
+		</div>
+	</div>
+</div>
+
+<!-- Kết nối Bootstrap CSS -->
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/toastr.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.slim.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function(){
         // Tạo một biến JavaScript từ dữ liệu Razor
-        var products = @Html.Raw(Json.Encode(Model));
-		$('#productImage').change(function () {
+		var products = @Html.Raw(Json.Encode(Model));
+		$('#ProductImage').change(function () {
 			readURL(this);
 		});
-
+		$("#Xoa").click(function () {
+			$("#XoaModal").modal("show"); // Thay "modalID" bằng ID của modal bạn muốn gọi ra
+		});
 		function readURL(input) {
 			if (input.files && input.files[0]) {
 				var reader = new FileReader();
@@ -156,6 +199,7 @@
 				reader.readAsDataURL(input.files[0]);
 			}
 		}
+
         // Kiểm tra xem mảng products có dữ liệu không
         if (products && products.length > 0) {
             // Lặp qua từng phần tử trong mảng dữ liệu
@@ -166,11 +210,12 @@
                 // Thêm dữ liệu vào từng ô trong hàng
                 newRow.append("<td style='text-align:center'>" + (index + 1) + "</td>");
                 newRow.append("<td style='text-align:center'><img class='rounded-4 fit product-main-image' style='height:40px;width:70px' src='" + product.Url_Image + "' alt='Không tìn thấy ảnh'></td>");
-                newRow.append("<td>" + product.Name + "</td>");
+				newRow.append("<td class='product-name'>" + product.Name + "</td>");
                 newRow.append("<td style='text-align:center'>" + product.Quantity + "</td>");
                 newRow.append("<td style='text-align:center'>" + product.Price + "</td>");
-				newRow.append("<td style='text-align:end'><a style='color:black;' href=''><i class='bi-pencil-square'></i></a></td>");
-				newRow.append("<td><a style='color:red' href=''><i class='bi-trash3'></i></a></td>");
+				newRow.append("<td style='text-align:end'><a style='color:black;' href='@Url.Action("Edit", "Product")?id=" + product.Id + "'><i class='bi-pencil-square'></i></a></td>");
+				newRow.append("<td><a style='color:red;' onclick='confirmDelete(" + product.Id + ")'><i class='bi-trash3'></i></a></td>");
+
                 // Thêm hàng vào tbody của bảng
                 $("#table").append(newRow);
             });
@@ -183,5 +228,88 @@
 			// Mở modal thêm mới sản phẩm
 			$("#addProductModal").modal("show");
 		});
+		$("#submitsp").click(function (event) {
+			debugger
+			var productionYear = $("#ProductYear").val();
+			var expiredYear = $("#ExpiredYear").val();
+			if (productionYear.length !== 4 || isNaN(productionYear) || expiredYear.length !== 4 || isNaN(expiredYear)) {
+				event.preventDefault(); // Ngăn chặn việc submit form nếu input không hợp lệ
+				toastr.error("Vui lòng nhập năm đúng định dạng", "Thông báo");
+			}
+		});
+		$(".datatable-input").on("input", function () {
+			var searchValue = $(this).val().toLowerCase();
+			$("#table tbody tr").filter(function () {
+				$(this).toggle($(this).find(".product-name").text().toLowerCase().indexOf(searchValue) > -1);
+			});
+		});
+		$('th[data-sortable="true"]').click(function () {
+			var table = $(this).parents('table').eq(0);
+			var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+			this.asc = !this.asc;
+			if (!this.asc) {
+				rows = rows.reverse();
+			}
+			for (var i = 0; i < rows.length; i++) {
+				table.append(rows[i]);
+			}
+		});
+
+		function comparer(index) {
+			return function (a, b) {
+				var valA = getCellValue(a, index),
+					valB = getCellValue(b, index);
+				return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.localeCompare(valB);
+			};
+		}
+
+		function getCellValue(row, index) {
+			return $(row).children('td').eq(index).text();
+		}
+
     });
+</script>
+<script>
+	function AjaxFormError() {
+		toastr.error("Có lỗi xảy ra trong quá trình gửi yêu cầu", "Lỗi");
+	}
+	function AjaxFormSuccess(rs) {
+		if (rs.Status) {
+			toastr.success(rs.Message, "Thông báo");
+			$("#addProductModal").modal("hide");
+			$("#XoaModal").modal("hide");
+			setTimeout(function() {
+   location.reload();
+}, 500);			
+		} else {
+			toastr.error(rs.Message, "Thông báo");
+		}
+	}
+	function confirmDelete(productId) {
+	if (confirm("Bạn chắc chắn muốn xóa không?")) {
+		var Id = parseInt(productId);
+
+		AjaxCall('@Url.Action("Delete", "Product")', 'POST', { Id: Id }, function (response) {
+			if (response.success) {
+				toastr.success(response.message, "Thông báo");
+				 	setTimeout(function() {
+    window.location.href = '@Url.Action("Index", "Product")';
+}, 500);
+			} else {
+					toastr.error(response.message, "Thông báo");
+			}
+		});
+	}
+	}
+	function AjaxCall(url, type, data, successCallback, errorCallback) {
+		$.ajax({
+			url: url,
+			type: type,
+			data: data,
+			success: successCallback,
+			error: errorCallback || function () {
+				toastr.error('Có lỗi xảy ra trong quá trình xử lý yêu cầu', 'Lỗi');
+			}
+		});
+	}
 </script>

@@ -30,7 +30,7 @@ namespace Frank.Model
         public DbSet<Product> Product { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<ShopCart> ShopCart { get; set; }
-        public DbSet<Order_Address> Order_Address { get; set; }
+        public DbSet<Order_Detail> Order_Detail { get; set; }
         public static FrankContext Create()
         {
             return new FrankContext();

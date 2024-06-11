@@ -3,7 +3,7 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using Frank.Service.ShopCartService.Dto;
-@model ShopCartDto
+@model List<Frank.Service.ShopCartService.Dto.ShopCartDto>
 <style>
 	.a {
 		margin: auto;
@@ -107,8 +107,52 @@
 <div class="a">
 	<div class="b">
 		<div class="container">
+			<h3 class="title" style="text-align:center">ĐƠN HÀNG CỦA BẠN</h3>
+			<hr />
 			<div class="row gx-5">
-				<aside class="col-lg-6">
+				<main class="col-lg-7">
+					<div class="border rounded-4 mb-3 p-4 d-flex flex-column justify-content-center">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th style="text-align:center;">STT</th>
+									<th style="text-align:center;">Hình ảnh</th>
+									<th style="text-align:center;">Tên sản phẩm</th>
+									<th style="text-align:center;">Giá</th>
+									<th style="text-align:center;">Số lượng</th>
+									<th style="text-align:center;">Tổng tiền</th>
+								</tr>
+							</thead>
+							<tbody>
+								@if (Model != null && Model.Any())
+								{
+									var i = 1;
+									long Tongtien = 0;
+									foreach (var item in Model)
+									{
+										<tr>
+											<td style="text-align:center;">@i</td>
+											<td><img class="rounded-4 fit product-main-image" style="height:40px;width:70px" src="@item.Image_Product" alt="Không có ảnh" /></td>
+											<td>@item.NameProduct</td>
+											<td style="text-align:center;">@item.Price</td>
+											<td style="text-align:center;">@item.Quantity</td>
+											<td style="text-align:center;">@item.TotalPrice</td>
+
+										</tr>
+										Tongtien += item.TotalPrice;
+
+										i++;
+									}
+									<tr>
+										<td colspan="5" style="font-weight:bold;text-align:center; color:red">SỐ TIỀN PHẢI TRẢ:</td>
+										<td style="font-weight:bold; color:red;text-align:center"> <input style="text-align:center;font-weight:bold;color:red;" id="Tongtientra" class="custom-input" type="text" value="@Tongtien" readonly /><span style="text-align:end;">VND</span></td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</main>
+				<aside class="col-lg-5">
 					<div class="border rounded-4 mb-3 p-4 d-flex flex-column justify-content-center">
 						<div>
 							<div class="form-group row">
@@ -144,59 +188,13 @@
 									</div>
 								</div>
 							</fieldset>
+							<div class="row mt-3">
+								<button id="submit" type="submit" class="btn btn-primary shadow-0" style="width:100%;"> <i class="me-1 fa fa-shopping-basket"></i> Xác nhận </button>
+							</div>
 						</div>
 						@*<img style="margin: auto;" class="rounded-4 fit product-main-image" src="https://tse4.mm.bing.net/th?id=OIP.1kz3bYdpQsj9sjT8FGldggHaHa&pid=Api&P=0&h=220" alt="Không có ảnh" />*@
 					</div>
 				</aside>
-				<main class="col-lg-6">
-					<div class="container">
-						<div class="row">
-							<img class="col-sm-6" src="@Model.Image_Product" class="img-fluid" alt="Không có ảnh">
-							<h2 class="col-sm-6">
-								@Model.NameProduct
-							</h2>
-						</div>
-					</div>
-					<div class="container">
-						<div class="row">
-							<hr class="col-sm-12" />
-						</div>
-					</div>
-					<div class="container">
-						<div class="row">
-							<input id="User_Id" class="col-sm-5 custom-input" value="@Model.User_Id" readonly hidden />
-							<input id="Product_Id" class="col-sm-5 custom-input" value="@Model.Product_Id" readonly hidden />
-						</div>
-					</div>
-					<div class="container">
-						<div class="row">
-							<label class="col-sm-6">Giá</label>
-							<input id="Gia" class="col-sm-5 custom-input" value="@Model.Price" readonly /><span class="col-sm-1">VND</span>
-						</div>
-					</div>
-					<div class="container">
-						<div class="row">
-							<label class="col-sm-6">Số lượng còn</label>
-							<input id="Soluongcon" class="col-sm-3 custom-input" value="@Model.Soluongcon" readonly /><span class="col-sm-3" style="text-align:end;">Cốc</span>
-						</div>
-					</div>
-					<div class="container">
-						<div class="row">
-							<label class="col-sm-6">Số lượng</label>
-							<input id="Soluong" class="col-sm-3 custom-input" type="number" value="@Model.Quantity" /><span class="col-sm-3" style="text-align:end;">Cốc</span>
-						</div>
-					</div>
-					<div class="container">
-						<div class="row" style="color:red">
-							<label class="col-sm-6" style="color: red; font-weight: bold;">Tổng tiền</label>
-							<input id="Tongtien" type="number" class="col-sm-5 custom-input" style="color:red" readonly /><span class="col-sm-1">VND</span>
-						</div>
-					</div>
-					<div class="row mt-3">
-						<button id="submit" type="submit" class="btn btn-primary shadow-0" style="width:100%;"> <i class="me-1 fa fa-shopping-basket"></i> Xác nhận </button>
-					</div>
-
-				</main>
 			</div>
 		</div>
 	</div>
@@ -209,53 +207,31 @@
 <script src="~/Scripts/jquery-3.6.0.min.js"></script>
 <script>
 	$(document).ready(function () {
-		var Soluong = parseInt($("#Soluong").val());
-		var Soluongcon = parseInt($("#Soluongcon").val());
-		var Gia = parseInt($("#Gia").val());
-		var Tongtien = Soluong * Gia;
-		$("#Tongtien").val(Tongtien);
-		$('#Soluong').change(function () {
-			var Soluong = parseInt($("#Soluong").val());
-			var Gia = parseInt($("#Gia").val());
-			var Tongtien = Soluong * Gia;
-			if (Soluongcon < Soluong) {
-				toastr.error("Số lượng hàng tồn không đủ!", "Thông báo");
-			}
-			$("#Tongtien").val(Tongtien);
-		});
+		var Id = '@ViewBag.Id';
 		$('#submit').click(function (event) {
+			event.preventDefault();
 			var Phone = $('#Phone').val();
 			var NameCustomer = $('#NameCustomer').val();
 			var Address = $('#Address').val();
 			if (Phone.trim() === '' || NameCustomer.trim() === '' || Address.trim() === '') {
 				toastr.error("Các trường thông tin không được để trống", "Thông báo");
 			} else {
-				if (!(/^\d+$/.test(Phone) && Phone.length <= 10)) {
+				if (!(/^\d+$/.test(Phone) && Phone.length === 10 && Phone.charAt(0) === '0')) {
 					toastr.error("Vui lòng nhập số điện thoại đúng định dạng!", "Thông báo");
 				}
 				else {
-					var Soluong = parseInt($("#Soluong").val());
-					var Soluongcon = parseInt($("#Soluongcon").val());
-					if (Soluongcon < Soluong) {
-						toastr.error("Số lượng hàng tồn không đủ!", "Thông báo");
-					}
-					else {
 						var Namecustomer = $('#NameCustomer').val();
 						var Phone = $('#Phone').val();
 						var Address = $('#Address').val();
-						var Soluong = $("#Soluong").val();
-						var Tongtien = $("#Tongtien").val();
-						var User_Id = $("#User_Id").val();
-						var Product_Id = $("#Product_Id").val();
+						var Tongtien = $("#Tongtientra").val();					
 						var requestData = {
 							Namecustomer: Namecustomer,
 							Phone: Phone,
 							Address: Address,
-							Soluong: parseInt(Soluong),
 							Tongtien: parseFloat(Tongtien),
-							User_Id: parseInt(User_Id),
-							Product_Id: parseInt(Product_Id)
+							User_Id: parseInt(Id)
 						};
+					debugger
 						AjaxCall('@Url.Action("Order", "Home")', 'POST', requestData, function (response) {
 								  if (response.success) {
 									  toastr.success(response.message, "Thông báo");
@@ -263,10 +239,8 @@
 									  toastr.error(response.message, "Lỗi");
 									}
 						});
-					}
 				}
-			}
-			event.preventDefault();
+			}			
 		});
 	});
 
@@ -281,53 +255,4 @@
 			}
 		});
 	}
-</script>
-<script>
-	$(document).ready(function () {
-	$('#submit').click(function (event) {
-	var Phone = $('#Phone').val();
-	var NameCustomer = $('#NameCustomer').val();
-	var Address = $('#Address').val();
-	if (Phone.trim() === '' || NameCustomer.trim() === '' || Address.trim() === '') {
-		toastr.error("Các trường thông tin không được để trống", "Thông báo");
-	} else {
-		if (!(/^\d+$/.test(Phone) && Phone.length <= 10)) {
-			toastr.error("Vui lòng nhập số điện thoại đúng định dạng!", "Thông báo");
-		}
-		else {
-			var Soluong = parseInt($("#Soluong").val());
-			var Soluongcon = parseInt($("#Soluongcon").val());
-			if (Soluongcon < Soluong) {
-				toastr.error("Số lượng hàng tồn không đủ!", "Thông báo");
-			}
-			else {
-				var Namecustomer = $('#NameCustomer').val();
-				var Phone = $('#Phone').val();
-				var Address = $('#Address').val();
-				var Soluong = $("#Soluong").val();
-				var Tongtien = $("#Tongtien").val();
-				var User_Id = $("#User_Id").val();
-				var Product_Id = $("#Product_Id").val();
-				var requestData = {
-					Namecustomer: Namecustomer,
-					Phone: Phone,
-					Address: Address,
-					Soluong: parseInt(Soluong),
-					Tongtien: parseFloat(Tongtien),
-					User_Id: parseInt(User_Id),
-					Product_Id: parseInt(Product_Id)
-				};
-				AjaxCall('@Url.Action("Order", "Home")', 'POST', requestData, function (response) {
-						  if (response.success) {
-							  toastr.success(response.message, "Thông báo");
-							} else {
-							  toastr.error(response.message, "Lỗi");
-							}
-				});
-			}
-		}
-	}
-	event.preventDefault();
-});
-	});
 </script>

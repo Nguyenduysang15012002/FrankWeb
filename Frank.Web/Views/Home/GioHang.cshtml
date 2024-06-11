@@ -5,7 +5,10 @@
 @{
 	ViewBag.Title = "GioHang";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+	var Id = ViewBag.Id;
 }
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
 <style>
 	.product-main-image {
 		max-width: 100px; /* Điều chỉnh kích thước ảnh */
@@ -46,59 +49,56 @@
 		text-transform: none;
 	}
 	/* CSS cho phân trang */
-.datatable-bottom {
-    text-align: center;
-    margin: 20px 0;
-}
+	.datatable-bottom {
+		text-align: center;
+		margin: 20px 0;
+	}
 
-.datatable-pagination {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-}
+	.datatable-pagination {
+		display: inline-block;
+		padding: 0;
+		margin: 0;
+	}
 
-.datatable-pagination ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-}
+		.datatable-pagination ul {
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			justify-content: center;
+		}
 
-.datatable-pagination ul li {
-    display: inline;
-    margin: 0 5px;
-}
+			.datatable-pagination ul li {
+				display: inline;
+				margin: 0 5px;
+			}
 
-.datatable-pagination ul li a {
-    color: #007bff;
-    text-decoration: none;
-    padding: 8px 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-}
+				.datatable-pagination ul li a {
+					color: #007bff;
+					text-decoration: none;
+					padding: 8px 16px;
+					border: 1px solid #ddd;
+					border-radius: 4px;
+					transition: background-color 0.3s, color 0.3s;
+				}
 
-.datatable-pagination ul li a:hover {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
+					.datatable-pagination ul li a:hover {
+						background-color: #007bff;
+						color: white;
+						border-color: #007bff;
+					}
 
-.datatable-pagination ul li.active a {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
+				.datatable-pagination ul li.active a {
+					background-color: #007bff;
+					color: white;
+					border-color: #007bff;
+				}
 
-.datatable-pagination ul li.disabled a {
-    color: #ddd;
-    pointer-events: none;
-    border-color: #ddd;
-}
-
-
-
+				.datatable-pagination ul li.disabled a {
+					color: #ddd;
+					pointer-events: none;
+					border-color: #ddd;
+				}
 </style>
 <div class="a">
 	<div class="container">
@@ -107,8 +107,8 @@
 				<div class="card">
 					<div class="card-body">
 						<h4 class="card-title">Danh sách sản phẩm trong giỏ hàng</h4>
-
 						<div class="table-responsive">
+
 							<table class="table table-bordered">
 								<thead>
 									<tr>
@@ -118,7 +118,7 @@
 										<th>Giá</th>
 										<th>Số lượng</th>
 										<th>Tổng tiền</th>
-										<th></th>
+										<th>Thao tác</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -134,13 +134,21 @@
 												<td>@item.NameProduct</td>
 												<td>@item.Price</td>
 												<td>@item.Quantity</td>
-												<td>@item.TotalPrice</td>
+												<td>@item.TotalPrice <i style="text-align:end;">VND</i></td>
 												<td>
-													<a class="btn btn-primary shadow-0 no-uppercase" href='@Url.Action("Order", "Home")?User_Id=@item.User_Id&Product_Id=@item.Product_Id'>Đặt hàng</a>
+													<a class="btn btn-primary bg-white text-primary shadow-0 no-uppercase delete-shopcart" data-product-id="@item.Product_Id" data-user-id="@item.User_Id">
+														<i class="bi bi-trash text-danger"></i>
+													</a>
 												</td>
 											</tr>
+
 											i++;
 										}
+										<tr>
+											<td colspan="7" style="text-align: end;">
+												<a id="Dathang" href='@Url.Action("Order", "Home")?User_Id=@Id' style="margin-right:25px;" class="btn btn-primary">Đặt hàng</a>
+											</td>
+										</tr>
 									}
 									else
 									{
@@ -186,16 +194,43 @@
 		</div>
 	</div>
 </div>
-
+<script src="~/Scripts/toastr.min.js"></script>
 <script>
-        $(document).ready(function() {
-			$("#submit").click(function () {
+$(document).ready(function() {
+	var Id = parseInt('@Id');
 
-                // Xây dựng URL động với Razor syntax và tham số JavaScript
-				var url = '@Url.Action("Order", "Home")' + '?User_Id=' + itemId + '&Product_Id=' + userId;
-
-                // Chuyển hướng đến URL được tạo
-                window.location.href = url;
-            });
+    $('.delete-shopcart').on('click', function(e) {
+        e.preventDefault();
+        var Product_Id = $(this).data('product-id');
+        var User_Id = $(this).data('user-id');
+        var requestData = {
+            User_Id: parseInt(User_Id),
+            Product_Id: parseInt(Product_Id)
+		};
+        AjaxCall('@Url.Action("DeleteShopcart", "Home")', 'POST', requestData, function(response) {
+            if (response.success) {
+				toastr.success(response.message, "Thông báo");
+				 setTimeout(function() {
+					 window.location.href = '@Url.Action("GioHang", "Home")' + '?Id=' + Id;
+					 debugger
+				   }, 1000);
+            } else {
+                toastr.error(response.message, "Thông báo");
+            }
         });
+    });
+});
+</script>
+<script>
+	function AjaxCall(url, type, data, successCallback, errorCallback) {
+		$.ajax({
+			url: url,
+			type: type,
+			data: data,
+			success: successCallback,
+			error: errorCallback || function () {
+				toastr.error('Có lỗi xảy ra trong quá trình xử lý yêu cầu', 'Lỗi');
+			}
+		});
+	}
 </script>
