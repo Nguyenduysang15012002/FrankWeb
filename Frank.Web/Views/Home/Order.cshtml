@@ -207,7 +207,7 @@
 <script src="~/Scripts/jquery-3.6.0.min.js"></script>
 <script>
 	$(document).ready(function () {
-		var Id = '@ViewBag.Id';
+		var Id = parseInt('@ViewBag.Id');
 		$('#submit').click(function (event) {
 			event.preventDefault();
 			var Phone = $('#Phone').val();
@@ -223,7 +223,7 @@
 						var Namecustomer = $('#NameCustomer').val();
 						var Phone = $('#Phone').val();
 						var Address = $('#Address').val();
-						var Tongtien = $("#Tongtientra").val();					
+						var Tongtien = $("#Tongtientra").val();
 						var requestData = {
 							Namecustomer: Namecustomer,
 							Phone: Phone,
@@ -235,12 +235,15 @@
 						AjaxCall('@Url.Action("Order", "Home")', 'POST', requestData, function (response) {
 								  if (response.success) {
 									  toastr.success(response.message, "Thông báo");
+										setTimeout(function() {
+										window.location.href = '@Url.Action("DonHang", "Home")' + '?Id=' + Id;
+										 }, 1000);
 									} else {
 									  toastr.error(response.message, "Lỗi");
 									}
 						});
 				}
-			}			
+			}
 		});
 	});
 

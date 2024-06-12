@@ -1,0 +1,201 @@
+﻿
+@{
+	ViewBag.Title = "Detail_DonHang";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model Frank.Service.OrderService.Dto.OrderDto
+@{
+	// Tạo một Dictionary ánh xạ giữa giá trị Processing_Status và chuỗi tương ứng
+	Dictionary<int, string> statusMappings = new Dictionary<int, string>
+{
+		{ 1, "Chờ xác nhận" },
+		{ 2, "Đang giao hàng" },
+		{ 3, "Giao hàng thành công" },
+		{ 4, "Đơn hàng bị hủy" },
+		};
+}
+<style>
+	.a {
+		margin: auto;
+		height: auto;
+		margin-top: 65px;
+	}
+
+	.b {
+		margin: 30px auto;
+	}
+
+	.c {
+		margin: auto;
+		width: 100%;
+		align-items: center;
+		text-align: center;
+		padding-top: 10px;
+	}
+
+	.product-main-image {
+		width: 80%; /* Điều chỉnh kích thước ảnh chính */
+		height: auto;
+	}
+
+	.product-thumb-image {
+		width: 50px; /* Điều chỉnh kích thước ảnh nhỏ */
+		height: 50px;
+	}
+
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+
+		.form-group label {
+			font-weight: bold;
+			margin-bottom: 0.5rem;
+			display: block; /* Đảm bảo label hiển thị thành một khối trên input */
+		}
+
+		.form-group input {
+			width: 100%;
+			padding: 0.5rem;
+			border: 1px solid #ced4da;
+			border-radius: 4px;
+			box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+		}
+
+	.number-box {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 20px auto;
+		width: 150px;
+		height: 40px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		overflow: hidden;
+	}
+
+		.number-box input {
+			width: 60px;
+			height: 100%;
+			border: none; /* Xóa đường viền */
+			text-align: center;
+			outline: none;
+			background-color: transparent; /* Làm nền trong suốt */
+			box-shadow: none; /* Xóa đổ bóng */
+			-webkit-appearance: none; /* Xóa kiểu mặc định trong Safari */
+			-moz-appearance: none; /* Xóa kiểu mặc định trong Firefox */
+			appearance: none; /* Xóa kiểu mặc định */
+		}
+
+		.number-box .next-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 30px;
+			height: 100%;
+			background-color: #f0f0f0;
+			cursor: pointer;
+			transition: background-color 0.3s; /* Thêm hiệu ứng chuyển tiếp */
+		}
+
+			.number-box .next-icon:hover {
+				background-color: #ddd; /* Thay đổi màu nền khi hover */
+			}
+
+			.number-box .next-icon:disabled {
+				background-color: #e0e0e0;
+				cursor: not-allowed;
+			}
+
+	.custom-input {
+		border: none; /* Bỏ border */
+		border-right: none; /* Bỏ border bên phải */
+
+		padding-right: 0; /* Bỏ padding bên phải */
+		outline: none; /* Bỏ đường viền khi focus */
+	}
+</style>
+@if (Model != null)
+{
+	<div class="a">
+		<div class="b">
+			<div class="container">			
+				<hr />
+				<div class="border rounded-4 mb-3 p-4 d-flex flex-column justify-content-center">
+					<div class="row gx-5">
+
+						<main class="col-lg-12">
+							<h4 class="title" style="text-align: center; text-decoration: underline;padding-bottom:10px;"><b>THÔNG TIN ĐƠN HÀNG</b></h4>
+							<table class="table table-bordered">
+								<tbody>
+									<tr>
+										<td style="font-size:16px;">Mã đơn hàng</td>
+										<td style="font-size:16px;"><b>#Frank@(Model.Id)</b></td>
+									</tr>
+									<tr>
+										<td style="font-size:16px;">Họ và tên người nhận hàng:</td>
+										<td style="font-size:16px;"><b>@Model.RecieveName</b></td>
+									</tr>
+									<tr>
+										<td style="font-size:16px;">Số điện thoại người nhận:</td>
+										<td style="font-size:16px;"><b>@Model.RecievePhone</b></td>
+									</tr>
+									<tr>
+										<td style="font-size:16px;">Địa chỉ nhận hàng:</td>
+										<td style="font-size:16px;"><b>@Model.RecieveAddress</b></td>
+									</tr>
+									<tr>
+										<td style="font-size:16px;">Trạng thái đơn hàng:</td>
+										<td style="font-size:16px;"><b style="color:blue"> @(statusMappings.ContainsKey(Model.Processing_Status) ? statusMappings[Model.Processing_Status] : "Trạng thái không xác định")</b></td>
+									</tr>
+									<tr>
+										<td style="font-size:16px;">Phương thức thanh toán:</td>
+										<td style="font-size:16px;"><b>Thanh toán khi nhận hàng</b></td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th style="text-align:center;">STT</th>
+										<th style="text-align:center;">Hình ảnh</th>
+										<th style="text-align:center;">Tên sản phẩm</th>
+										<th style="text-align:center;">Giá</th>
+										<th style="text-align:center;">Số lượng mua</th>
+										<th style="text-align:center;">Tổng tiền</th>
+									</tr>
+								</thead>
+								<tbody>
+									@if (Model.Order_Details != null && Model.Order_Details.Any())
+									{
+										var i = 1;
+										long Tongtien = 0;
+										foreach (var item in Model.Order_Details)
+										{
+											<tr>
+												<td style="text-align:center;">@i</td>
+												<td><img class="rounded-4 fit product-main-image" style="height:40px;width:70px" src="@item.Url_Image" alt="Không có ảnh" /></td>
+												<td>@item.NameProduct</td>
+												<td style="text-align:center;">@item.Price</td>
+												<td style="text-align:center;">@item.Quantity</td>
+												<td style="text-align:center;">@((long)item.Price*(long)item.Quantity)</td>
+
+											</tr>
+											Tongtien += ((long)item.Price * (long)item.Quantity);
+
+											i++;
+										}
+										<tr>
+											<td colspan="5" style="font-weight:bold;text-align:center; color:red">SỐ TIỀN PHẢI TRẢ:</td>
+											<td style="font-weight:bold; color:red;text-align:center"> <input style="text-align:center;font-weight:bold;color:red;" id="Tongtientra" class="custom-input" type="text" value="@Tongtien" readonly /><span style="text-align:end;">VND</span></td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</main>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+

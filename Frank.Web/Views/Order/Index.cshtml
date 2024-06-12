@@ -1,0 +1,217 @@
+﻿
+@{
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using Frank.Model.Entities;
+@using PagedList;
+@using PagedList.Mvc;
+@model  IPagedList<Frank.Model.Entities.Order>
+@{
+	// Tạo một Dictionary ánh xạ giữa giá trị Processing_Status và chuỗi tương ứng
+	Dictionary<int, string> statusMappings = new Dictionary<int, string>
+{
+		{ 1, "Chờ xác nhận" },
+		{ 2, "Duyệt đơn hàng" },
+		{ 3, "Giao hàng thành công" },
+		{ 4, "Hủy đơn hàng" },
+		};
+}
+<div class="col-lg-12">
+
+	<div class="card">
+		<div class="card-body">
+			<h1 style="text-align:center">Quản lý đơn hàng</h1>
+
+
+			<!-- Table with stripped rows -->
+			<div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+				<div class="datatable-top">
+					@*<div class="datatable-dropdown">
+							<label>
+								<select class="datatable-selector" name="per-page"><option value="5">5</option><option value="10" selected="">10</option><option value="15">15</option><option value="-1">All</option></select> Số trang
+							</label>
+						</div>*@
+					<div class="datatable-search">
+						<input class="datatable-input" placeholder="Tìm kiếm đơn hàng....." type="search" name="search" title="Search within table">
+					</div>
+					@*<div class="datatable-container">
+						<button id="Create" style="background-color: #007bff; color: white; border: none; border-radius: 20px; padding: 8px 16px; cursor: pointer;">Thêm mới</button>
+					</div>*@
+				</div>
+				<div class="datatable-container">
+					<table class="table datatable datatable-table" id="table">
+						<thead>
+							<tr>
+								<th style="text-align:center">STT</th>
+								<th style="text-align:center"><button class="datatable-sorter">Mã đơn hàng</button></th>
+								<th style="text-align:center"><button class="datatable-sorter">Tên người nhận</button></th>
+								<th style="text-align:center"><button class="datatable-sorter">Địa chỉ nhận hàng</button></th>
+								<th data-sortable="true"><button class="datatable-sorter" style="text-align:center">Trạng thái đơn hàng</button></th>
+								<th data-sortable="true"><button class="datatable-sorter" style="text-align:center">Tổng tiền</button></th>
+								<th colspan="2" data-sortable="true" style="text-align:center">Thao tác</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<div class="datatable-bottom">
+					<nav class="datatable-pagination">
+						@{
+							var options = new PagedListRenderOptions
+							{
+								DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+								DisplayLinkToIndividualPages = true
+							};
+
+							Func<int, string> pageUrlGenerator = page => Url.Action("Index", new { Id = ViewBag.Id, page, pageSize = ViewBag.PageSize });
+
+							@Html.PagedListPager(Model, pageUrlGenerator, options)
+						}
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Kết nối Bootstrap CSS -->
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/toastr.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.slim.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // Tạo một biến JavaScript từ dữ liệu Razor
+        var order = @Html.Raw(Json.Encode(Model));
+        debugger;
+
+        // Kiểm tra xem user có dữ liệu không và có phải là một mảng không
+		if (order && Array.isArray(order) && order.length > 0) {
+            // Lặp qua từng phần tử trong mảng dữ liệu
+			order.forEach(function (orderItem, index) {
+                // Tạo một hàng mới cho bảng
+                var newRow = $("<tr>");
+
+                // Thêm dữ liệu vào từng ô trong hàng
+                newRow.append("<td style='text-align:center'>" + (index + 1) + "</td>");
+				newRow.append("<td class='order-id'>"+'#Frank' + orderItem.Id + "</td>");
+				newRow.append("<td>" + orderItem.RecieveName + "</td>");
+				newRow.append("<td>" + orderItem.RecieveAddress + "</td>");
+				var statusText;
+				switch (orderItem.Processing_Status) {
+					case 1:
+						statusText = "Đang chờ xử lý";
+						break;
+					case 2:
+						statusText = "Đang giao hàng";
+						break;
+					case 3:
+						statusText = "Giao hàng thành công";
+						break;
+					case 4:
+						statusText = "Đơn hàng đã bị hủy";
+						break;
+					default:
+						statusText = "Trạng thái không xác định!";
+						break;
+				}
+				newRow.append("<td style='font-size:16px;'><b>" + statusText + "</b></td>");
+				newRow.append("<td style='text-align:center'>" + orderItem.TotalPrice + ' VND' + "</td>");
+				newRow.append("<td style='text-align:end'><a style='color:black;' href='@Url.Action("Edit", "Order")?id=" + orderItem.Id + "'><i class='bi-pencil-square'></i></a></td>");
+				newRow.append("<td><a style='color:red;' onclick='confirmDelete(" + orderItem.Id + ")'><i class='bi-trash3'></i></a></td>");
+
+                // Thêm hàng vào tbody của bảng
+                $("#table").append(newRow);
+            });
+        } else {
+            // Nếu không có sản phẩm, hiển thị một hàng không có sản phẩm
+            var noOrderRow = $("<tr>").append("<td colspan='8' style='text-align:center;color:red;'>Không có đơn hàng nào!</td>");
+			$("#table").append(noOrderRow);
+        }
+
+        $("#Create").click(function () {
+            // Mở modal thêm mới sản phẩm
+			$("#addModal").modal("show");
+        });
+        $(".datatable-input").on("input", function () {
+            var searchValue = $(this).val().toLowerCase();
+            $("#table tbody tr").filter(function () {
+				$(this).toggle($(this).find(".order-id").text().toLowerCase().indexOf(searchValue) > -1);
+            });
+		});
+		$("#submitcreate").click(function (event) {
+			var PhoneNumber = $("#PhoneNumber").val();
+			var regex = /^\d{10}$/;
+			if (!regex.test(PhoneNumber)) {
+				event.preventDefault(); // Ngăn chặn việc submit form nếu input không hợp lệ
+				toastr.error("Vui lòng nhập số điện thoại đúng định dạng", "Thông báo");
+			} else {
+				var status = $("#Status").val();
+				if (status === "") {
+					event.preventDefault();
+					toastr.error("Vui lòng chọn trạng thái.");
+				} else {
+					var quyen = $("#Quyen").val();
+					if (quyen === "") {
+						event.preventDefault();
+						toastr.error("Vui lòng chọn quyền của tài khoản.");
+					}
+				}
+			}
+		});
+    });
+</script>
+<script>
+	function AjaxFormError() {
+		toastr.error("Có lỗi xảy ra trong quá trình gửi yêu cầu", "Lỗi");
+	}
+	function AjaxFormSuccess(rs) {
+		if (rs.Status) {
+			toastr.success(rs.Message, "Thông báo");
+			$("#addModal").modal("hide");
+			$("#XoaModal").modal("hide");
+			setTimeout(function() {
+   location.reload();
+}, 500);
+		} else {
+			toastr.error(rs.Message, "Thông báo");
+		}
+	}
+	function confirmDelete(orderItemId) {
+	if (confirm("Bạn chắc chắn muốn xóa không?")) {
+		var Id = parseInt(orderItemId);
+
+		AjaxCall('@Url.Action("Delete", "Order")', 'POST', { Id: Id }, function (response) {
+			if (response.success) {
+				toastr.success(response.message, "Thông báo");
+				 	setTimeout(function() {
+    window.location.href = '@Url.Action("Index", "Order")';
+}, 500);
+			} else {
+					toastr.error(response.message, "Thông báo");
+			}
+		});
+	}
+	}
+	function AjaxCall(url, type, data, successCallback, errorCallback) {
+		$.ajax({
+			url: url,
+			type: type,
+			data: data,
+			success: successCallback,
+			error: errorCallback || function () {
+				toastr.error('Có lỗi xảy ra trong quá trình xử lý yêu cầu', 'Lỗi');
+			}
+		});
+	}
+</script>
+

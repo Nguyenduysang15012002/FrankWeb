@@ -1,5 +1,6 @@
 ﻿using Frank.Model.Entities;
 using Frank.Service.OrderService.Dto;
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Frank.Service.Order_DetailService.Dto
 {
-    public class Order_Detail
+    public class Order_DetailDto : Order_Detail
     {
-        public OrderDto order {  get; set; } 
+        public string Url_Image {  get; set; }
+        public string NameProduct { get; set;}
     }
 }

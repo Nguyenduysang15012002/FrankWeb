@@ -147,18 +147,20 @@ namespace Frank.Web.Controllers
                 var ExpiredYear = form["ExpiredYear"];
                 var Description = form["Description"];
                 var Danhmuc = form["Danhmuc"];
-                var Id = form["Id"];
-                var product = new Product();
-                product.Id = long.Parse(Id);
-                product.Name = ProductName;
-                product.Brand = ProductBrand;
-                product.ExpiredYear = int.Parse(ExpiredYear);
-                product.Description = Description;
-                product.Quantity = long.Parse(ProductQuantity);
-                product.ProductionYear = int.Parse(ProductYear);
-                product.Category_Id = long.Parse(Danhmuc);
-                // Lưu product vào cơ sở dữ liệu trước khi lấy Id
-                _productService.Update(product);
+                var Id = long.Parse(form["Id"]);
+                var product = _productService.FindBy(x=>x.Id == Id).FirstOrDefault();
+                if(product != null)
+                {
+                    product.Name = ProductName;
+                    product.Brand = ProductBrand;
+                    product.ExpiredYear = int.Parse(ExpiredYear);
+                    product.Description = Description;
+                    product.Quantity = long.Parse(ProductQuantity);
+                    product.ProductionYear = int.Parse(ProductYear);
+                    product.Category_Id = long.Parse(Danhmuc);
+                    // Lưu product vào cơ sở dữ liệu trước khi lấy Id
+                    _productService.Update(product);
+                }             
                 var attribute = _attribute_ProductService.FindBy(x=>x.Product_Id == product.Id).FirstOrDefault();
                 if (attribute != null)
                 {                   

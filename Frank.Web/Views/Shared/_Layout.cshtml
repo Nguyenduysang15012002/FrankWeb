@@ -101,7 +101,7 @@
 				{
 					<a href='@Url.Action("GioHang", "Home")?Id=@ViewBag.Id' class="icon" style="font-size: 20px;padding:10px;"><span class="bi bi-cart4"></span><i class="bi bi-@ViewBag.ThongBao-circle-fill"></i></a>
 					<a>|</a>
-					<a href='@Url.Action("DonHang", "Home")?Id=@ViewBag.Id' class="icon" style="font-size: 20px;padding:10px;"><span class="bi bi-bell-fill"></span><i class="bi bi-@ViewBag.Order-circle-fill"></i></a>
+					<a href='@Url.Action("DonHang", "Home")?Id=@ViewBag.Id' class="icon" style="font-size: 20px;padding:10px;"><span class="bi bi-bell-fill">@ViewBag.Order1</span><i class="bi bi-@ViewBag.Order-circle-fill"></i></a>
 				}
 				else
 				{

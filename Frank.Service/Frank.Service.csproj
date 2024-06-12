@@ -502,7 +502,7 @@
     <Compile Include="OrderService\Dto\OrderDto.cs" />
     <Compile Include="OrderService\IOrderService.cs" />
     <Compile Include="OrderService\OrderService.cs" />
-    <Compile Include="Order_DetailService\Dto\Order_Detail.cs" />
+    <Compile Include="Order_DetailService\Dto\Order_DetailDto.cs" />
     <Compile Include="Order_DetailService\IOrder_DetailService.cs" />
     <Compile Include="Order_DetailService\Order_DetailService.cs" />
     <Compile Include="ProductService\Dto\ProductDto.cs" />

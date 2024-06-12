@@ -177,37 +177,45 @@ namespace Frank.Web.Controllers
                 var PhoneNumber = form["PhoneNumber"];
                 var Status = long.Parse(form["Status"]);
                 var Quyen = long.Parse(form["Quyen"]);
-                var Id = form["Id"];
+                var Id = long.Parse(form["Id"]);
 
-                var user = new User();
-                user.Id = long.Parse(Id);
-                user.UserName = UserName;
-                user.Password = Password;
-                user.Email = Email;
-                user.PhoneNumber = PhoneNumber;
-                user.FullName = FullName;
-                user.Address = Address;
-                if (Quyen == 1)
+                var user = _userService.FindBy(x=>x.Id == Id).FirstOrDefault();
+                if(user != null)
                 {
-                    user.IsAdmin = true;
-                    user.IsCustomer = false;
-                    user.Istaff = false;
+                    user.Id = Id;
+                    user.UserName = UserName;
+                    user.Password = Password;
+                    user.Email = Email;
+                    user.PhoneNumber = PhoneNumber;
+                    user.FullName = FullName;
+                    user.Address = Address;
+                    if (Quyen == 1)
+                    {
+                        user.IsAdmin = true;
+                        user.IsCustomer = false;
+                        user.Istaff = false;
+                    }
+                    else
+                    {
+                        user.IsAdmin = false;
+                        user.IsCustomer = true;
+                        user.Istaff = false;
+                    }
+                    if (Status == 1)
+                    {
+                        user.Status = true;
+                    }
+                    else
+                    {
+                        user.Status = false;
+                    }
+                    _userService.Update(user);
                 }
                 else
                 {
-                    user.IsAdmin = false;
-                    user.IsCustomer = true;
-                    user.Istaff = false;
-                }
-                if (Status == 1)
-                {
-                    user.Status = true;
-                }
-                else
-                {
-                    user.Status = false;
-                }
-                _userService.Update(user);
+                    result.Status = false;
+                    result.Message = "Cập nhật tài khoản thất bại";
+                }            
             }
             catch (Exception ex)
             {

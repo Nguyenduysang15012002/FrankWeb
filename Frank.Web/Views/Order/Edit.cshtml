@@ -1,0 +1,93 @@
+﻿
+@{
+	ViewBag.Title = "Edit";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using Frank.Model.Entities;
+@model Order
+<style>
+	.table td {
+		width: 50%;
+	}
+</style>
+
+@using (Ajax.BeginForm("Edit", "Order", new AjaxOptions
+{
+	HttpMethod = "PATCH",
+	OnFailure = "AjaxFormError",
+	OnSuccess = "AjaxFormSuccess",
+}, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	<table class="table" style="width:700px;margin:auto">
+		<tbody>
+			<h2 style="text-align:center">Chỉnh sửa đơn hàng</h2>
+			<hr />
+			<tr>
+				<td colspan="2">
+					<input type="number" class="form-control" style="display:none" id="Id" name="Id" value="@Model.Id">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="RecieveName" class="form-label">Tên người nhận</label>
+					<input type="text" class="form-control" id="RecieveName" name="RecieveName" value="@Model.RecieveName" required>
+				</td>
+				<td>
+					<label for="RecieveAddress" class="form-label">Địa chỉ người nhận</label>
+					<input type="text" class="form-control" id="RecieveAddress" name="RecieveAddress" value="@Model.RecieveAddress" required>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="RecievePhone" class="form-label">Số điện thoại người nhận</label>
+					<input type="text" class="form-control" id="RecievePhone" name="RecievePhone" value="@Model.RecievePhone" required>
+				</td>
+				<td>
+					<label for="Email" class="form-label">Trạng thái đơn hàng</label>
+					@Html.DropDownList("Status", (IEnumerable<SelectListItem>)ViewBag.Status, new { @class = "form-control" })
+				</td>
+			</tr>	
+			<tr>
+				<td colspan="2" style="text-align:center; margin-top:10px;">
+					<button type="submit" id="submiteditorder" class="tox-button" style="text-align:center;color:white;background-color:blue">Xác nhận</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+}
+<link rel="stylesheet" href="~/Content/toastr.min.css" />
+<script src="~/Scripts/toastr.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function () {		
+
+		$("#submiteditorder").click(function (event) {
+			var RecievePhone = $("#RecievePhone").val();
+			var regex = /^\d{10}$/;
+			if (!regex.test(RecievePhone)) {
+				event.preventDefault(); // Ngăn chặn việc submit form nếu input không hợp lệ
+				toastr.error("Vui lòng nhập số điện thoại đúng định dạng", "Thông báo");
+			}
+		});
+	});
+</script>
+<script>
+	function AjaxFormError() {
+		toastr.error("Có lỗi xảy ra trong quá trình gửi yêu cầu", "Lỗi");
+	}
+	function AjaxFormSuccess(rs) {
+		if (rs.Status) {
+			toastr.success(rs.Message, "Thông báo");
+			setTimeout(function() {
+            window.location.href = '@Url.Action("Index", "Order")';
+        }, 1000);
+		} else {
+			toastr.error(rs.Message, "Thông báo");
+		}
+	}
+</script>
+
+
+

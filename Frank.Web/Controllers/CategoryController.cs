@@ -105,17 +105,24 @@ namespace Frank.Web.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Edit(FormCollection form)
         {
-            var result = new JsonResultBO(true, "Cập nhật sản phẩm thành công");
+            var result = new JsonResultBO(true, "Cập nhật danh mục thành công");
             try
             {
                 var CategoryName = form["CategoryName"];
                 var Description = form["Description"];              
-                var Id = form["Id"];
-                var category = new Category();
-                category.Id = long.Parse(Id);
-                category.CategoryName = CategoryName;
-                category.Description= Description;
-                _categoryService.Update(category);       
+                var Id = long.Parse(form["Id"]);
+                var category = _categoryService.FindBy(x=>x.Id == Id).FirstOrDefault();
+                if(category != null)
+                {
+                    category.CategoryName = CategoryName;
+                    category.Description = Description;
+                    _categoryService.Update(category);
+                }
+                else
+                {
+                    result.Status = false;
+                    result.Message = "Cập nhật danh mục thất bại";
+                }
             }
             catch (Exception ex)
             {

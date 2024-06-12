@@ -80,15 +80,23 @@ namespace Frank.Web.Controllers
                 {
                     ViewBag.ThongBao = 0;
                 }
-                //var listOrder = _orderService.GetListByIdUser((long)Id);
-                //if (listOrder != null)
-                //{
-                //    ViewBag.Order = listOrder.Count();
-                //}
-                //else
-                //{
-                //    ViewBag.Order = 0;
-                //}
+                var listOrder = _orderService.GetListByIdUser((long)Id);
+                
+                if (listOrder != null)
+                {
+                    if(listOrder.Count() < 10)
+                    {
+                        ViewBag.Order = listOrder.Count();
+                    }
+                    else
+                    {
+                        ViewBag.Order1 = listOrder.Count();
+                    }
+                }
+                else
+                {
+                    ViewBag.Order = 0;
+                }
             }
             else
             {
@@ -122,10 +130,19 @@ namespace Frank.Web.Controllers
             var user = _userService.FindBy(x => x.Id == Id).FirstOrDefault();
             ViewBag.Name = user?.FullName;
             int pageNumber = page ?? 1;
-            int pageSizeValue = pageSize ?? 2;          
+            int pageSizeValue = pageSize ?? 10;          
             ViewBag.PageSize = pageSize;
-           
-            return View();
+            var listOrder = _orderService.GetListByIdUser(Id);
+            var orderDtoPagedList = listOrder.ToPagedList(pageNumber, pageSizeValue);
+            return View(orderDtoPagedList);
+        }
+        public ActionResult Detail_DonHang(long User_Id,long Order_Id)
+        {
+            ViewBag.Id = User_Id;
+            var user = _userService.FindBy(x => x.Id == User_Id).FirstOrDefault();
+            ViewBag.Name = user?.FullName;
+            var model = _orderService.GetByUserAndOrder_Id(User_Id, Order_Id);
+            return View(model);
         }
         public ActionResult GioiThieu(long? Id)
         {

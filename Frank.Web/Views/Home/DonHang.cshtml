@@ -5,10 +5,9 @@
 @{
 	ViewBag.Title = "DonHang";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+	var Id = ViewBag.Id;
 }
-
-
-@model OrderDto
+@model  IPagedList<Frank.Service.OrderService.Dto.OrderDto>
 @{
 	// Tạo một Dictionary ánh xạ giữa giá trị Processing_Status và chuỗi tương ứng
 	Dictionary<int, string> statusMappings = new Dictionary<int, string>
@@ -16,6 +15,7 @@
 		{ 1, "Chờ xác nhận" },
 		{ 2, "Đang giao hàng" },
 		{ 3, "Giao hàng thành công" },
+		{ 4, "Đơn hàng đã bị hủy" },
 		};
 }
 <style>
@@ -120,159 +120,164 @@
 		outline: none; /* Bỏ đường viền khi focus */
 	}
 	/* CSS cho phân trang */
-.datatable-bottom {
-    text-align: center;
-    margin: 20px 0;
-}
+	.datatable-bottom {
+		text-align: center;
+		margin: 20px 0;
+	}
 
-.datatable-pagination {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-}
+	.datatable-pagination {
+		display: inline-block;
+		padding: 0;
+		margin: 0;
+	}
 
-.datatable-pagination ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-}
+		.datatable-pagination ul {
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			justify-content: center;
+		}
 
-.datatable-pagination ul li {
-    display: inline;
-    margin: 0 5px;
-}
+			.datatable-pagination ul li {
+				display: inline;
+				margin: 0 5px;
+			}
 
-.datatable-pagination ul li a {
-    color: #007bff;
-    text-decoration: none;
-    padding: 8px 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-}
+				.datatable-pagination ul li a {
+					color: #007bff;
+					text-decoration: none;
+					padding: 8px 16px;
+					border: 1px solid #ddd;
+					border-radius: 4px;
+					transition: background-color 0.3s, color 0.3s;
+				}
 
-.datatable-pagination ul li a:hover {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
+					.datatable-pagination ul li a.page-link:hover {
+						background-color: #007bff;
+						color: white;
+						border-color: #007bff;
+					}
 
-.datatable-pagination ul li.active a {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
+				.datatable-pagination ul li.active a {
+					background-color: #007bff;
+					color: white;
+					border-color: #007bff;
+				}
 
-.datatable-pagination ul li.disabled a {
-    color: #ddd;
-    pointer-events: none;
-    border-color: #ddd;
-}
+				.datatable-pagination ul li.disabled a {
+					color: #ddd;
+					pointer-events: none;
+					border-color: #ddd;
+				}
 
+	th {
+		text-align: center;
+		font-weight: bold;
+		color: black;
+	}
 
+	.clickable-row:hover {
+		background-color: black; /* Màu nền khi hover */
+		cursor: pointer; /* Biểu tượng con trỏ khi hover */
+	}
 </style>
+
+
 <div class="a">
-	<h3 style="color:black">Danh sách đơn hàng</h3>
-	<hr />
-	@*@if (Model != null && Model.Any())
-	{
-		foreach (var item in Model)
-		{
-			<div class="b">
-				<h4 style="color:blue;text-align:center;padding:5px 1px;">
-					Trạng thái đơn hàng:  @(statusMappings.ContainsKey(item.Processing_Status) ? statusMappings[item.Processing_Status] : "Trạng thái không xác định")</h4>
-					<div class="container">
-						<div class="row gx-5">
-							<main class="col-lg-6">
-								<div class="border rounded-4 mb-3 p-4 d-flex flex-column justify-content-center h-100">
-									<div class="container">
-										<div class="row">
-											<img style="width:250px;height:200px" class="col-sm-6" src="@item.Url_Image" class="img-fluid" alt="Không có ảnh">
-											<h2 class="col-sm-6">
-												@item.Name_Product
-											</h2>
-										</div>
-									</div>
-									<div class="container">
-										<div class="row">
-											<hr class="col-sm-12" />
-										</div>
-									</div>
-									<div class="container">
-										<div class="row">
-											<input id="User_Id" class="col-sm-5 custom-input" value="" readonly hidden />
-											<input id="Product_Id" class="col-sm-5 custom-input" value="" readonly hidden />
-										</div>
-									</div>				
-									<div class="container">
-										<div class="row">
-											<label class="col-sm-6">Số lượng</label>
-											<input id="Soluong" class="col-sm-3 custom-input" type="number" value="@item.Quantity" /><span class="col-sm-3" style="text-align:end;">Cốc</span>
-										</div>
-									</div>
-									<div class="container">
-										<div class="row" style="color:red">
-											<label class="col-sm-6" style="color: red; font-weight: bold;">Tổng tiền</label>
-											<input id="Tongtien" value="@item.TotalPrice" class="col-sm-5 custom-input" style="color:red" readonly /><span class="col-sm-1">VND</span>
-										</div>
-									</div>
-								</div>
-							</main>
-							<aside class="col-lg-6">
-								<div class="border rounded-4 mb-3 p-4 d-flex flex-column justify-content-center h-100">
-									<div>
-										<div class="form-group row">
-											<label class="col-sm-12 col-form-label">Họ và tên người nhận hàng:    @item.NameCustomer</label>
+	<div class="container">
+		<div class="row mt-4">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title">Danh sách đơn hàng</h4>
+						<div class="table-responsive">
 
-										</div>
-										<div class="form-group row">
-											<label class="col-sm-12 col-form-label">Số điện thoại người nhận:    @item.Phone</label>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>STT</th>
+										<th>Mã đơn hàng</th>
+										<th>Tên người nhận</th>
+										<th>Địa chỉ nhận hàng</th>
+										<th>Trạng thái đơn hàng</th>
+										<th>Tổng tiền</th>
+									</tr>
+								</thead>
+								<tbody>
+									@if (Model != null && Model.Any())
+									{
+										var i = 1;
 
-										</div>
-										<div class="form-group row">
-											<label class="col-sm-12 col-form-label">Địa chỉ nhận hàng:    @item.Address</label>
+										foreach (var item in Model)
+										{
+											<tr class="clickable-row" data-item-id="@item.Id">
+												<td style="text-align:center;">@i</td>
+												<td>#Frank@(item.Id)</td>
+												<td>@item.RecieveName</td>
+												<td>@item.RecieveAddress</td>
+												<td>@(statusMappings.ContainsKey(item.Processing_Status) ? statusMappings[item.Processing_Status] : "Trạng thái không xác định")</td>
+												<td style="text-align:center;">@item.TotalPrice <i style="text-align:end;">VND</i></td>
+											</tr>
+											i++;
+										}
+									}
+									else
+									{
+										<tr>
+											<td colspan="6" style="color:red;font-weight:bold;text-align:center">Bạn không có đơn hàng nào.</td>
+										</tr>
+										<tr>
+											<td colspan="6" style="color:red;font-weight:bold;text-align:center"></td>
+										</tr>
+										<tr>
+											<td colspan="6" style="color:red;font-weight:bold;text-align:center"></td>
+										</tr>
+										<tr>
+											<td colspan="6" style="color:red;font-weight:bold;text-align:center"></td>
+										</tr>
+									}
 
-										</div>
-										<fieldset class="form-group">
-											<div class="row">
-												<label class="col-form-label col-sm-12 pt-0" style="color:blue">Thanh toán khi nhận hàng</label>
-											</div>
-										</fieldset>
-									</div>
-								</div>
-							</aside>
+								</tbody>
+							</table>
+						</div>
+						<hr />
+						<div class="datatable-bottom">
+							<nav class="datatable-pagination">
+								@{
+									var options = new PagedListRenderOptions
+									{
+										DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+										DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+										DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+										DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+										DisplayLinkToIndividualPages = true
+									};
+
+									Func<int, string> pageUrlGenerator = page => Url.Action("DonHang", new { Id = ViewBag.Id, page, pageSize = ViewBag.PageSize });
+
+									@Html.PagedListPager(Model, pageUrlGenerator, options)
+								}
+							</nav>
 						</div>
 					</div>
+				</div>
 			</div>
-		}
-	}
-	else
-	{
-		<h2 style="color:black;text-align:center">Không có đơn hàng nào</h2>
-	}*@
+		</div>
+	</div>
 </div>
-@*<div class="datatable-bottom">
-	<nav class="datatable-pagination">
-		@{
-			var options = new PagedListRenderOptions
-			{
-				DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
-				DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
-				DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
-				DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
-				DisplayLinkToIndividualPages = true
-			};
-
-			Func<int, string> pageUrlGenerator = page => Url.Action("DonHang", new { Id = ViewBag.Id, page, pageSize = ViewBag.PageSize });
-
-			@Html.PagedListPager(Model, pageUrlGenerator, options)
-		}
-		</nav>
-</div>*@
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/jquery-3.6.0.slim.min.js"></script>
 <script src="~/Scripts/toastr.min.js"></script>
 <link rel="stylesheet" href="~/Content/toastr.min.css" />
 <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".clickable-row").click(function () {
+            var Order_Id = $(this).data("item-id");
+            var User_Id = "@ViewBag.Id";
+			var url = '@Url.Action("Detail_DonHang", "Home")' + "?User_Id=" + User_Id + "&Order_Id=" + Order_Id;
+            window.location.href = url;
+        });
+    });
+</script>
