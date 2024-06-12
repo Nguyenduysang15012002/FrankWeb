@@ -102,7 +102,7 @@ namespace Frank.Web.Controllers
                     if (checkemail != null)
                     {
                         result.Status = false;
-                        result.Message = "Email đăng ký đã tồn tại" + checkname.Email;
+                        result.Message = "Email đăng ký đã tồn tại :" + checkemail.Email;
                     }
                     else
                     {

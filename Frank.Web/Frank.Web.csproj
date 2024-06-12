@@ -803,6 +803,8 @@
     <Content Include="Adminassets\assets\vendor\tinymce\package.json" />
     <Content Include="Adminassets\assets\vendor\tinymce\README.md" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Scripts\chart.js" />
+    <Content Include="Scripts\chart.min.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
     <Content Include="Scripts\jquery-3.6.0.slim.js" />
