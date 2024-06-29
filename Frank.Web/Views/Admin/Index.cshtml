@@ -3,4 +3,34 @@
 	ViewBag.Title = "Index";
 	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<script src="~/Scripts/chart.min.js"></script>
+
+
+
+<div class="row">
+	<div class="col-md-12">
+		<div>
+			<canvas id="Chartrange">
+			</canvas>
+		</div>
+	</div>
+</div>
+<script>
+	var ctx = document.getElementById('Chartrange');
+	var barChartData = {
+		labels: ['Sản phẩm 1', 'Sản phẩm 2', 'Sản phẩm 3', 'Sản phẩm 4', 'Sản phẩm 5', 'Sản phẩm 6'],
+		datasets: [
+			{
+				label: 'Số lượng',
+				backgroundColor: 'blue',
+				borderWidth: 1,
+				data: [150, 200, 250, 300, 20, 400]
+			}
+		]
+	};
+	var myBarChart = new Chart(ctx, {
+		type: 'bar',
+		data: barChartData,
+	});
+</script>
 

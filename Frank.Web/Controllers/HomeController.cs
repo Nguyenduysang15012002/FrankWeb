@@ -104,7 +104,7 @@ namespace Frank.Web.Controllers
                 ViewBag.Name = null;
             }
             int pageNumber = page ?? 1;
-            int pageSizeValue = pageSize ?? 16;
+            int pageSizeValue = pageSize ?? 100;
             var listData = _productService.GetDaTaByPage();
             var productDtoPagedList = listData.ToPagedList(pageNumber, pageSizeValue);
             return View(productDtoPagedList);
